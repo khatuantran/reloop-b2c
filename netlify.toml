@@ -1,0 +1,34 @@
+# Netlify config — RE-LOOP B2C Astro static deploy
+# Auto-detect Astro framework, build từ npm run build, output dist/
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Không dùng pretty URLs vì các link nội bộ đã có .html (qua relativize.mjs)
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = false
+
+# Cache assets
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Astro `format: 'file'` emit `.html` files. Netlify auto-serve `/orders/RL-X` → `orders/RL-X.html`.
+# Nếu cần fallback 404 SPA-style, uncomment redirect dưới (KHÔNG cần cho project này):
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200
