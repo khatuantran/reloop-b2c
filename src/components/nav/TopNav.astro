@@ -1,0 +1,64 @@
+---
+import { USER, WALLET } from '../../lib/mock';
+import { formatVND } from '../../lib/format';
+
+interface Props {
+  active?: 'home' | 'orders' | 'wallet' | 'profile';
+}
+const { active = 'home' } = Astro.props;
+
+const links = [
+  { id: 'home', label: 'Trang chủ', href: '/index.html' },
+  { id: 'orders', label: 'Đơn của tôi', href: '/orders.html' },
+  { id: 'wallet', label: 'Ví', href: '/wallet.html' },
+  { id: 'profile', label: 'Hồ sơ', href: '/profile.html' },
+] as const;
+---
+
+<nav
+  class="fixed top-0 left-0 right-0 z-50 h-20 backdrop-blur-md border-b border-border-subtle"
+  style="background-color: rgba(20, 32, 27, 0.85);"
+>
+  <div class="max-w-[1280px] mx-auto h-full flex justify-between items-center px-[80px]">
+    <a href="/index.html" class="flex items-center gap-space-16">
+      <div class="w-[32px] h-[32px] bg-success rounded flex items-center justify-center">
+        <span class="material-symbols-outlined fill text-[#0A1410] !text-[20px]">recycling</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="font-h3 text-h3 font-extrabold tracking-tight text-text-primary leading-none">RE-LOOP</span>
+        <span class="font-mono-md text-[11px] text-text-secondary leading-none mt-1">Q.7 · TPHCM</span>
+      </div>
+    </a>
+
+    <div class="hidden md:flex items-center gap-space-24">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'font-body-md text-[14px] font-medium transition-colors duration-200',
+              active === link.id
+                ? 'text-success border-b-2 border-success pb-1'
+                : 'text-text-secondary hover:text-success',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="flex items-center gap-space-16">
+      <a
+        href="/wallet.html"
+        class="px-space-12 py-space-8 rounded-full bg-bg-elevated border border-border-subtle hover:border-success/40 flex items-center gap-space-8 transition-colors"
+      >
+        <span class="material-symbols-outlined !text-[16px] text-success">account_balance_wallet</span>
+        <span class="font-mono-md text-[13px] text-text-primary tabular-nums">{formatVND(WALLET.zaloPayBalance)}</span>
+      </a>
+      <a href="/profile.html" class="w-10 h-10 rounded-full bg-success/20 border border-success/40 flex items-center justify-center hover:bg-success/30 transition-colors">
+        <span class="font-h4 text-[16px] font-extrabold text-success">{USER.name[0]}</span>
+      </a>
+    </div>
+  </div>
+</nav>

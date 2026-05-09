@@ -1,0 +1,66 @@
+---
+import type { Order } from '../../lib/mock';
+import TierBadge from '../ui/TierBadge.astro';
+import StatusChip from '../ui/StatusChip.astro';
+import { formatVND, formatRelative, formatWeight } from '../../lib/format';
+
+interface Props {
+  order: Order;
+  variant?: 'card' | 'row';
+}
+const { order, variant = 'card' } = Astro.props;
+
+const href = `/orders/${order.id}.html`;
+const displayAmount =
+  order.amount ?? order.advance ?? 0;
+const showTotal = order.status === 'COMPLETED';
+---
+
+{variant === 'card' && (
+  <a
+    href={href}
+    class="block bg-bg-elevated border border-border-subtle rounded-2xl p-space-24 hover:border-border-default hover:bg-bg-surface transition-all hover:-translate-y-1 group"
+  >
+    <div class="flex items-start justify-between mb-space-16">
+      <TierBadge tier={order.tier} size="sm" />
+      <StatusChip status={order.status} />
+    </div>
+    <h4 class="font-h4 text-[16px] text-text-primary mb-space-4">{order.item}</h4>
+    <p class="font-mono-md text-[12px] text-text-tertiary mb-space-16">
+      {formatWeight(order.weight)} · {order.id}
+    </p>
+    <div class="flex items-baseline justify-between pt-space-12 border-t border-border-subtle">
+      <span class="font-mono-md text-[11px] text-text-tertiary uppercase">
+        {showTotal ? 'Đã nhận' : order.status === 'PENDING_VERIFY' ? 'Tạm ứng' : 'Đơn'}
+      </span>
+      <span class="font-mono-md text-[18px] text-success font-bold tabular-nums">
+        {formatVND(displayAmount)}
+      </span>
+    </div>
+    <div class="mt-space-8 flex items-center justify-between">
+      <span class="font-mono-md text-[11px] text-text-tertiary">{formatRelative(order.completedAt ?? order.createdAt)}</span>
+      <span class="material-symbols-outlined !text-[16px] text-text-tertiary group-hover:text-success transition-colors">arrow_forward</span>
+    </div>
+  </a>
+)}
+
+{variant === 'row' && (
+  <a
+    href={href}
+    class="flex items-center gap-space-24 px-space-24 py-space-16 bg-bg-elevated border border-border-subtle rounded-xl hover:border-border-default hover:bg-bg-surface transition-all group"
+  >
+    <TierBadge tier={order.tier} size="sm" />
+    <div class="flex-1 flex flex-col gap-space-4">
+      <span class="font-h4 text-[15px] text-text-primary">{order.item}</span>
+      <span class="font-mono-md text-[12px] text-text-tertiary">{order.id} · {formatWeight(order.weight)} · {formatRelative(order.completedAt ?? order.createdAt)}</span>
+    </div>
+    <StatusChip status={order.status} />
+    <div class="text-right min-w-[120px]">
+      <span class="font-mono-md text-[16px] text-success font-bold tabular-nums block">{formatVND(displayAmount)}</span>
+      <span class="font-mono-md text-[11px] text-text-tertiary">
+        {order.status === 'COMPLETED' ? 'Đã nhận' : order.status === 'PENDING_VERIFY' ? 'Tạm ứng' : ''}
+      </span>
+    </div>
+    <span class="material-symbols-outlined !text-[20px] text-text-tertiary group-hover:text-success transition-colors">chevron_right</span>
+  </a>
+)}

@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopNav from '../components/nav/TopNav.astro';
+import TransactionHistory from '../components/wallet/TransactionHistory';
+import BOMRevealCard from '../components/order/BOMRevealCard.astro';
+import { WALLET, ORDERS } from '../lib/mock';
+import { formatVND, formatRelative } from '../lib/format';
+
+const pendingOrders = ORDERS.filter((o) => o.status === 'PENDING_VERIFY');
+const verifiedTierC = ORDERS.filter((o) => o.tier === 'C' && o.status === 'COMPLETED' && o.bomReal).slice(0, 2);
+---
+
+<BaseLayout title="Ví — RE-LOOP">
+  <TopNav active="wallet" />
+
+  <main class="pt-32 pb-space-96 min-h-screen">
+    <div class="max-w-[1280px] mx-auto px-[80px] flex flex-col gap-space-32">
+      <h1 class="font-h1 text-h1 text-text-primary">Ví của bạn</h1>
+
+      <!-- Balance section -->
+      <section class="grid grid-cols-2 gap-space-24">
+        <div class="bg-bg-elevated border border-border-subtle rounded-3xl p-space-32 flex flex-col gap-space-16">
+          <div class="flex items-center gap-space-8">
+            <span class="material-symbols-outlined fill !text-[20px] text-success">account_balance_wallet</span>
+            <span class="font-mono-md text-[12px] text-text-tertiary uppercase">ZaloPay · sẵn sàng rút</span>
+          </div>
+          <div class="font-mono-md text-[56px] text-success font-bold tabular-nums leading-none">{formatVND(WALLET.zaloPayBalance)}</div>
+          <button class="self-start mt-space-8 px-space-24 py-space-12 rounded-full bg-success text-[#0A1410] font-body-md text-[14px] font-semibold hover:bg-success/90 active:scale-95">
+            Rút về ZaloPay
+          </button>
+        </div>
+        <div class="bg-warning/5 border-2 border-warning/40 rounded-3xl p-space-32 flex flex-col gap-space-16">
+          <div class="flex items-center gap-space-8">
+            <span class="material-symbols-outlined fill !text-[20px] text-warning">lock</span>
+            <span class="font-mono-md text-[12px] text-warning uppercase">HOLD ví ảo · chờ Hub verify</span>
+          </div>
+          <div class="font-mono-md text-[56px] text-warning font-bold tabular-nums leading-none">{formatVND(WALLET.holdAmount)}</div>
+          <span class="font-body-md text-[13px] text-text-secondary">{pendingOrders.length} đơn Tier C đang được rã xác · auto-release sau verify</span>
+        </div>
+      </section>
+
+      <!-- Hold dashboard -->
+      {pendingOrders.length > 0 && (
+        <section>
+          <h2 class="font-h3 text-h3 text-text-primary mb-space-16">Đang chờ verify</h2>
+          <div class="flex flex-col gap-space-12">
+            {pendingOrders.map((o) => (
+              <a
+                href={`/orders/${o.id}.html`}
+                class="bg-bg-elevated border border-warning/30 rounded-2xl p-space-24 flex items-center gap-space-24 hover:border-warning/60 transition-colors group"
+              >
+                <div class="w-12 h-12 rounded-full bg-warning/10 border border-warning/30 flex items-center justify-center">
+                  <span class="material-symbols-outlined fill !text-[20px] text-warning">hourglass_top</span>
+                </div>
+                <div class="flex-1">
+                  <span class="font-h4 text-[16px] text-text-primary block">{o.item}</span>
+                  <span class="font-mono-md text-[12px] text-text-tertiary">{o.id} · {formatRelative(o.createdAt)} · còn ~8h</span>
+                </div>
+                <div class="flex flex-col items-end">
+                  <span class="font-mono-md text-[12px] text-warning uppercase">Tạm ứng</span>
+                  <span class="font-mono-md text-[20px] text-warning font-bold tabular-nums">{formatVND(o.advance ?? 0)}</span>
+                  <span class="font-mono-md text-[11px] text-text-tertiary">~ {formatVND(o.expectedRange?.[0] ?? 0)} – {formatVND(o.expectedRange?.[1] ?? 0)}</span>
+                </div>
+                <span class="material-symbols-outlined !text-[20px] text-text-tertiary group-hover:text-warning transition-colors">chevron_right</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- BOM history -->
+      {verifiedTierC.length > 0 && (
+        <section>
+          <h2 class="font-h3 text-h3 text-text-primary mb-space-16">BOM thực đã verify</h2>
+          <div class="grid grid-cols-2 gap-space-24">
+            {verifiedTierC.map((o) => (
+              <div class="flex flex-col gap-space-12">
+                <div class="flex items-center justify-between">
+                  <span class="font-mono-md text-[12px] text-text-tertiary">{o.id}</span>
+                  <a href={`/orders/${o.id}.html`} class="font-body-md text-[12px] text-success hover:underline">
+                    Xem chi tiết →
+                  </a>
+                </div>
+                <BOMRevealCard order={o} />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- Transaction history -->
+      <TransactionHistory client:load />
+    </div>
+  </main>
+</BaseLayout>

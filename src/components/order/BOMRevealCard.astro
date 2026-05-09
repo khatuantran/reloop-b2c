@@ -1,0 +1,103 @@
+---
+import type { Order } from '../../lib/mock';
+import { formatVND, formatWeight } from '../../lib/format';
+
+interface Props {
+  order: Order;
+}
+const { order } = Astro.props;
+
+const bomReal = order.bomReal!;
+const total = (Object.values(bomReal) as number[]).reduce((a, b) => a + b, 0);
+const massBalance = order.massBalance ?? 0;
+---
+
+<div class="bg-bg-elevated border border-border-subtle rounded-3xl p-space-32 flex flex-col gap-space-24">
+  <div class="flex items-baseline justify-between">
+    <h3 class="font-h3 text-h3 text-text-primary">BOM thực sau Hub rã xác</h3>
+    <span class="font-mono-md text-[14px] text-success">Mass balance {(massBalance * 100).toFixed(0)}%</span>
+  </div>
+
+  <!-- 3 trạng thái stacked -->
+  <div class="flex flex-col gap-space-12">
+    <!-- HOLD released -->
+    <div class="rounded-2xl p-space-16 border-2 border-success/30 bg-success/5 flex items-center justify-between">
+      <div class="flex items-center gap-space-12">
+        <div class="w-9 h-9 rounded-full bg-success flex items-center justify-center">
+          <span class="material-symbols-outlined fill !text-[18px] text-[#0A1410]">lock_open</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-mono-md text-[11px] text-text-tertiary uppercase">01 · HOLD ví ảo</span>
+          <span class="font-body-md text-[14px] text-text-primary">Đã release sau verify</span>
+        </div>
+      </div>
+      <span class="font-mono-md text-[16px] text-success tabular-nums">{formatVND(order.advance ?? 0)}</span>
+    </div>
+
+    <!-- Verified -->
+    <div class="rounded-2xl p-space-16 border-2 border-success/30 bg-success/5 flex items-center justify-between">
+      <div class="flex items-center gap-space-12">
+        <div class="w-9 h-9 rounded-full bg-success flex items-center justify-center">
+          <span class="material-symbols-outlined fill !text-[18px] text-[#0A1410]">fact_check</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-mono-md text-[11px] text-text-tertiary uppercase">02 · Verify mass balance</span>
+          <span class="font-body-md text-[14px] text-text-primary">Đạt chuẩn ≥ 90%</span>
+        </div>
+      </div>
+      <span class="font-mono-md text-[16px] text-success">{(massBalance * 100).toFixed(0)}%</span>
+    </div>
+
+    <!-- Settled -->
+    <div class="rounded-2xl p-space-16 border-2 border-success bg-success">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-space-12">
+          <div class="w-9 h-9 rounded-full bg-[#0A1410] flex items-center justify-center">
+            <span class="material-symbols-outlined fill !text-[18px] text-success">account_balance_wallet</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-mono-md text-[11px] text-[#0A1410]/70 uppercase">03 · Phần chênh → ZaloPay</span>
+            <span class="font-body-md text-[14px] text-[#0A1410]">Đã chuyển</span>
+          </div>
+        </div>
+        <span class="font-mono-md text-[20px] text-[#0A1410] font-bold tabular-nums">+{formatVND(order.settled ?? 0)}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOM table -->
+  <div class="bg-bg-base border border-border-subtle rounded-2xl p-space-24">
+    <span class="font-mono-md text-[11px] text-text-tertiary uppercase block mb-space-12">Vật liệu thực (cân tại Hub)</span>
+    <div class="grid grid-cols-4 gap-space-12">
+      {
+        Object.entries(bomReal).map(([k, v]) => (
+          <div class="flex flex-col gap-space-4">
+            <span class="font-mono-md text-[11px] text-text-tertiary uppercase">{k}</span>
+            <span class="font-mono-md text-[16px] text-text-primary tabular-nums">{(v as number).toFixed(2)} kg</span>
+            <span class="font-mono-md text-[10px] text-text-secondary">{((v as number) / total * 100).toFixed(1)}%</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Photos + timelapse -->
+  <div class="grid grid-cols-3 gap-space-12">
+    <div class="aspect-square rounded-xl bg-bg-base border border-border-subtle overflow-hidden relative">
+      <img src="/images/bom-before.jpg" alt="Trước rã xác" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-t from-bg-base/60 to-transparent" />
+      <span class="absolute bottom-2 left-2 px-space-8 py-[2px] rounded bg-bg-base/80 backdrop-blur font-mono-md text-[10px] text-text-secondary">Trước rã xác</span>
+    </div>
+    <div class="aspect-square rounded-xl bg-bg-base border border-border-subtle overflow-hidden relative">
+      <img src="/images/bom-after.jpg" alt="Sau rã xác" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-t from-bg-base/60 to-transparent" />
+      <span class="absolute bottom-2 left-2 px-space-8 py-[2px] rounded bg-bg-base/80 backdrop-blur font-mono-md text-[10px] text-text-secondary">Sau rã xác</span>
+    </div>
+    <button class="aspect-square rounded-xl bg-success/10 border-2 border-success/30 hover:bg-success/20 flex flex-col items-center justify-center gap-space-8 transition-colors relative overflow-hidden">
+      <img src="/images/bom-after.jpg" alt="Video timelapse" class="absolute inset-0 w-full h-full object-cover opacity-30" />
+      <span class="material-symbols-outlined fill !text-[40px] text-success relative z-10">play_circle</span>
+      <span class="font-mono-md text-[11px] text-success relative z-10">Video timelapse</span>
+      <span class="font-mono-md text-[10px] text-text-secondary relative z-10">2:00 phút</span>
+    </button>
+  </div>
+</div>

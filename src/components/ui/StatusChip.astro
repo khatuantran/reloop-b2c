@@ -1,0 +1,32 @@
+---
+interface Props {
+  status: 'COMPLETED' | 'PENDING_VERIFY' | 'IN_TRANSIT' | 'AT_PICKUP' | 'CANCELLED' | 'HOLD' | 'VERIFIED' | 'SETTLED';
+}
+
+const { status } = Astro.props;
+
+const map: Record<Props['status'], { label: string; bg: string; border: string; text: string; icon: string }> = {
+  COMPLETED: { label: 'Hoàn tất', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success', icon: 'check_circle' },
+  PENDING_VERIFY: { label: 'Chờ Hub verify', bg: 'bg-warning/10', border: 'border-warning/30', text: 'text-warning', icon: 'hourglass_top' },
+  IN_TRANSIT: { label: 'Đang đến', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info', icon: 'directions_bike' },
+  AT_PICKUP: { label: 'Đang cân tại nhà', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info', icon: 'scale' },
+  CANCELLED: { label: 'Đã huỷ', bg: 'bg-bg-elevated', border: 'border-border-subtle', text: 'text-text-tertiary', icon: 'cancel' },
+  HOLD: { label: 'HOLD ví ảo', bg: 'bg-warning/10', border: 'border-warning/30', text: 'text-warning', icon: 'lock' },
+  VERIFIED: { label: 'Verify ✓', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success', icon: 'fact_check' },
+  SETTLED: { label: 'Đã chuyển', bg: 'bg-success/20', border: 'border-success/50', text: 'text-success', icon: 'account_balance_wallet' },
+};
+
+const s = map[status];
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-space-4 px-space-8 py-[2px] rounded-full border font-body-md text-[11px] font-medium',
+    s.bg,
+    s.border,
+    s.text,
+  ]}
+>
+  <span class="material-symbols-outlined fill !text-[12px]">{s.icon}</span>
+  {s.label}
+</span>

@@ -1,0 +1,89 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopNav from '../../components/nav/TopNav.astro';
+import OrderCard from '../../components/order/OrderCard.astro';
+import { ORDERS } from '../../lib/mock';
+
+const tierSCount = ORDERS.filter((o) => o.tier === 'S').length;
+const tierCCount = ORDERS.filter((o) => o.tier === 'C').length;
+const pendingCount = ORDERS.filter((o) => o.status === 'PENDING_VERIFY').length;
+---
+
+<BaseLayout title="Đơn của tôi — RE-LOOP">
+  <TopNav active="orders" />
+
+  <main class="pt-32 pb-space-96 min-h-screen">
+    <div class="max-w-[1280px] mx-auto px-[80px]">
+      <div class="flex items-baseline justify-between mb-space-32">
+        <div class="flex flex-col gap-space-8">
+          <h1 class="font-h1 text-h1 text-text-primary">Đơn của tôi</h1>
+          <span class="font-body-md text-body-md text-text-secondary">{ORDERS.length} đơn · {tierSCount} Tier S · {tierCCount} Tier C</span>
+        </div>
+        <a
+          href="/orders/new.html"
+          class="bg-success text-[#0A1410] px-space-24 py-space-12 rounded-full font-body-md text-[14px] font-semibold hover:bg-success/90 active:scale-95 inline-flex items-center gap-space-8"
+        >
+          <span class="material-symbols-outlined !text-[18px]">add</span>
+          Đặt đơn mới
+        </a>
+      </div>
+
+      <!-- Filter chips -->
+      <div class="flex gap-space-12 mb-space-32" id="filter-bar">
+        {[
+          { id: 'all', label: 'Tất cả', count: ORDERS.length },
+          { id: 'S', label: 'Tier S', count: tierSCount },
+          { id: 'C', label: 'Tier C', count: tierCCount },
+          { id: 'pending', label: 'Chờ verify', count: pendingCount },
+        ].map((f, i) => (
+          <button
+            data-filter={f.id}
+            class:list={[
+              'filter-chip px-space-16 py-space-8 rounded-full border font-body-md text-[13px] font-medium flex items-center gap-space-8 transition-colors',
+              i === 0 ? 'bg-success/10 border-success/40 text-success' : 'bg-bg-elevated border-border-subtle text-text-secondary hover:border-border-default',
+            ]}
+          >
+            {f.label}
+            <span class="px-space-8 py-[2px] rounded-full bg-bg-base font-mono-md text-[11px]">{f.count}</span>
+          </button>
+        ))}
+      </div>
+
+      <!-- Order list -->
+      <div class="flex flex-col gap-space-12" id="order-list">
+        {ORDERS.map((o) => (
+          <div data-tier={o.tier} data-status={o.status}>
+            <OrderCard order={o} variant="row" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const chips = document.querySelectorAll<HTMLButtonElement>('.filter-chip');
+    const items = document.querySelectorAll<HTMLDivElement>('#order-list > div');
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const filter = chip.dataset.filter;
+        chips.forEach((c) => {
+          c.classList.remove('bg-success/10', 'border-success/40', 'text-success');
+          c.classList.add('bg-bg-elevated', 'border-border-subtle', 'text-text-secondary');
+        });
+        chip.classList.add('bg-success/10', 'border-success/40', 'text-success');
+        chip.classList.remove('bg-bg-elevated', 'border-border-subtle', 'text-text-secondary');
+
+        items.forEach((item) => {
+          const tier = item.dataset.tier;
+          const status = item.dataset.status;
+          let show = false;
+          if (filter === 'all') show = true;
+          else if (filter === 'S' || filter === 'C') show = tier === filter;
+          else if (filter === 'pending') show = status === 'PENDING_VERIFY';
+          item.style.display = show ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</BaseLayout>

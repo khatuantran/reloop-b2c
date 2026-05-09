@@ -1,0 +1,42 @@
+---
+interface Props {
+  tier: 'S' | 'B' | 'C' | 'H';
+  label?: string;
+  size?: 'sm' | 'md';
+}
+
+const { tier, label, size = 'md' } = Astro.props;
+
+const tierStyles: Record<string, { bg: string; border: string; text: string; dot: string }> = {
+  S: { bg: 'bg-tier-s/10', border: 'border-tier-s/30', text: 'text-tier-s', dot: 'bg-tier-s' },
+  B: { bg: 'bg-tier-b/10', border: 'border-tier-b/30', text: 'text-tier-b', dot: 'bg-tier-b' },
+  C: { bg: 'bg-tier-c/10', border: 'border-tier-c/30', text: 'text-tier-c', dot: 'bg-tier-c' },
+  H: { bg: 'bg-tier-h/10', border: 'border-tier-h/30', text: 'text-tier-h', dot: 'bg-tier-h' },
+};
+
+const styles = tierStyles[tier];
+const labels: Record<string, string> = {
+  S: 'Standard',
+  B: 'Bulky',
+  C: 'Complex',
+  H: 'Hazardous',
+};
+const text = label ?? `Tier ${tier} · ${labels[tier]}`;
+
+const padding = size === 'sm' ? 'px-space-8 py-[2px]' : 'px-space-12 py-space-4';
+const fontSize = size === 'sm' ? 'text-[10px]' : 'text-[12px]';
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-space-8 rounded font-mono-md font-medium border',
+    padding,
+    fontSize,
+    styles.bg,
+    styles.border,
+    styles.text,
+  ]}
+>
+  <span class:list={['w-1.5 h-1.5 rounded-full', styles.dot]}></span>
+  {text}
+</span>

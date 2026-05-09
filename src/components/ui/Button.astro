@@ -1,0 +1,54 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost';
+  href?: string;
+  type?: 'button' | 'submit';
+  disabled?: boolean;
+  size?: 'md' | 'lg';
+  class?: string;
+  id?: string;
+}
+
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  disabled = false,
+  size = 'md',
+  class: className = '',
+  id,
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-space-8 font-body-md font-semibold transition-all rounded-full active:scale-[0.98]';
+
+const sizes = {
+  md: 'px-space-24 py-space-12 text-[14px]',
+  lg: 'px-space-32 py-space-16 text-[16px]',
+};
+
+const variants = {
+  primary: disabled
+    ? 'bg-border-default text-text-tertiary cursor-not-allowed'
+    : 'bg-success text-[#0A1410] hover:bg-success/90',
+  secondary: disabled
+    ? 'border border-border-subtle text-text-tertiary cursor-not-allowed'
+    : 'border border-success text-success hover:bg-success/10',
+  ghost: disabled
+    ? 'text-text-tertiary cursor-not-allowed'
+    : 'text-success hover:bg-success/5',
+};
+
+const classes = `${base} ${sizes[size]} ${variants[variant]} ${className}`;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class={classes}
+  href={href}
+  type={!href ? type : undefined}
+  disabled={!href ? disabled : undefined}
+  id={id}
+>
+  <slot />
+</Tag>

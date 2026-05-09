@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import TopNav from '../../../../components/nav/TopNav.astro';
+import AtHomeTransaction from '../../../../components/order/AtHomeTransaction';
+import TierBadge from '../../../../components/ui/TierBadge.astro';
+import { getOrderById, getCollectorById, COLLECTORS } from '../../../../lib/mock';
+
+const order = getOrderById('RL-2026-001234')!;
+const collector = getCollectorById(order.collectorId ?? 'c-001') ?? COLLECTORS['c-001'];
+---
+
+<BaseLayout title="Cân tại nhà · Tier S · Weight Reveal">
+  <TopNav active="orders" />
+  <main class="pt-32 pb-space-96 min-h-screen">
+    <div class="max-w-[1280px] mx-auto px-[80px]">
+      <div class="flex flex-col gap-space-8 mb-space-32">
+        <span class="font-mono-md text-[12px] text-text-tertiary uppercase">Tier S · Sub-step 2/5</span>
+        <div class="flex items-center gap-space-12">
+          <h1 class="font-h1 text-h1 text-text-primary">Khối lượng thực</h1>
+          <TierBadge tier="S" />
+        </div>
+        <span class="font-mono-md text-[13px] text-text-tertiary">{order.id} · {order.item}</span>
+      </div>
+      <AtHomeTransaction order={order} collector={collector} initialSubStep="WEIGHT_REVEAL" isStaticDemo client:load />
+    </div>
+  </main>
+</BaseLayout>

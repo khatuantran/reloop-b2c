@@ -1,0 +1,65 @@
+---
+interface Props {
+  score: number; // 0-100
+}
+const { score } = Astro.props;
+
+// Calculate position on 240° arc (from -210° to +30°)
+const startAngle = -210;
+const endAngle = 30;
+const totalAngle = endAngle - startAngle;
+const scoreAngle = startAngle + (score / 100) * totalAngle;
+
+const center = 100;
+const radius = 80;
+
+// Marker position
+const markerRad = (scoreAngle * Math.PI) / 180;
+const markerX = center + Math.cos(markerRad) * radius;
+const markerY = center + Math.sin(markerRad) * radius;
+
+// Arc paths for 3 zones
+function arc(from: number, to: number) {
+  const fromRad = (from * Math.PI) / 180;
+  const toRad = (to * Math.PI) / 180;
+  const x1 = center + Math.cos(fromRad) * radius;
+  const y1 = center + Math.sin(fromRad) * radius;
+  const x2 = center + Math.cos(toRad) * radius;
+  const y2 = center + Math.sin(toRad) * radius;
+  const large = to - from > 180 ? 1 : 0;
+  return `M ${x1} ${y1} A ${radius} ${radius} 0 ${large} 1 ${x2} ${y2}`;
+}
+
+// Zones: 0-20 error, 20-80 warning, 80-100 success
+const zone1End = startAngle + (20 / 100) * totalAngle;
+const zone2End = startAngle + (80 / 100) * totalAngle;
+
+const zone =
+  score < 20 ? { label: 'User mới', color: 'text-error', advance: '30%' } :
+  score < 80 ? { label: 'Đang tích lũy', color: 'text-warning', advance: '50%' } :
+  { label: 'Đáng tin', color: 'text-success', advance: '70%' };
+---
+
+<div class="flex flex-col items-center gap-space-16">
+  <svg viewBox="0 0 200 200" class="w-[280px] h-[280px]">
+    <!-- Track -->
+    <path d={arc(startAngle, endAngle)} stroke="#1A2D24" stroke-width="14" fill="none" stroke-linecap="round" />
+    <!-- Zone 1: error -->
+    <path d={arc(startAngle, zone1End)} stroke="#E76F51" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.6" />
+    <!-- Zone 2: warning -->
+    <path d={arc(zone1End, zone2End)} stroke="#F4B860" stroke-width="14" fill="none" opacity="0.6" />
+    <!-- Zone 3: success -->
+    <path d={arc(zone2End, endAngle)} stroke="#52E08D" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.6" />
+    <!-- Marker -->
+    <circle cx={markerX} cy={markerY} r="14" fill="#0A1410" stroke={score < 20 ? '#E76F51' : score < 80 ? '#F4B860' : '#52E08D'} stroke-width="3" />
+    <text x={markerX} y={markerY + 5} text-anchor="middle" font-size="14" font-weight="bold" fill={score < 20 ? '#E76F51' : score < 80 ? '#F4B860' : '#52E08D'} font-family="JetBrains Mono">{score}</text>
+    <!-- Center label -->
+    <text x={center} y={center - 10} text-anchor="middle" font-size="12" fill="#6B7C72" font-family="JetBrains Mono">TRUST SCORE</text>
+    <text x={center} y={center + 24} text-anchor="middle" font-size="48" font-weight="bold" fill="#F0F4F1" font-family="Plus Jakarta Sans">{score}</text>
+    <text x={center} y={center + 44} text-anchor="middle" font-size="11" fill="#A8B5AC" font-family="Inter">/ 100</text>
+  </svg>
+
+  <div class:list={['px-space-16 py-space-8 rounded-full border', score < 20 ? 'bg-error/10 border-error/30' : score < 80 ? 'bg-warning/10 border-warning/30' : 'bg-success/10 border-success/30']}>
+    <span class:list={['font-body-md text-[14px] font-semibold', zone.color]}>{zone.label} · tạm ứng {zone.advance}</span>
+  </div>
+</div>

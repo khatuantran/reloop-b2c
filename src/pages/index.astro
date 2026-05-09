@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopNav from '../components/nav/TopNav.astro';
+import OrderCard from '../components/order/OrderCard.astro';
+import { USER, WALLET, ORDERS } from '../lib/mock';
+import { formatVND, formatDate } from '../lib/format';
+
+const recentOrders = ORDERS.slice(0, 3);
+const monthlyCount = ORDERS.filter((o) => new Date(o.createdAt) >= new Date('2026-05-01')).length;
+const today = formatDate(new Date('2026-05-09'));
+---
+
+<BaseLayout title="Trang chủ — RE-LOOP">
+  <TopNav active="home" />
+
+  <main class="pt-32 pb-space-96 min-h-screen">
+    <div class="max-w-[1280px] mx-auto px-[80px]">
+      <!-- Greeting -->
+      <section class="mb-space-48 relative rounded-3xl overflow-hidden bg-bg-elevated border border-border-subtle">
+        <img src="/images/dashboard-hero.jpg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-25" />
+        <div class="absolute inset-0 bg-gradient-to-r from-bg-base via-bg-base/85 to-transparent" />
+        <div class="relative flex items-center justify-between p-space-48">
+          <div class="flex flex-col gap-space-8 max-w-[640px]">
+            <span class="font-mono-md text-[12px] text-text-tertiary uppercase">{today}</span>
+            <h1 class="font-display-m text-display-m text-text-primary">
+              Chào <span class="text-success">{USER.name}</span> 👋
+            </h1>
+            <p class="font-body-lg text-body-lg text-text-secondary">
+              Tháng này bạn đã đặt <strong class="text-text-primary">{monthlyCount} đơn</strong> ·
+              tích <strong class="text-success">{USER.greenPoints.toLocaleString('vi-VN')} Green Points</strong>
+            </p>
+          </div>
+          <div class="hidden md:flex items-center gap-space-16">
+            <div class="w-20 h-20 rounded-full bg-success/20 border-2 border-success/40 flex items-center justify-center backdrop-blur">
+              <span class="font-display-m text-[40px] font-extrabold text-success">{USER.name[0]}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Balance widget -->
+      <section class="mb-space-48">
+        <div class="bg-bg-elevated border border-border-subtle rounded-3xl overflow-hidden">
+          <div class="grid grid-cols-2">
+            <div class="p-space-32 border-r border-border-subtle">
+              <div class="flex items-center gap-space-8 mb-space-12">
+                <span class="material-symbols-outlined !text-[18px] text-success">account_balance_wallet</span>
+                <span class="font-mono-md text-[12px] text-text-tertiary uppercase">ZaloPay · sẵn sàng rút</span>
+              </div>
+              <div class="font-mono-md text-[40px] text-success font-bold tabular-nums">{formatVND(WALLET.zaloPayBalance)}</div>
+              <p class="font-body-md text-[13px] text-text-secondary mt-space-8">Số dư từ các đơn đã hoàn tất</p>
+            </div>
+            <div class="p-space-32 bg-warning/5">
+              <div class="flex items-center gap-space-8 mb-space-12">
+                <span class="material-symbols-outlined !text-[18px] text-warning">lock</span>
+                <span class="font-mono-md text-[12px] text-warning uppercase">HOLD ví ảo · chờ Hub verify</span>
+              </div>
+              <div class="font-mono-md text-[40px] text-warning font-bold tabular-nums">{formatVND(WALLET.holdAmount)}</div>
+              <p class="font-body-md text-[13px] text-text-secondary mt-space-8">1 đơn Tier C đang được rã xác</p>
+            </div>
+          </div>
+          <div class="px-space-32 py-space-16 border-t border-border-subtle bg-bg-base/30">
+            <a href="/wallet.html" class="font-body-md text-[14px] text-success hover:underline inline-flex items-center gap-space-8">
+              Xem chi tiết ví & lịch sử giao dịch
+              <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick actions -->
+      <section class="mb-space-48">
+        <div class="grid grid-cols-12 gap-space-24">
+          <a
+            href="/orders/new.html"
+            class="col-span-8 bg-success text-[#0A1410] rounded-3xl p-space-32 flex items-center justify-between hover:bg-success/90 transition-all active:scale-[0.99] group"
+          >
+            <div class="flex flex-col gap-space-4">
+              <span class="font-eyebrow text-eyebrow uppercase opacity-70">Đặt mới</span>
+              <span class="font-display-m text-[40px] font-extrabold leading-none">+ Đặt lịch thu gom</span>
+              <span class="font-body-md text-[14px] opacity-80 mt-space-8">Chụp ảnh rác → AI định giá → Collector tới tận nhà</span>
+            </div>
+            <div class="w-16 h-16 rounded-full bg-[#0A1410]/20 flex items-center justify-center group-hover:translate-x-2 transition-transform">
+              <span class="material-symbols-outlined fill !text-[28px]">arrow_forward</span>
+            </div>
+          </a>
+          <a
+            href="/profile.html"
+            class="col-span-4 bg-bg-elevated border border-border-subtle rounded-3xl p-space-24 flex flex-col gap-space-8 hover:border-border-default transition-colors"
+          >
+            <div class="flex items-center gap-space-8">
+              <span class="material-symbols-outlined fill !text-[18px] text-warning">verified</span>
+              <span class="font-mono-md text-[11px] text-text-tertiary uppercase">Trust Score</span>
+            </div>
+            <div class="font-display-m text-[48px] font-bold text-text-primary tabular-nums leading-none">{USER.trustScore}</div>
+            <span class="font-body-md text-[13px] text-warning">Đang tích lũy · tạm ứng 50%</span>
+            <span class="font-mono-md text-[11px] text-text-tertiary mt-auto">15 đơn nữa → 80 (tạm ứng 70%)</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Recent orders -->
+      <section>
+        <div class="flex items-baseline justify-between mb-space-24">
+          <h2 class="font-h2 text-h2 text-text-primary">Đơn gần nhất</h2>
+          <a href="/orders.html" class="font-body-md text-[14px] text-success hover:underline inline-flex items-center gap-space-8">
+            Xem tất cả {ORDERS.length} đơn
+            <span class="material-symbols-outlined !text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+        <div class="grid grid-cols-3 gap-space-24">
+          {recentOrders.map((order) => <OrderCard order={order} />)}
+        </div>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

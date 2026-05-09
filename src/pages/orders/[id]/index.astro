@@ -1,0 +1,178 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TopNav from '../../../components/nav/TopNav.astro';
+import TierBadge from '../../../components/ui/TierBadge.astro';
+import StatusChip from '../../../components/ui/StatusChip.astro';
+import BOMRevealCard from '../../../components/order/BOMRevealCard.astro';
+import { ORDERS, getOrderById, getCollectorById, COLLECTORS } from '../../../lib/mock';
+import { formatVND, formatDateTime, formatWeight, formatRelative } from '../../../lib/format';
+
+export function getStaticPaths() {
+  return ORDERS.map((o) => ({ params: { id: o.id } }));
+}
+
+const { id } = Astro.params;
+const order = getOrderById(id!)!;
+const collector = getCollectorById(order.collectorId ?? 'c-001') ?? COLLECTORS['c-001'];
+
+const isPending = order.status === 'PENDING_VERIFY';
+const isTierC = order.tier === 'C';
+---
+
+<BaseLayout title={`Đơn ${order.id}`}>
+  <TopNav active="orders" />
+
+  <main class="pt-32 pb-space-96 min-h-screen">
+    <div class="max-w-[1280px] mx-auto px-[80px]">
+      <!-- Breadcrumb + header -->
+      <div class="flex flex-col gap-space-8 mb-space-32">
+        <a href="/orders.html" class="inline-flex items-center gap-space-8 font-body-md text-[13px] text-text-secondary hover:text-success">
+          <span class="material-symbols-outlined !text-[16px]">arrow_back</span>
+          Đơn của tôi
+        </a>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-space-12">
+            <h1 class="font-h1 text-h1 text-text-primary">{order.item}</h1>
+            <TierBadge tier={order.tier} />
+            <StatusChip status={order.status} />
+          </div>
+          <span class="font-mono-md text-[14px] text-text-tertiary">{order.id}</span>
+        </div>
+        <span class="font-mono-md text-[13px] text-text-secondary">
+          {formatWeight(order.weight)} · Đặt {formatDateTime(order.createdAt)}
+        </span>
+      </div>
+
+      <div class="grid grid-cols-12 gap-space-32">
+        <!-- Left col: main content -->
+        <div class="col-span-8 flex flex-col gap-space-24">
+          {/* Tier S COMPLETED */}
+          {!isTierC && order.status === 'COMPLETED' && (
+            <div class="bg-bg-elevated border border-border-subtle rounded-3xl p-space-32 flex flex-col gap-space-24">
+              <div class="flex items-center justify-between">
+                <h3 class="font-h3 text-h3 text-text-primary">Đã hoàn tất</h3>
+                <span class="font-mono-md text-[12px] text-text-tertiary">ZaloPay receipt #ZP-{order.id.slice(-6)}</span>
+              </div>
+              <div class="bg-success rounded-2xl p-space-32 text-center">
+                <span class="font-mono-md text-[12px] text-[#0A1410]/70 uppercase block">Bạn đã nhận</span>
+                <div class="font-mono-md text-[64px] text-[#0A1410] font-bold tabular-nums leading-none mt-space-8">
+                  {formatVND(Math.round((order.amount ?? 0) * 0.75))}
+                </div>
+                <span class="font-body-md text-[13px] text-[#0A1410]/70 mt-space-8 block">
+                  Tổng đơn {formatVND(order.amount ?? 0)} · 75/15/10 chia
+                </span>
+              </div>
+              <div class="grid grid-cols-3 gap-space-12">
+                <div class="bg-bg-base rounded-xl p-space-16 text-center">
+                  <span class="font-mono-md text-[11px] text-text-tertiary uppercase block">Bạn</span>
+                  <span class="font-mono-md text-[16px] text-success tabular-nums">{formatVND(Math.round((order.amount ?? 0) * 0.75))}</span>
+                </div>
+                <div class="bg-bg-base rounded-xl p-space-16 text-center">
+                  <span class="font-mono-md text-[11px] text-text-tertiary uppercase block">Hub</span>
+                  <span class="font-mono-md text-[16px] text-warning tabular-nums">{formatVND(Math.round((order.amount ?? 0) * 0.15))}</span>
+                </div>
+                <div class="bg-bg-base rounded-xl p-space-16 text-center">
+                  <span class="font-mono-md text-[11px] text-text-tertiary uppercase block">RE-LOOP</span>
+                  <span class="font-mono-md text-[16px] text-info tabular-nums">{formatVND(Math.round((order.amount ?? 0) * 0.1))}</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Tier C COMPLETED → BOM reveal */}
+          {isTierC && order.status === 'COMPLETED' && order.bomReal && (
+            <BOMRevealCard order={order} />
+          )}
+
+          {/* Tier C PENDING_VERIFY */}
+          {isTierC && isPending && (
+            <div class="bg-warning/5 border-2 border-warning/40 rounded-3xl p-space-32 flex flex-col gap-space-24">
+              <div class="flex items-center gap-space-12">
+                <div class="w-12 h-12 rounded-full bg-warning/20 border border-warning/40 flex items-center justify-center">
+                  <span class="material-symbols-outlined fill !text-[24px] text-warning">hourglass_top</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-mono-md text-[12px] text-warning uppercase">Chờ Hub rã xác</span>
+                  <span class="font-h3 text-h3 text-text-primary">8 giờ còn lại</span>
+                </div>
+              </div>
+              <div class="bg-bg-base border border-warning/30 rounded-2xl p-space-24 flex items-baseline justify-between">
+                <span class="font-body-md text-[14px] text-text-secondary">Tạm ứng HOLD ví ảo</span>
+                <span class="font-mono-md text-[28px] text-warning font-bold tabular-nums">{formatVND(order.advance ?? 0)}</span>
+              </div>
+              <div class="bg-bg-base border border-border-subtle rounded-2xl p-space-24 flex flex-col gap-space-8">
+                <span class="font-mono-md text-[11px] text-text-tertiary uppercase">Dải giá kỳ vọng (BOM Library)</span>
+                <span class="font-mono-md text-[18px] text-text-primary">
+                  {formatVND(order.expectedRange?.[0] ?? 0)} — {formatVND(order.expectedRange?.[1] ?? 0)}
+                </span>
+                <span class="font-body-md text-[12px] text-text-tertiary">Phần chênh sẽ chuyển ZaloPay sau khi mass balance verify ≥ 90%.</span>
+              </div>
+              <p class="font-body-md text-[13px] text-text-secondary">
+                Bạn sẽ nhận thông báo khi Hub hoàn tất rã xác. Có thể xem video timelapse + ảnh trước/sau khi đó.
+              </p>
+            </div>
+          )}
+
+          <!-- Timeline -->
+          <div class="bg-bg-elevated border border-border-subtle rounded-3xl p-space-32">
+            <h3 class="font-h4 text-h4 text-text-primary mb-space-16">Tiến trình</h3>
+            <div class="flex flex-col gap-space-12">
+              {[
+                { label: 'Đặt đơn', done: true, time: formatDateTime(order.createdAt) },
+                { label: `${collector.name} nhận đơn`, done: true },
+                { label: 'Cân tại nhà', done: true },
+                { label: isTierC ? 'Hub rã xác' : 'ZaloPay', done: order.status === 'COMPLETED', active: isPending },
+              ].map((s) => (
+                <div class="flex items-center gap-space-12">
+                  <div class:list={['w-6 h-6 rounded-full flex items-center justify-center', s.done && !s.active ? 'bg-success' : s.active ? 'bg-warning animate-pulse' : 'bg-bg-base border border-border-subtle']}>
+                    {s.done && !s.active && <span class="material-symbols-outlined fill !text-[14px] text-[#0A1410]">check</span>}
+                  </div>
+                  <span class:list={['font-body-md text-[13px] flex-1', s.done || s.active ? 'text-text-primary' : 'text-text-tertiary']}>{s.label}</span>
+                  {s.time && <span class="font-mono-md text-[11px] text-text-tertiary">{s.time}</span>}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right col: sidebar -->
+        <div class="col-span-4 flex flex-col gap-space-16">
+          <div class="bg-bg-elevated border border-border-subtle rounded-2xl p-space-24">
+            <span class="font-mono-md text-[11px] text-text-tertiary uppercase block mb-space-12">Collector</span>
+            <div class="flex items-center gap-space-12">
+              <div class={`w-12 h-12 rounded-full ${collector.avatarColor} flex items-center justify-center`}>
+                <span class="font-h4 font-extrabold text-[#0A1410]">{collector.name.split(' ').slice(-1)[0][0]}</span>
+              </div>
+              <div class="flex-1">
+                <span class="font-h4 text-[14px] text-text-primary block">{collector.name}</span>
+                <span class="font-mono-md text-[12px] text-text-secondary">⭐ {collector.rating} · Tier {collector.tier}</span>
+              </div>
+            </div>
+            <div class="h-px bg-border-subtle my-space-12" />
+            <div class="flex flex-col gap-space-4">
+              <span class="font-mono-md text-[11px] text-text-tertiary">Phương tiện</span>
+              <span class="font-body-md text-[13px] text-text-primary">{collector.vehicle} · {collector.plate}</span>
+            </div>
+          </div>
+
+          <div class="bg-bg-elevated border border-border-subtle rounded-2xl p-space-24 flex flex-col gap-space-8">
+            <span class="font-mono-md text-[11px] text-text-tertiary uppercase">Green Points earned</span>
+            <span class="font-mono-md text-[28px] text-success font-bold tabular-nums">+{Math.round((order.amount ?? order.advance ?? 0) / 1000)}</span>
+            <span class="font-body-md text-[12px] text-text-tertiary">1 GP = 1.000đ giá trị đơn</span>
+          </div>
+
+          <a
+            href="/orders/new.html"
+            class="bg-bg-elevated border border-border-subtle rounded-2xl p-space-24 hover:border-success/40 transition-colors flex items-center gap-space-12"
+          >
+            <span class="material-symbols-outlined !text-[24px] text-success">add_circle</span>
+            <div class="flex flex-col">
+              <span class="font-h4 text-[14px] text-text-primary">Đặt đơn tương tự</span>
+              <span class="font-mono-md text-[11px] text-text-tertiary">Tier {order.tier} · {order.item}</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

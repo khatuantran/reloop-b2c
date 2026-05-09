@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import TopNav from '../../../components/nav/TopNav.astro';
+import TrackingMap from '../../../components/order/TrackingMap';
+import TierBadge from '../../../components/ui/TierBadge.astro';
+import { ORDERS, COLLECTORS, getOrderById, getCollectorById } from '../../../lib/mock';
+
+export function getStaticPaths() {
+  return ORDERS.map((o) => ({ params: { id: o.id } }));
+}
+
+const { id } = Astro.params;
+const order = getOrderById(id!)!;
+const collector = getCollectorById(order.collectorId ?? 'c-001') ?? COLLECTORS['c-001'];
+---
+
+<BaseLayout title={`Đang theo dõi · ${order.id}`}>
+  <TopNav active="orders" />
+
+  <main class="pt-32 pb-space-96 min-h-screen">
+    <div class="max-w-[1280px] mx-auto px-[80px]">
+      <div class="flex items-baseline justify-between mb-space-32">
+        <div class="flex flex-col gap-space-8">
+          <a href="/orders.html" class="inline-flex items-center gap-space-8 font-body-md text-[13px] text-text-secondary hover:text-success">
+            <span class="material-symbols-outlined !text-[16px]">arrow_back</span>
+            Đơn của tôi
+          </a>
+          <div class="flex items-center gap-space-12">
+            <h1 class="font-h1 text-h1 text-text-primary">Đang theo dõi</h1>
+            <TierBadge tier={order.tier} />
+          </div>
+          <span class="font-mono-md text-[13px] text-text-tertiary">{order.id} · {order.item}</span>
+        </div>
+      </div>
+
+      <TrackingMap order={order} collector={collector} client:load />
+    </div>
+  </main>
+</BaseLayout>

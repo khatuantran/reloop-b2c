@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import TopNav from '../../../../components/nav/TopNav.astro';
+import OrderCreate from '../../../../components/order/OrderCreate';
+---
+
+<BaseLayout title="Đặt đơn Tier C · Step 3 — RE-LOOP">
+  <TopNav active="orders" />
+  <main class="pt-32 min-h-screen">
+    <div class="max-w-[1280px] mx-auto px-[80px] mb-space-16">
+      <a href="/index.html" class="inline-flex items-center gap-space-8 font-body-md text-[13px] text-text-secondary hover:text-success">
+        <span class="material-symbols-outlined !text-[16px]">arrow_back</span>
+        Trang chủ
+      </a>
+    </div>
+    <OrderCreate initialStep={3} initialSampleId="mainboard" client:load />
+  </main>
+</BaseLayout>
