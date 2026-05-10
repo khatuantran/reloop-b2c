@@ -23,6 +23,10 @@ async function walk(dir) {
 const files = await walk(DIST);
 
 for (const path of files) {
+  // 404.html được Netlify serve cho MỌI path không khớp (kể cả /a/b/c) → phải giữ absolute path,
+  // không relativize, nếu không CSS + link sẽ hỏng ở các path sâu.
+  if (relative(DIST, path) === '404.html') continue;
+
   const fileDir = dirname(path);
   // depth = how many `../` to reach DIST root
   const rel = relative(fileDir, DIST);

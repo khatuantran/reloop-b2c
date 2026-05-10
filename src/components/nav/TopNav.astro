@@ -16,30 +16,30 @@ const links = [
 ---
 
 <nav
-  class="fixed top-0 left-0 right-0 z-50 h-20 backdrop-blur-md border-b border-border-subtle"
-  style="background-color: rgba(20, 32, 27, 0.85);"
+  class="fixed top-0 left-0 right-0 z-50 h-20 backdrop-blur-lg border-b border-border-subtle"
+  style="background-color: rgba(229, 237, 221, 0.85);"
 >
   <div class="max-w-[1280px] mx-auto h-full flex justify-between items-center px-[80px]">
-    <a href="/index.html" class="flex items-center gap-space-16">
-      <div class="w-[32px] h-[32px] bg-success rounded flex items-center justify-center">
-        <span class="material-symbols-outlined fill text-[#0A1410] !text-[20px]">recycling</span>
+    <a href="/index.html" class="flex items-center gap-space-12">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-lime to-lime-deep shadow-clay-lime flex items-center justify-center">
+        <span class="material-symbols-rounded fill text-text-on-lime !text-[22px]">recycling</span>
       </div>
       <div class="flex flex-col">
-        <span class="font-h3 text-h3 font-extrabold tracking-tight text-text-primary leading-none">RE-LOOP</span>
-        <span class="font-mono-md text-[11px] text-text-secondary leading-none mt-1">Q.7 · TPHCM</span>
+        <span class="font-display text-[20px] font-extrabold tracking-tight text-text-primary leading-none">RE-LOOP</span>
+        <span class="font-mono-md text-[10px] text-text-tertiary leading-none mt-1">Q.7 · TPHCM</span>
       </div>
     </a>
 
-    <div class="hidden md:flex items-center gap-space-24">
+    <div class="hidden md:flex items-center gap-space-8">
       {
         links.map((link) => (
           <a
             href={link.href}
             class:list={[
-              'font-body-md text-[14px] font-medium transition-colors duration-200',
+              'font-body-md text-[14px] font-medium transition-all duration-200 px-space-16 py-space-8 rounded-full',
               active === link.id
-                ? 'text-success border-b-2 border-success pb-1'
-                : 'text-text-secondary hover:text-success',
+                ? 'bg-clay-mint text-tier-s shadow-clay-sm'
+                : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated/60',
             ]}
           >
             {link.label}
@@ -48,17 +48,84 @@ const links = [
       }
     </div>
 
-    <div class="flex items-center gap-space-16">
+    <div class="flex items-center gap-space-8">
+      <a
+        href="/rewards.html"
+        title="Green Points"
+        class="w-10 h-10 rounded-full bg-bg-elevated border border-border-subtle hover:border-lime-deep shadow-clay-sm hover:shadow-clay flex items-center justify-center transition-all"
+      >
+        <span class="material-symbols-rounded fill !text-[20px] text-tier-s">redeem</span>
+      </a>
+      <a
+        href="/notifications.html"
+        title="Thông báo"
+        class="w-10 h-10 rounded-full bg-bg-elevated border border-border-subtle hover:border-lime-deep shadow-clay-sm hover:shadow-clay flex items-center justify-center transition-all relative"
+      >
+        <span class="material-symbols-rounded fill !text-[20px] text-text-secondary">notifications</span>
+        <span class="absolute top-[6px] right-[6px] w-2 h-2 rounded-full bg-tier-h"></span>
+      </a>
+      <a
+        href="/help.html"
+        title="Trợ giúp"
+        class="w-10 h-10 rounded-full bg-bg-elevated border border-border-subtle hover:border-lime-deep shadow-clay-sm hover:shadow-clay flex items-center justify-center transition-all"
+      >
+        <span class="material-symbols-rounded fill !text-[20px] text-text-secondary">help</span>
+      </a>
       <a
         href="/wallet.html"
-        class="px-space-12 py-space-8 rounded-full bg-bg-elevated border border-border-subtle hover:border-success/40 flex items-center gap-space-8 transition-colors"
+        class="px-space-16 py-space-8 rounded-full bg-bg-elevated border border-border-subtle hover:border-lime-deep shadow-clay-sm hover:shadow-clay flex items-center gap-space-8 transition-all"
       >
-        <span class="material-symbols-outlined !text-[16px] text-success">account_balance_wallet</span>
-        <span class="font-mono-md text-[13px] text-text-primary tabular-nums">{formatVND(WALLET.zaloPayBalance)}</span>
+        <span class="material-symbols-rounded fill !text-[16px] text-tier-s">account_balance_wallet</span>
+        <span class="font-mono-md text-[13px] text-text-primary tabular-nums font-semibold">{formatVND(WALLET.zaloPayBalance)}</span>
       </a>
-      <a href="/profile.html" class="w-10 h-10 rounded-full bg-success/20 border border-success/40 flex items-center justify-center hover:bg-success/30 transition-colors">
-        <span class="font-h4 text-[16px] font-extrabold text-success">{USER.name[0]}</span>
-      </a>
+      <!-- Account dropdown (CSS hover) -->
+      <div class="relative group">
+        <button class="flex items-center gap-space-4 pl-space-4 pr-space-8 py-[2px] rounded-full bg-bg-elevated border border-border-subtle hover:border-tier-s/50 shadow-clay-sm hover:shadow-clay transition">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-clay-mint to-lime-soft border-2 border-tier-s/40 flex items-center justify-center">
+            <span class="font-display text-[15px] font-extrabold text-tier-s">{USER.name[0]}</span>
+          </div>
+          <span class="material-symbols-rounded !text-[16px] text-text-tertiary group-hover:rotate-180 transition">expand_more</span>
+        </button>
+        <!-- Dropdown menu -->
+        <div class="absolute right-0 top-[calc(100%+8px)] w-[280px] bg-bg-elevated rounded-2xl shadow-clay-lg border border-border-subtle p-space-12 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+          <!-- Current user -->
+          <div class="bg-clay-mint rounded-xl p-space-12 mb-space-8 flex items-center gap-space-12 border border-tier-s/30">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-clay-mint to-lime-soft border-2 border-tier-s flex items-center justify-center">
+              <span class="font-display text-[16px] font-extrabold text-tier-s">{USER.name[0]}</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <span class="font-display font-bold text-[13px] text-text-primary block truncate">{USER.name}</span>
+              <span class="font-mono-md text-[10px] text-tier-s">● Đang đăng nhập</span>
+            </div>
+          </div>
+          <!-- Quick links -->
+          <a href="/profile.html" class="flex items-center gap-space-8 px-space-12 py-space-8 rounded-xl hover:bg-bg-surface transition">
+            <span class="material-symbols-rounded !text-[18px] text-text-secondary">person</span>
+            <span class="font-body-md text-[13px] text-text-primary font-semibold">Hồ sơ</span>
+          </a>
+          <a href="/profile/edit.html" class="flex items-center gap-space-8 px-space-12 py-space-8 rounded-xl hover:bg-bg-surface transition">
+            <span class="material-symbols-rounded !text-[18px] text-text-secondary">settings</span>
+            <span class="font-body-md text-[13px] text-text-primary font-semibold">Cài đặt</span>
+          </a>
+          <a href="/easy.html" class="flex items-center gap-space-8 px-space-12 py-space-8 rounded-xl hover:bg-bg-surface transition">
+            <span class="material-symbols-rounded !text-[18px] text-amber-deep">accessibility_new</span>
+            <span class="font-body-md text-[13px] text-text-primary font-semibold">Chế độ Đơn giản</span>
+          </a>
+          <div class="h-px bg-border-subtle my-space-8"></div>
+          <a href="/login.html" class="flex items-center gap-space-8 px-space-12 py-space-8 rounded-xl hover:bg-bg-surface transition">
+            <span class="material-symbols-rounded !text-[18px] text-info">switch_account</span>
+            <span class="font-body-md text-[13px] text-text-primary font-semibold">Đổi tài khoản</span>
+          </a>
+          <a href="/signup.html" class="flex items-center gap-space-8 px-space-12 py-space-8 rounded-xl hover:bg-bg-surface transition">
+            <span class="material-symbols-rounded !text-[18px] text-tier-s">person_add</span>
+            <span class="font-body-md text-[13px] text-text-primary font-semibold">Đăng ký mới</span>
+          </a>
+          <a href="/login.html" class="flex items-center gap-space-8 px-space-12 py-space-8 rounded-xl hover:bg-clay-blush transition">
+            <span class="material-symbols-rounded !text-[18px] text-tier-h">logout</span>
+            <span class="font-body-md text-[13px] text-tier-h font-semibold">Đăng xuất</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>

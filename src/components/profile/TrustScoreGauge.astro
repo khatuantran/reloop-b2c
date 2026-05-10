@@ -1,10 +1,9 @@
 ---
 interface Props {
-  score: number; // 0-100
+  score: number;
 }
 const { score } = Astro.props;
 
-// Calculate position on 240° arc (from -210° to +30°)
 const startAngle = -210;
 const endAngle = 30;
 const totalAngle = endAngle - startAngle;
@@ -13,12 +12,10 @@ const scoreAngle = startAngle + (score / 100) * totalAngle;
 const center = 100;
 const radius = 80;
 
-// Marker position
 const markerRad = (scoreAngle * Math.PI) / 180;
 const markerX = center + Math.cos(markerRad) * radius;
 const markerY = center + Math.sin(markerRad) * radius;
 
-// Arc paths for 3 zones
 function arc(from: number, to: number) {
   const fromRad = (from * Math.PI) / 180;
   const toRad = (to * Math.PI) / 180;
@@ -30,36 +27,36 @@ function arc(from: number, to: number) {
   return `M ${x1} ${y1} A ${radius} ${radius} 0 ${large} 1 ${x2} ${y2}`;
 }
 
-// Zones: 0-20 error, 20-80 warning, 80-100 success
-const zone1End = startAngle + (20 / 100) * totalAngle;
-const zone2End = startAngle + (80 / 100) * totalAngle;
+const zone1End = startAngle + (30 / 100) * totalAngle;
+const zone2End = startAngle + (70 / 100) * totalAngle;
 
+const zoneColor = score < 30 ? '#D14B3B' : score < 70 ? '#E8B340' : '#2BB36A';
 const zone =
-  score < 20 ? { label: 'User mới', color: 'text-error', advance: '30%' } :
-  score < 80 ? { label: 'Đang tích lũy', color: 'text-warning', advance: '50%' } :
-  { label: 'Đáng tin', color: 'text-success', advance: '70%' };
+  score < 30 ? { label: 'User mới', advance: '30%', textClass: 'text-tier-h', bgClass: 'bg-clay-blush border-tier-h/40' } :
+  score < 70 ? { label: 'Đang tích lũy', advance: '50%', textClass: 'text-amber-deep', bgClass: 'bg-clay-butter border-amber-deep/40' } :
+  { label: 'Đáng tin', advance: '70%', textClass: 'text-tier-s', bgClass: 'bg-clay-mint border-tier-s/40' };
 ---
 
-<div class="flex flex-col items-center gap-space-16">
-  <svg viewBox="0 0 200 200" class="w-[280px] h-[280px]">
+<div class="flex flex-col items-center gap-space-16 max-w-full">
+  <svg viewBox="-10 -10 220 220" class="w-[280px] h-[280px] max-w-full overflow-visible" style="filter: drop-shadow(0 12px 24px rgba(15,31,24,.12));">
     <!-- Track -->
-    <path d={arc(startAngle, endAngle)} stroke="#1A2D24" stroke-width="14" fill="none" stroke-linecap="round" />
-    <!-- Zone 1: error -->
-    <path d={arc(startAngle, zone1End)} stroke="#E76F51" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.6" />
-    <!-- Zone 2: warning -->
-    <path d={arc(zone1End, zone2End)} stroke="#F4B860" stroke-width="14" fill="none" opacity="0.6" />
-    <!-- Zone 3: success -->
-    <path d={arc(zone2End, endAngle)} stroke="#52E08D" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.6" />
-    <!-- Marker -->
-    <circle cx={markerX} cy={markerY} r="14" fill="#0A1410" stroke={score < 20 ? '#E76F51' : score < 80 ? '#F4B860' : '#52E08D'} stroke-width="3" />
-    <text x={markerX} y={markerY + 5} text-anchor="middle" font-size="14" font-weight="bold" fill={score < 20 ? '#E76F51' : score < 80 ? '#F4B860' : '#52E08D'} font-family="JetBrains Mono">{score}</text>
+    <path d={arc(startAngle, endAngle)} stroke="#C8D6BE" stroke-width="16" fill="none" stroke-linecap="round" />
+    <!-- Zone 1: red (0-30) -->
+    <path d={arc(startAngle, zone1End)} stroke="#D14B3B" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.85" />
+    <!-- Zone 2: amber (30-70) -->
+    <path d={arc(zone1End, zone2End)} stroke="#E8B340" stroke-width="16" fill="none" opacity="0.85" />
+    <!-- Zone 3: green (70-100) -->
+    <path d={arc(zone2End, endAngle)} stroke="#2BB36A" stroke-width="16" fill="none" stroke-linecap="round" opacity="0.85" />
+    <!-- Marker (small dot indicator — center số to nhỏ tránh trùng) -->
+    <circle cx={markerX} cy={markerY} r="10" fill="#FFFFFF" stroke={zoneColor} stroke-width="4" />
+    <circle cx={markerX} cy={markerY} r="3" fill={zoneColor} />
     <!-- Center label -->
-    <text x={center} y={center - 10} text-anchor="middle" font-size="12" fill="#6B7C72" font-family="JetBrains Mono">TRUST SCORE</text>
-    <text x={center} y={center + 24} text-anchor="middle" font-size="48" font-weight="bold" fill="#F0F4F1" font-family="Plus Jakarta Sans">{score}</text>
-    <text x={center} y={center + 44} text-anchor="middle" font-size="11" fill="#A8B5AC" font-family="Inter">/ 100</text>
+    <text x={center} y={center - 4} text-anchor="middle" font-size="10" fill="#7C8A82" font-family="JetBrains Mono" font-weight="600" letter-spacing="1">TRUST SCORE</text>
+    <text x={center} y={center + 38} text-anchor="middle" font-size="48" font-weight="800" fill="#0F1F18" font-family="Plus Jakarta Sans">{score}</text>
+    <text x={center} y={center + 56} text-anchor="middle" font-size="10" fill="#7C8A82" font-family="Inter">trên 100</text>
   </svg>
 
-  <div class:list={['px-space-16 py-space-8 rounded-full border', score < 20 ? 'bg-error/10 border-error/30' : score < 80 ? 'bg-warning/10 border-warning/30' : 'bg-success/10 border-success/30']}>
-    <span class:list={['font-body-md text-[14px] font-semibold', zone.color]}>{zone.label} · tạm ứng {zone.advance}</span>
+  <div class:list={['px-space-24 py-space-8 rounded-full border-2 shadow-clay-sm', zone.bgClass]}>
+    <span class:list={['font-mono-md text-[14px] font-bold', zone.textClass]}>{zone.label} · tạm ứng {zone.advance}</span>
   </div>
 </div>

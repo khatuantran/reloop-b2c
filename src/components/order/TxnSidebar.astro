@@ -1,0 +1,79 @@
+---
+// Persistent sidebar cho các màn giao dịch tại nhà (transaction-flow) — collector + vật phẩm + tiến trình sub-step.
+interface SubStep { label: string; state: 'done' | 'active' | 'pending' }
+interface Props {
+  collectorName: string;
+  collectorAvatar: string;        // 1 chữ cái
+  collectorTierLabel: string;     // vd "Tier 1 · Hub Q.7"
+  collectorRating: number;
+  collectorVehicle: string;
+  itemName: string;
+  itemHint: string;
+  itemIcon: string;
+  accent: 'tier-s' | 'tier-c' | 'amber-deep' | 'info';
+  avatarGradient?: string;        // vd "from-clay-mint to-tier-s"
+  itemClay?: string;              // vd "bg-clay-mint"
+  subSteps: SubStep[];
+}
+const {
+  collectorName, collectorAvatar, collectorTierLabel, collectorRating, collectorVehicle,
+  itemName, itemHint, itemIcon, accent,
+  avatarGradient = 'from-clay-mint to-tier-s', itemClay = 'bg-clay-mint', subSteps,
+} = Astro.props;
+const accentText: Record<string, string> = { 'tier-s': 'text-tier-s', 'tier-c': 'text-tier-c', 'amber-deep': 'text-amber-deep', 'info': 'text-info' };
+const dotClass = (s: SubStep['state']) =>
+  s === 'done' ? 'bg-tier-s text-white border-tier-s'
+  : s === 'active' ? `${accent === 'tier-c' ? 'bg-clay-peach' : accent === 'amber-deep' ? 'bg-clay-butter' : accent === 'info' ? 'bg-clay-sky' : 'bg-clay-mint'} ${accentText[accent]} border-current animate-pulse`
+  : 'bg-bg-base text-text-tertiary border-border-subtle';
+---
+
+<div class="flex flex-col gap-space-16">
+  <!-- Collector -->
+  <div class="bg-bg-elevated rounded-[24px] shadow-clay border border-border-subtle p-space-24">
+    <span class:list={['font-mono-md text-[11px] uppercase tracking-wider font-bold flex items-center gap-space-8 mb-space-16', accentText[accent]]}>
+      <span class="material-symbols-rounded fill !text-[14px]">person_pin</span>
+      COLLECTOR ĐANG XỬ LÝ
+    </span>
+    <div class="flex items-center gap-space-12">
+      <div class:list={['w-14 h-14 rounded-2xl bg-gradient-to-br flex items-center justify-center text-white font-display font-extrabold text-[22px] shadow-clay-sm shrink-0', avatarGradient]}>{collectorAvatar}</div>
+      <div class="flex-1 text-col">
+        <span class="font-display font-bold text-[14px] text-text-primary block">{collectorName}</span>
+        <span class="font-mono-md text-[11px] text-text-tertiary">{collectorTierLabel}</span>
+      </div>
+    </div>
+    <div class="mt-space-12 grid grid-cols-2 gap-space-8">
+      <div class="bg-bg-base/60 rounded-xl p-space-12 text-col"><span class="font-mono-md text-[9px] text-text-tertiary uppercase tracking-wider font-semibold block">Đánh giá</span><span class="font-display font-bold text-[16px] text-amber-deep tabular-nums mt-space-4 block">★ {collectorRating}</span></div>
+      <div class="bg-bg-base/60 rounded-xl p-space-12 text-col"><span class="font-mono-md text-[9px] text-text-tertiary uppercase tracking-wider font-semibold block">Phương tiện</span><span class="font-body-md text-[11px] text-text-primary font-semibold mt-space-4 block">{collectorVehicle}</span></div>
+    </div>
+    <div class="mt-space-12 grid grid-cols-2 gap-space-8">
+      <a href="#" class:list={['text-white py-space-12 rounded-2xl font-mono-md text-[12px] font-bold shadow-clay-sm inline-flex items-center justify-center gap-space-8 hover:-translate-y-[1px] transition', accent === 'tier-c' ? 'bg-tier-c' : accent === 'amber-deep' ? 'bg-amber-deep' : accent === 'info' ? 'bg-info' : 'bg-tier-s']}><span class="material-symbols-rounded fill !text-[16px]">call</span>Gọi</a>
+      <a href="#" class="bg-bg-elevated text-text-primary border border-border-subtle py-space-12 rounded-2xl font-mono-md text-[12px] font-bold shadow-clay-sm inline-flex items-center justify-center gap-space-8 hover:shadow-clay transition"><span class="material-symbols-rounded fill !text-[16px]">chat</span>Chat</a>
+    </div>
+  </div>
+
+  <!-- Item -->
+  <div class="bg-bg-elevated rounded-[24px] shadow-clay-sm border border-border-subtle p-space-24 flex items-center gap-space-12">
+    <div class:list={['w-12 h-12 rounded-2xl flex items-center justify-center shadow-clay-sm shrink-0', itemClay]}><span class:list={['material-symbols-rounded fill !text-[24px]', accentText[accent]]}>{itemIcon}</span></div>
+    <div class="flex-1 text-col"><span class="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider block">Vật phẩm</span><span class="font-display font-bold text-[14px] text-text-primary block">{itemName}</span><span class="font-mono-md text-[11px] text-text-tertiary">{itemHint}</span></div>
+  </div>
+
+  <!-- Sub-step progress -->
+  <div class="bg-bg-elevated rounded-[24px] shadow-clay-sm border border-border-subtle p-space-24">
+    <span class="font-mono-md text-[11px] uppercase tracking-wider text-text-tertiary font-bold flex items-center gap-space-8 mb-space-12"><span class="material-symbols-rounded !text-[14px]">checklist</span>TIẾN TRÌNH GIAO DỊCH</span>
+    <ol class="relative">
+      <div class="absolute left-[13px] top-space-12 bottom-space-12 w-[2px] bg-border-subtle"></div>
+      <div class="flex flex-col gap-space-12">
+        {subSteps.map((s) => (
+          <li class="relative flex items-center gap-space-12">
+            <div class:list={['relative z-10 w-7 h-7 rounded-lg flex items-center justify-center shadow-clay-sm shrink-0 border-2', dotClass(s.state)]}>
+              <span class="material-symbols-rounded fill !text-[14px]">{s.state === 'done' ? 'check' : s.state === 'active' ? 'play_arrow' : 'circle'}</span>
+            </div>
+            <span class:list={['font-mono-md text-[12px]', s.state === 'pending' ? 'text-text-tertiary' : 'text-text-primary font-semibold']}>{s.label}</span>
+          </li>
+        ))}
+      </div>
+    </ol>
+  </div>
+
+  <slot />
+</div>

@@ -6,14 +6,14 @@ interface Props {
 const { status } = Astro.props;
 
 const map: Record<Props['status'], { label: string; bg: string; border: string; text: string; icon: string }> = {
-  COMPLETED: { label: 'Hoàn tất', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success', icon: 'check_circle' },
-  PENDING_VERIFY: { label: 'Chờ Hub verify', bg: 'bg-warning/10', border: 'border-warning/30', text: 'text-warning', icon: 'hourglass_top' },
-  IN_TRANSIT: { label: 'Đang đến', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info', icon: 'directions_bike' },
-  AT_PICKUP: { label: 'Đang cân tại nhà', bg: 'bg-info/10', border: 'border-info/30', text: 'text-info', icon: 'scale' },
-  CANCELLED: { label: 'Đã huỷ', bg: 'bg-bg-elevated', border: 'border-border-subtle', text: 'text-text-tertiary', icon: 'cancel' },
-  HOLD: { label: 'HOLD ví ảo', bg: 'bg-warning/10', border: 'border-warning/30', text: 'text-warning', icon: 'lock' },
-  VERIFIED: { label: 'Verify ✓', bg: 'bg-success/10', border: 'border-success/30', text: 'text-success', icon: 'fact_check' },
-  SETTLED: { label: 'Đã chuyển', bg: 'bg-success/20', border: 'border-success/50', text: 'text-success', icon: 'account_balance_wallet' },
+  COMPLETED: { label: 'Hoàn tất', bg: 'bg-clay-mint', border: 'border-tier-s/50', text: 'text-tier-s', icon: 'check_circle' },
+  PENDING_VERIFY: { label: 'Chờ Hub verify', bg: 'bg-clay-butter', border: 'border-amber-deep/50', text: 'text-amber-deep', icon: 'hourglass_top' },
+  IN_TRANSIT: { label: 'Đang đến', bg: 'bg-clay-sky', border: 'border-info/50', text: 'text-info', icon: 'directions_bike' },
+  AT_PICKUP: { label: 'Đang cân tại nhà', bg: 'bg-clay-sky', border: 'border-info/50', text: 'text-info', icon: 'scale' },
+  CANCELLED: { label: 'Đã huỷ', bg: 'bg-clay-blush', border: 'border-tier-h/50', text: 'text-tier-h', icon: 'cancel' },
+  HOLD: { label: 'HOLD ví ảo', bg: 'bg-clay-butter', border: 'border-amber-deep/50', text: 'text-amber-deep', icon: 'lock' },
+  VERIFIED: { label: 'Verify ✓', bg: 'bg-clay-mint', border: 'border-tier-s/50', text: 'text-tier-s', icon: 'fact_check' },
+  SETTLED: { label: 'Đã chuyển', bg: 'bg-lime', border: 'border-lime-deep', text: 'text-text-on-lime', icon: 'account_balance_wallet' },
 };
 
 const s = map[status];
@@ -21,12 +21,12 @@ const s = map[status];
 
 <span
   class:list={[
-    'inline-flex items-center gap-space-4 px-space-8 py-[2px] rounded-full border font-body-md text-[11px] font-medium',
+    'inline-flex items-center gap-space-4 px-space-12 py-[3px] rounded-full border-2 font-mono-md text-[11px] font-semibold',
     s.bg,
     s.border,
     s.text,
   ]}
 >
-  <span class="material-symbols-outlined fill !text-[12px]">{s.icon}</span>
+  <span class="material-symbols-rounded fill !text-[12px]">{s.icon}</span>
   {s.label}
 </span>

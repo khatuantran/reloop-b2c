@@ -3,6 +3,9 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import TopNav from '../../../components/nav/TopNav.astro';
 import AtHomeTransaction from '../../../components/order/AtHomeTransaction';
 import TierBadge from '../../../components/ui/TierBadge.astro';
+import StatusChip from '../../../components/ui/StatusChip.astro';
+import TierSScene from '../../../components/illustrations/TierSScene.astro';
+import TierCScene from '../../../components/illustrations/TierCScene.astro';
 import { ORDERS, COLLECTORS, getOrderById, getCollectorById } from '../../../lib/mock';
 
 export function getStaticPaths() {
@@ -17,19 +20,52 @@ const collector = getCollectorById(order.collectorId ?? 'c-001') ?? COLLECTORS['
 <BaseLayout title={`Giao dịch · ${order.id}`}>
   <TopNav active="orders" />
 
-  <main class="pt-32 pb-space-96 min-h-screen">
+  <main class="pt-[100px] pb-space-96 min-h-screen">
     <div class="max-w-[1280px] mx-auto px-[80px]">
-      <div class="flex flex-col gap-space-8 mb-space-32">
-        <a href={`/orders/${order.id}/track.html`} class="inline-flex items-center gap-space-8 font-body-md text-[13px] text-text-secondary hover:text-success">
-          <span class="material-symbols-outlined !text-[16px]">arrow_back</span>
-          Về tracking
-        </a>
-        <div class="flex items-center gap-space-12">
-          <h1 class="font-h1 text-h1 text-text-primary">Giao dịch tại nhà</h1>
-          <TierBadge tier={order.tier} />
+      <a href={`/orders/${order.id}/track.html`} class="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-s font-semibold mb-space-16">
+        <span class="material-symbols-rounded !text-[16px]">arrow_back</span>
+        Về tracking
+      </a>
+
+      <section class="grad-hero rounded-[40px] px-space-48 py-space-32 border border-border-subtle mb-space-32 relative overflow-hidden">
+        <div class="grid grid-cols-[1.3fr_1fr] gap-space-32 items-center">
+          <div class="relative z-10">
+            <div class="flex items-center gap-space-12 flex-wrap mb-space-12">
+              <span class="font-mono-md text-[11px] uppercase tracking-[0.2em] text-tier-s font-bold bg-clay-mint border-2 border-tier-s/30 rounded-full px-space-12 py-[4px] inline-flex items-center gap-space-8 shadow-clay-sm">
+                <span class="material-symbols-rounded fill !text-[14px]">scale</span>
+                AT-HOME TRANSACTION
+              </span>
+              <TierBadge tier={order.tier} size="sm" />
+              <StatusChip status={order.status} />
+            </div>
+            <h1 class="font-display-l text-[44px] font-extrabold leading-[1.05] tracking-tight text-text-primary mb-space-8">Giao dịch tại nhà</h1>
+            <p class="font-body-lg text-body-lg text-text-secondary mb-space-16">{order.item} · {order.id}</p>
+            <div class="flex flex-wrap gap-space-12">
+              <div class="bg-bg-elevated/95 backdrop-blur border border-border-subtle rounded-2xl px-space-16 py-space-12 shadow-clay-sm flex items-center gap-space-12">
+                <span class="material-symbols-rounded fill !text-[24px] text-tier-s">person_pin_circle</span>
+                <div class="flex flex-col">
+                  <span class="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider font-semibold">Collector</span>
+                  <span class="font-mono-md text-[13px] text-text-primary font-bold">{collector.name}</span>
+                </div>
+              </div>
+              <div class="bg-bg-elevated/95 backdrop-blur border border-border-subtle rounded-2xl px-space-16 py-space-12 shadow-clay-sm flex items-center gap-space-12">
+                <span class="material-symbols-rounded fill !text-[24px] text-info">verified_user</span>
+                <div class="flex flex-col">
+                  <span class="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider font-semibold">Cân chuẩn</span>
+                  <span class="font-mono-md text-[13px] text-text-primary font-bold">QTĐLVN 252</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative h-[260px]">
+            {order.tier === 'C' ? (
+              <TierCScene class="absolute inset-0 w-full h-full" />
+            ) : (
+              <TierSScene class="absolute inset-0 w-full h-full" />
+            )}
+          </div>
         </div>
-        <span class="font-mono-md text-[13px] text-text-tertiary">{order.id} · {order.item}</span>
-      </div>
+      </section>
 
       <AtHomeTransaction order={order} collector={collector} client:load />
     </div>

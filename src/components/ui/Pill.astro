@@ -1,26 +1,27 @@
 ---
 interface Props {
-  variant?: 'success' | 'warning' | 'error' | 'info' | 'neutral';
+  variant?: 'success' | 'warning' | 'error' | 'info' | 'neutral' | 'lime';
   icon?: string;
 }
 
 const { variant = 'neutral', icon } = Astro.props;
 
 const variants = {
-  success: 'bg-success/10 border-success/30 text-success',
-  warning: 'bg-warning/10 border-warning/30 text-warning',
-  error: 'bg-error/10 border-error/30 text-error',
-  info: 'bg-info/10 border-info/30 text-info',
+  success: 'bg-clay-mint border-tier-s/40 text-tier-s',
+  warning: 'bg-clay-butter border-amber-deep/40 text-amber-deep',
+  error: 'bg-clay-blush border-tier-h/40 text-tier-h',
+  info: 'bg-clay-sky border-info/40 text-info',
   neutral: 'bg-bg-elevated border-border-subtle text-text-secondary',
+  lime: 'bg-lime border-lime-deep text-text-on-lime',
 };
 ---
 
 <span
   class:list={[
-    'inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full border font-body-md text-[12px] font-medium',
+    'inline-flex items-center gap-space-8 px-space-12 py-space-4 rounded-full border-2 font-mono-md text-[12px] font-semibold shadow-clay-sm',
     variants[variant],
   ]}
 >
-  {icon && <span class="material-symbols-outlined !text-[14px]">{icon}</span>}
+  {icon && <span class="material-symbols-rounded !text-[14px]">{icon}</span>}
   <slot />
 </span>

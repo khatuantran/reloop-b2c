@@ -1,10 +1,18 @@
 # PRD — RE-LOOP B2C Web App (Round 2)
 
-**Canonical spec**: `docs/requirement.md` v0.1 (BA draft).
-**This file**: PRD = "what we built in Round 2 critical path".
+**Canonical spec**: `docs/requirement.md` **v0.3** (BA full B2C analysis — 125 features, 11 modules).
+**This file**: PRD = "what we built in Round 2 critical path" — subset của v0.3 (15 critical features Phase 1 MVP).
 **Stack**: Astro 5 + React 19 + Tailwind 3, no backend, mock data only.
 **Width target**: 1280px desktop.
 **Persona**: Linh, 32, Q.7 (PRIMARY) — pre-loaded dummy user.
+
+> **Out-of-PRD-this-round** (đã đặc tả trong requirement v0.3, sẽ build round sau):
+>
+> - Tier B (Speed/Auction) + Tier H (hazardous) flows
+> - Anti-fraud user-facing: Casing Fraud education modal, Hub Spot Check notif, Chain of Custody timeline, Hub Tier badge, AI soft-flag UX
+> - Pro-grade tracking: polyline, multi-stop cluster, geofence, traffic ETA, route replay, Hub-leg
+> - Payment/GP precise rules: Hold expire 72h, refund flow, tax invoice, fee transparency, cash incentive 2k, GP earning per tier, expiration, rounding, voucher fee, streak grace, loyalty thresholds + no-downgrade
+> - Loyalty (Bronze/Silver/Gold), Referral, "Cháu giúp bà", "Xanh nhà em" impact, voucher redemption, donation, tree planting
 
 ---
 

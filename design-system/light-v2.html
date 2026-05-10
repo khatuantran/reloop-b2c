@@ -1,0 +1,925 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RE-LOOP Design System v2.0 — Light Mode</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          /* Light mode palette — green sage + lime accent */
+          'bg-base': '#E5EDDD',
+          'bg-elevated': '#D6E3CC',
+          'bg-surface': '#C8D6BE',
+          'bg-tinted': '#DCEDDF',
+
+          'border-subtle': '#B8C9AE',
+          'border-default': '#A0B496',
+          'border-strong': '#6F8567',
+
+          'text-primary': '#0F1F18',
+          'text-secondary': '#41524A',
+          'text-tertiary': '#7C8A82',
+          'text-on-lime': '#0A1F12',
+
+          /* Brand — lime giữ nguyên DNA */
+          'lime-soft': '#C7F2D6',
+          'lime': '#52E08D',
+          'lime-deep': '#2BB36A',
+          'forest': '#0F3D26',
+
+          /* Tier accent — softer cho light mode */
+          'tier-s': '#2BB36A',     /* PET / Standard */
+          'tier-b': '#E8B340',     /* Bulky */
+          'tier-c': '#E68A3F',     /* Complex (ưu tiên cao) */
+          'tier-h': '#D14B3B',     /* Hazardous */
+
+          /* Status */
+          'success': '#2BB36A',
+          'warning': '#E8B340',
+          'error': '#D14B3B',
+          'info': '#3B8DD1',
+
+          /* Clay pastel layer — for 3D illustration backdrops */
+          'clay-mint': '#BFE8CE',
+          'clay-butter': '#F2D58F',
+          'clay-peach': '#F2C2A6',
+          'clay-blush': '#E8B0AB',
+          'clay-sky': '#B5D2E5',
+          'clay-lavender': '#C7BCE8'
+        },
+        fontFamily: {
+          display: ['Plus Jakarta Sans', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace']
+        },
+        boxShadow: {
+          'clay-sm': '0 4px 10px -2px rgba(15,31,24,.06), 0 2px 4px -2px rgba(15,31,24,.04)',
+          'clay': '0 12px 28px -8px rgba(15,31,24,.10), 0 4px 8px -4px rgba(15,31,24,.06)',
+          'clay-lg': '0 24px 48px -12px rgba(15,31,24,.14), 0 8px 16px -8px rgba(15,31,24,.08)',
+          'clay-lime': '0 12px 28px -8px rgba(82,224,141,.35), 0 4px 8px -4px rgba(82,224,141,.20)',
+          'inset-soft': 'inset 0 2px 4px rgba(255,255,255,.6), inset 0 -2px 4px rgba(15,31,24,.06)'
+        }
+      }
+    }
+  };
+</script>
+<style>
+  :root {
+    --bg-base: #E5EDDD;
+    --text-primary: #0F1F18;
+  }
+  body { background: var(--bg-base); color: var(--text-primary); font-family: 'Inter', sans-serif; }
+  .material-symbols-rounded { font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
+  .clay-bubble {
+    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.9), rgba(255,255,255,.2) 60%, transparent 70%);
+  }
+  /* Animated gradient backdrop for hero */
+  .grad-hero {
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 0%, #BFE8CE 0%, transparent 55%),
+      radial-gradient(ellipse 50% 60% at 0% 100%, #F2D58F 0%, transparent 60%),
+      #E5EDDD;
+  }
+  .scroll-mt { scroll-margin-top: 120px; }
+  /* Map tile pattern */
+  .map-bg {
+    background:
+      linear-gradient(135deg, #E8EFE9 25%, transparent 25%) -10px 0,
+      linear-gradient(225deg, #E8EFE9 25%, transparent 25%) -10px 0,
+      linear-gradient(315deg, #E8EFE9 25%, transparent 25%) 0 0,
+      linear-gradient(45deg, #E8EFE9 25%, transparent 25%) 0 0,
+      #F1F5EE;
+    background-size: 20px 20px;
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<!-- Top nav -->
+<nav class="fixed top-0 inset-x-0 z-50 bg-bg-elevated/80 backdrop-blur-lg border-b border-border-subtle">
+  <div class="max-w-[1440px] mx-auto h-20 px-10 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-lime to-lime-deep shadow-clay-lime flex items-center justify-center">
+        <span class="material-symbols-rounded text-text-on-lime text-[22px]">recycling</span>
+      </div>
+      <div>
+        <div class="font-display font-extrabold text-[20px] tracking-tight text-text-primary leading-none">RE-LOOP</div>
+        <div class="font-mono text-[10px] text-text-tertiary mt-1 leading-none">Design System v2.0 · Light Mode</div>
+      </div>
+    </div>
+    <div class="hidden lg:flex items-center gap-7 text-[14px] font-medium">
+      <a href="#palette" class="text-text-secondary hover:text-text-primary">Palette</a>
+      <a href="#typography" class="text-text-secondary hover:text-text-primary">Type</a>
+      <a href="#components" class="text-text-secondary hover:text-text-primary">Components</a>
+      <a href="#illustrations" class="text-text-secondary hover:text-text-primary">3D Clay</a>
+      <a href="#map" class="text-text-secondary hover:text-text-primary">Map</a>
+      <a href="#screens" class="text-text-secondary hover:text-text-primary">Screens</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="px-3 py-1.5 rounded-full bg-clay-mint text-tier-s text-[12px] font-mono font-medium flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-tier-s"></span> Light v2
+      </span>
+      <button class="hidden md:flex bg-text-primary text-white px-5 py-2.5 rounded-full text-[14px] font-medium hover:bg-forest active:scale-95 transition">
+        Apply to project
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main class="max-w-[1440px] mx-auto px-10 pt-32 pb-32">
+
+<!-- HERO -->
+<section class="grad-hero rounded-[40px] px-16 py-24 mb-24 relative overflow-hidden border border-border-subtle">
+  <div class="grid grid-cols-12 gap-12 items-center">
+    <div class="col-span-7">
+      <div class="font-mono text-[12px] uppercase tracking-[0.2em] text-tier-s mb-6">DESIGN SYSTEM · v2.0</div>
+      <h1 class="font-display font-extrabold text-[72px] leading-[1.05] tracking-tight text-text-primary mb-6">
+        Sáng. Êm.<br/>
+        <span class="text-lime-deep">Bo tròn.</span>
+      </h1>
+      <p class="text-[18px] text-text-secondary leading-relaxed max-w-[520px] mb-8">
+        RE-LOOP chuyển sang <strong class="text-text-primary">light mode</strong> với claymorphism mềm,
+        ảnh 3D đất sét, và Google Maps thật cho tracking — giữ DNA lime nhưng dễ dùng hơn cho Bà Năm.
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <span class="bg-bg-elevated border border-border-subtle rounded-full px-4 py-2 text-[13px] font-mono shadow-clay-sm">28 color tokens</span>
+        <span class="bg-bg-elevated border border-border-subtle rounded-full px-4 py-2 text-[13px] font-mono shadow-clay-sm">11 type tokens</span>
+        <span class="bg-bg-elevated border border-border-subtle rounded-full px-4 py-2 text-[13px] font-mono shadow-clay-sm">4 clay shadows</span>
+        <span class="bg-bg-elevated border border-border-subtle rounded-full px-4 py-2 text-[13px] font-mono shadow-clay-sm">6 clay pastels</span>
+      </div>
+    </div>
+    <div class="col-span-5 flex justify-center">
+      <!-- 3D Clay illustration: Recycle bin with bottle -->
+      <svg viewBox="0 0 360 360" class="w-full max-w-[380px] drop-shadow-[0_30px_30px_rgba(15,31,24,0.12)]">
+        <defs>
+          <radialGradient id="bin-light" cx="35%" cy="20%">
+            <stop offset="0%" stop-color="#7AEFA8"/>
+            <stop offset="60%" stop-color="#52E08D"/>
+            <stop offset="100%" stop-color="#2BB36A"/>
+          </radialGradient>
+          <radialGradient id="bottle-light" cx="35%" cy="20%">
+            <stop offset="0%" stop-color="#FFFFFF"/>
+            <stop offset="50%" stop-color="#CFE6F5"/>
+            <stop offset="100%" stop-color="#86B5D6"/>
+          </radialGradient>
+          <radialGradient id="leaf-light" cx="30%" cy="25%">
+            <stop offset="0%" stop-color="#A0F2BD"/>
+            <stop offset="100%" stop-color="#52E08D"/>
+          </radialGradient>
+          <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Ground shadow -->
+        <ellipse cx="180" cy="320" rx="130" ry="14" fill="#0F1F18" opacity="0.10"/>
+        <!-- Recycle bin body -->
+        <path d="M70 130 Q70 110 90 110 L270 110 Q290 110 290 130 L275 305 Q273 325 250 325 L110 325 Q87 325 85 305 Z"
+              fill="url(#bin-light)" filter="url(#soft)"/>
+        <!-- Bin highlight -->
+        <path d="M85 140 Q85 125 100 125 L120 125 L110 305 Q108 315 100 315 L95 315 Q88 315 87 305 Z"
+              fill="white" opacity="0.35"/>
+        <!-- Bin lid -->
+        <ellipse cx="180" cy="110" rx="115" ry="22" fill="#2BB36A"/>
+        <ellipse cx="180" cy="105" rx="115" ry="22" fill="#52E08D"/>
+        <ellipse cx="180" cy="100" rx="105" ry="16" fill="#7AEFA8" opacity="0.7"/>
+        <!-- Recycle symbol -->
+        <g transform="translate(180,210)">
+          <path d="M-30 -25 L-15 -8 L-25 -8 Q-25 5 -10 12 L-5 5 L-2 18 L-15 16 L-10 9 Q-32 0 -32 -10 Z" fill="white" opacity="0.85"/>
+          <path d="M30 -25 L15 -8 L25 -8 Q25 5 10 12 L5 5 L2 18 L15 16 L10 9 Q32 0 32 -10 Z" fill="white" opacity="0.85" transform="rotate(120)"/>
+          <path d="M0 30 L-8 18 L-3 18 Q-3 8 5 5 L8 12 L18 5 L13 18 L8 13 Q-15 25 0 38 Z" fill="white" opacity="0.85" transform="rotate(240)"/>
+        </g>
+        <!-- Bottle floating -->
+        <g transform="translate(265,55) rotate(20)">
+          <rect x="-18" y="-50" width="36" height="80" rx="14" fill="url(#bottle-light)"/>
+          <rect x="-8" y="-65" width="16" height="20" rx="4" fill="#86B5D6"/>
+          <ellipse cx="-8" cy="-40" rx="4" ry="14" fill="white" opacity="0.7"/>
+        </g>
+        <!-- Leaf -->
+        <g transform="translate(80,75) rotate(-25)">
+          <path d="M0 0 Q20 -25 40 -10 Q35 15 0 0 Z" fill="url(#leaf-light)"/>
+          <path d="M5 -3 Q20 -15 35 -10" stroke="#1A8A4C" stroke-width="1.5" fill="none" opacity="0.5"/>
+        </g>
+        <!-- Sparkles -->
+        <circle cx="50" cy="180" r="4" fill="#E8B340"/>
+        <circle cx="320" cy="220" r="5" fill="#52E08D" opacity="0.6"/>
+        <circle cx="40" cy="40" r="3" fill="#FFD9C2"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 01 PALETTE -->
+<section id="palette" class="scroll-mt mb-24">
+  <div class="flex items-baseline gap-4 mb-10">
+    <span class="font-mono text-[14px] text-tier-s">01</span>
+    <div>
+      <h2 class="font-display font-bold text-[40px] tracking-tight text-text-primary">Palette</h2>
+      <p class="text-text-secondary mt-2">Off-white base · Lime accent giữ DNA · Tier softened cho light mode · Clay pastels cho 3D backdrop.</p>
+    </div>
+  </div>
+
+  <!-- Foundation row -->
+  <h3 class="font-display font-semibold text-[20px] mb-5 text-text-primary">Foundation</h3>
+  <div class="grid grid-cols-4 gap-5 mb-12">
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-bg-base border border-border-subtle mb-4"></div>
+      <div class="font-display font-semibold text-[15px]">bg-base</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#FAFAF7</div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-bg-elevated border border-border-subtle mb-4"></div>
+      <div class="font-display font-semibold text-[15px]">bg-elevated</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#FFFFFF</div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-bg-surface mb-4"></div>
+      <div class="font-display font-semibold text-[15px]">bg-surface</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#F4F5F0</div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-bg-tinted mb-4"></div>
+      <div class="font-display font-semibold text-[15px]">bg-tinted</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#EEF7F0</div>
+    </div>
+  </div>
+
+  <!-- Brand greens -->
+  <h3 class="font-display font-semibold text-[20px] mb-5 text-text-primary">Brand · Lime keeps DNA</h3>
+  <div class="grid grid-cols-4 gap-5 mb-12">
+    <div class="bg-clay-mint rounded-3xl p-6 shadow-clay-sm">
+      <div class="h-24 rounded-2xl bg-lime-soft mb-4"></div>
+      <div class="font-display font-semibold text-[15px]">lime-soft</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#C7F2D6</div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-lime mb-4 shadow-clay-lime"></div>
+      <div class="font-display font-semibold text-[15px]">lime · primary</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#52E08D</div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-lime-deep mb-4"></div>
+      <div class="font-display font-semibold text-[15px] text-text-primary">lime-deep</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#2BB36A</div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-forest mb-4"></div>
+      <div class="font-display font-semibold text-[15px]">forest</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#0F3D26</div>
+    </div>
+  </div>
+
+  <!-- Tiers -->
+  <h3 class="font-display font-semibold text-[20px] mb-5 text-text-primary">Tier accents (softened cho light)</h3>
+  <div class="grid grid-cols-4 gap-5 mb-12">
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-tier-s mb-4 flex items-center justify-center text-white font-display font-extrabold text-3xl">S</div>
+      <div class="font-display font-semibold text-[15px]">tier-s · Standard</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#2BB36A</div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-tier-b mb-4 flex items-center justify-center text-text-primary font-display font-extrabold text-3xl">B</div>
+      <div class="font-display font-semibold text-[15px]">tier-b · Bulky</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#E8B340</div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-tier-c mb-4 flex items-center justify-center text-white font-display font-extrabold text-3xl">C</div>
+      <div class="font-display font-semibold text-[15px]">tier-c · Complex</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#E68A3F</div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl p-6 shadow-clay-sm border border-border-subtle">
+      <div class="h-24 rounded-2xl bg-tier-h mb-4 flex items-center justify-center text-white font-display font-extrabold text-3xl">H</div>
+      <div class="font-display font-semibold text-[15px]">tier-h · Hazardous</div>
+      <div class="font-mono text-[12px] text-text-tertiary">#D14B3B</div>
+    </div>
+  </div>
+
+  <!-- Clay pastel layer -->
+  <h3 class="font-display font-semibold text-[20px] mb-5 text-text-primary">Clay pastels — 3D backdrop layer</h3>
+  <div class="grid grid-cols-6 gap-4">
+    <div class="bg-clay-mint rounded-2xl h-28 flex items-end p-3"><span class="font-mono text-[11px] text-text-secondary">mint</span></div>
+    <div class="bg-clay-butter rounded-2xl h-28 flex items-end p-3"><span class="font-mono text-[11px] text-text-secondary">butter</span></div>
+    <div class="bg-clay-peach rounded-2xl h-28 flex items-end p-3"><span class="font-mono text-[11px] text-text-secondary">peach</span></div>
+    <div class="bg-clay-blush rounded-2xl h-28 flex items-end p-3"><span class="font-mono text-[11px] text-text-secondary">blush</span></div>
+    <div class="bg-clay-sky rounded-2xl h-28 flex items-end p-3"><span class="font-mono text-[11px] text-text-secondary">sky</span></div>
+    <div class="bg-clay-lavender rounded-2xl h-28 flex items-end p-3"><span class="font-mono text-[11px] text-text-secondary">lavender</span></div>
+  </div>
+</section>
+
+<!-- 02 TYPOGRAPHY -->
+<section id="typography" class="scroll-mt mb-24">
+  <div class="flex items-baseline gap-4 mb-10">
+    <span class="font-mono text-[14px] text-tier-s">02</span>
+    <div>
+      <h2 class="font-display font-bold text-[40px] tracking-tight">Typography</h2>
+      <p class="text-text-secondary mt-2">Plus Jakarta Sans display · Inter body · JetBrains Mono numerals.</p>
+    </div>
+  </div>
+  <div class="bg-bg-elevated rounded-3xl border border-border-subtle p-10 shadow-clay-sm space-y-7">
+    <div class="grid grid-cols-[180px_1fr] items-baseline gap-6">
+      <span class="font-mono text-[12px] text-text-tertiary">display-xl · 96/100</span>
+      <span class="font-display font-extrabold text-[96px] leading-none tracking-tight">Aa Re-loop</span>
+    </div>
+    <div class="grid grid-cols-[180px_1fr] items-baseline gap-6">
+      <span class="font-mono text-[12px] text-text-tertiary">display-l · 72/76</span>
+      <span class="font-display font-extrabold text-[72px] leading-tight tracking-tight">Bán rác. Nhận tiền.</span>
+    </div>
+    <div class="grid grid-cols-[180px_1fr] items-baseline gap-6">
+      <span class="font-mono text-[12px] text-text-tertiary">h1 · 40/48</span>
+      <span class="font-display font-bold text-[40px] leading-tight">Chào Linh, hôm nay bạn bán gì?</span>
+    </div>
+    <div class="grid grid-cols-[180px_1fr] items-baseline gap-6">
+      <span class="font-mono text-[12px] text-text-tertiary">h2 · 32/40</span>
+      <span class="font-display font-bold text-[32px]">Đơn của tôi (6)</span>
+    </div>
+    <div class="grid grid-cols-[180px_1fr] items-baseline gap-6">
+      <span class="font-mono text-[12px] text-text-tertiary">h3 · 24/32</span>
+      <span class="font-display font-semibold text-[24px]">Đang chờ verify</span>
+    </div>
+    <div class="grid grid-cols-[180px_1fr] items-baseline gap-6">
+      <span class="font-mono text-[12px] text-text-tertiary">body-lg · 18/28</span>
+      <span class="font-body text-[18px]">Tạm ứng + chốt sau Hub rã xác trong 24-48h.</span>
+    </div>
+    <div class="grid grid-cols-[180px_1fr] items-baseline gap-6">
+      <span class="font-mono text-[12px] text-text-tertiary">body-md · 16/24</span>
+      <span class="font-body text-[16px]">Cảm ơn bạn đã đặt đơn — Anh Tuấn sẽ đến trong 25 phút.</span>
+    </div>
+    <div class="grid grid-cols-[180px_1fr] items-baseline gap-6">
+      <span class="font-mono text-[12px] text-text-tertiary">mono-md · 16/24</span>
+      <span class="font-mono text-[16px] text-lime-deep font-medium">213.700đ · RL-2026-001236</span>
+    </div>
+    <div class="grid grid-cols-[180px_1fr] items-baseline gap-6">
+      <span class="font-mono text-[12px] text-text-tertiary">eyebrow · 12 +12%</span>
+      <span class="font-body uppercase text-[12px] tracking-[0.12em] font-semibold text-tier-s">SUB-STEP 3 / 6</span>
+    </div>
+  </div>
+</section>
+
+<!-- 03 COMPONENTS -->
+<section id="components" class="scroll-mt mb-24">
+  <div class="flex items-baseline gap-4 mb-10">
+    <span class="font-mono text-[14px] text-tier-s">03</span>
+    <div>
+      <h2 class="font-display font-bold text-[40px] tracking-tight">Components</h2>
+      <p class="text-text-secondary mt-2">Claymorphism — bo tròn 16-32px, soft shadows, pastel accents, no harsh borders.</p>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <h3 class="font-display font-semibold text-[20px] mb-5">Buttons</h3>
+  <div class="bg-bg-elevated rounded-3xl border border-border-subtle p-10 shadow-clay-sm mb-8">
+    <div class="flex flex-wrap items-center gap-4">
+      <button class="bg-lime text-text-on-lime px-7 py-3.5 rounded-2xl font-semibold shadow-clay-lime hover:translate-y-[-2px] active:translate-y-0 transition">+ Đặt lịch thu gom</button>
+      <button class="bg-text-primary text-white px-7 py-3.5 rounded-2xl font-semibold shadow-clay hover:bg-forest transition">Xác nhận</button>
+      <button class="bg-bg-elevated text-text-primary px-7 py-3.5 rounded-2xl font-semibold border border-border-default shadow-clay-sm hover:shadow-clay transition">Để sau</button>
+      <button class="bg-clay-mint text-tier-s px-7 py-3.5 rounded-2xl font-semibold shadow-clay-sm">Trust Score 65</button>
+      <button class="bg-tier-c text-white px-7 py-3.5 rounded-2xl font-semibold shadow-clay">Tier C</button>
+      <button class="text-text-secondary px-5 py-3 rounded-2xl font-medium hover:bg-bg-surface transition">Hủy</button>
+      <button class="w-12 h-12 rounded-2xl bg-bg-elevated border border-border-default shadow-clay-sm flex items-center justify-center hover:shadow-clay transition">
+        <span class="material-symbols-rounded text-text-primary">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Cards -->
+  <h3 class="font-display font-semibold text-[20px] mb-5">Clay cards</h3>
+  <div class="grid grid-cols-3 gap-6 mb-8">
+    <!-- Balance card -->
+    <div class="bg-bg-elevated rounded-[28px] p-7 shadow-clay border border-border-subtle">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-mono text-[12px] text-text-tertiary uppercase tracking-wider">ZaloPay</span>
+        <div class="w-10 h-10 rounded-2xl bg-clay-sky flex items-center justify-center shadow-inset-soft">
+          <span class="material-symbols-rounded text-info text-[20px]">account_balance_wallet</span>
+        </div>
+      </div>
+      <div class="font-mono font-medium text-[36px] text-text-primary leading-none mb-1">528.400<span class="text-[20px] text-text-tertiary">đ</span></div>
+      <div class="text-[13px] text-text-tertiary">Khả dụng · cập nhật 14:32</div>
+    </div>
+    <!-- Hold card -->
+    <div class="bg-clay-butter rounded-[28px] p-7 shadow-clay border border-tier-b/20">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-mono text-[12px] text-text-secondary uppercase tracking-wider">Hold ví ảo</span>
+        <div class="w-10 h-10 rounded-2xl bg-bg-elevated/70 flex items-center justify-center shadow-inset-soft">
+          <span class="material-symbols-rounded text-tier-b text-[20px]">hourglass_top</span>
+        </div>
+      </div>
+      <div class="font-mono font-medium text-[36px] text-text-primary leading-none mb-1">60.000<span class="text-[20px] text-text-secondary">đ</span></div>
+      <div class="text-[13px] text-text-secondary">1 đơn Tier C đang verify · 8h còn</div>
+    </div>
+    <!-- Trust gauge mini -->
+    <div class="bg-bg-elevated rounded-[28px] p-7 shadow-clay border border-border-subtle">
+      <div class="flex items-center justify-between mb-2">
+        <span class="font-mono text-[12px] text-text-tertiary uppercase tracking-wider">Trust Score</span>
+        <span class="px-2.5 py-1 rounded-full bg-clay-butter text-[#7A5410] border border-[#B8841A]/50 font-mono text-[11px] font-semibold">Đang tích lũy</span>
+      </div>
+      <div class="font-display font-extrabold text-[48px] text-text-primary leading-none mb-3">65<span class="text-[18px] text-text-tertiary">/100</span></div>
+      <div class="h-2 bg-bg-surface rounded-full overflow-hidden flex">
+        <div class="h-full bg-tier-h w-[20%]"></div>
+        <div class="h-full bg-tier-b w-[45%]"></div>
+        <div class="h-full bg-tier-s w-[35%]"></div>
+      </div>
+      <div class="flex justify-between font-mono text-[10px] text-text-tertiary mt-1.5">
+        <span>0</span><span class="font-semibold text-text-primary">▼ 65</span><span>100</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order row -->
+  <h3 class="font-display font-semibold text-[20px] mb-5">Order list row</h3>
+  <div class="bg-bg-elevated rounded-3xl border border-border-subtle shadow-clay-sm overflow-hidden mb-8 divide-y divide-border-subtle">
+    <div class="flex items-center gap-5 p-5 hover:bg-bg-surface transition">
+      <div class="w-14 h-14 rounded-2xl bg-clay-mint flex items-center justify-center shadow-inset-soft shrink-0">
+        <span class="material-symbols-rounded text-tier-s text-[28px]">water_bottle</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-display font-semibold text-[16px]">Chai PET 3.2kg</span>
+          <span class="px-2 py-0.5 rounded-full bg-tier-s text-white text-[10px] font-mono font-semibold">S</span>
+        </div>
+        <div class="font-mono text-[12px] text-text-tertiary">RL-2026-001234 · 08/05/2026</div>
+      </div>
+      <div class="text-right">
+        <div class="font-mono font-semibold text-[18px] text-text-primary">38.400đ</div>
+        <span class="text-[12px] text-tier-s font-medium">✓ Hoàn tất</span>
+      </div>
+      <span class="material-symbols-rounded text-text-tertiary">chevron_right</span>
+    </div>
+    <div class="flex items-center gap-5 p-5 hover:bg-bg-surface transition">
+      <div class="w-14 h-14 rounded-2xl bg-clay-peach flex items-center justify-center shadow-inset-soft shrink-0">
+        <span class="material-symbols-rounded text-tier-c text-[28px]">memory</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-display font-semibold text-[16px]">Mainboard PC 1.0kg</span>
+          <span class="px-2 py-0.5 rounded-full bg-tier-c text-white text-[10px] font-mono font-semibold">C</span>
+        </div>
+        <div class="font-mono text-[12px] text-text-tertiary">RL-2026-001240 · 08/05/2026</div>
+      </div>
+      <div class="text-right">
+        <div class="font-mono font-semibold text-[18px] text-text-primary">~50.000đ</div>
+        <span class="text-[12px] text-tier-b font-medium">⏳ Đang verify</span>
+      </div>
+      <span class="material-symbols-rounded text-text-tertiary">chevron_right</span>
+    </div>
+  </div>
+
+  <!-- Status chips -->
+  <h3 class="font-display font-semibold text-[20px] mb-5">Status chips</h3>
+  <div class="bg-bg-elevated rounded-3xl border border-border-subtle p-8 shadow-clay-sm mb-8">
+    <div class="flex flex-wrap gap-3">
+      <span class="px-3.5 py-1.5 rounded-full bg-clay-mint text-tier-s border-2 border-tier-s/50 font-mono text-[12px] font-semibold flex items-center gap-1.5">✓ COMPLETED</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-clay-butter text-[#7A5410] border-2 border-[#B8841A]/60 font-mono text-[12px] font-semibold flex items-center gap-1.5">⏳ PENDING_VERIFY</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-clay-sky text-info border-2 border-info/50 font-mono text-[12px] font-semibold flex items-center gap-1.5">🛵 IN_TRANSIT</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-clay-butter text-[#7A5410] border-2 border-[#B8841A]/60 font-mono text-[12px] font-semibold flex items-center gap-1.5">🔒 HOLD</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-clay-mint text-tier-s border-2 border-tier-s/50 font-mono text-[12px] font-semibold flex items-center gap-1.5">✓ VERIFIED</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-lime text-text-on-lime border-2 border-lime-deep font-mono text-[12px] font-semibold flex items-center gap-1.5">💚 SETTLED</span>
+      <span class="px-3.5 py-1.5 rounded-full bg-clay-blush text-tier-h border-2 border-tier-h/50 font-mono text-[12px] font-semibold flex items-center gap-1.5">✕ CANCELLED</span>
+    </div>
+  </div>
+
+  <!-- Form input -->
+  <h3 class="font-display font-semibold text-[20px] mb-5">Inputs · OTP · Slot picker</h3>
+  <div class="grid grid-cols-2 gap-6">
+    <div class="bg-bg-elevated rounded-3xl border border-border-subtle p-7 shadow-clay-sm">
+      <label class="font-mono text-[12px] text-text-tertiary uppercase tracking-wider">Số điện thoại</label>
+      <div class="mt-2 flex items-center gap-3 bg-bg-surface rounded-2xl px-4 py-3.5 border border-border-default focus-within:border-lime-deep focus-within:ring-4 focus-within:ring-lime/20 transition">
+        <span class="material-symbols-rounded text-text-tertiary">phone</span>
+        <input type="tel" value="0901 234 567" class="flex-1 bg-transparent outline-none font-mono text-[16px] text-text-primary"/>
+        <span class="material-symbols-rounded text-tier-s">check_circle</span>
+      </div>
+      <div class="mt-6">
+        <label class="font-mono text-[12px] text-text-tertiary uppercase tracking-wider">OTP</label>
+        <div class="mt-2 flex gap-2.5">
+          <input value="1" class="w-12 h-14 rounded-2xl bg-clay-mint text-center font-mono font-semibold text-[22px] text-text-primary border-2 border-tier-s outline-none"/>
+          <input value="2" class="w-12 h-14 rounded-2xl bg-clay-mint text-center font-mono font-semibold text-[22px] text-text-primary border-2 border-tier-s outline-none"/>
+          <input value="3" class="w-12 h-14 rounded-2xl bg-clay-mint text-center font-mono font-semibold text-[22px] text-text-primary border-2 border-tier-s outline-none"/>
+          <input value="4" class="w-12 h-14 rounded-2xl bg-clay-mint text-center font-mono font-semibold text-[22px] text-text-primary border-2 border-tier-s outline-none"/>
+          <input value="5" class="w-12 h-14 rounded-2xl bg-clay-mint text-center font-mono font-semibold text-[22px] text-text-primary border-2 border-tier-s outline-none"/>
+          <input value="6" class="w-12 h-14 rounded-2xl bg-clay-mint text-center font-mono font-semibold text-[22px] text-text-primary border-2 border-tier-s outline-none"/>
+        </div>
+      </div>
+    </div>
+    <div class="bg-bg-elevated rounded-3xl border border-border-subtle p-7 shadow-clay-sm">
+      <label class="font-mono text-[12px] text-text-tertiary uppercase tracking-wider">Chọn khung giờ</label>
+      <div class="mt-3 grid grid-cols-2 gap-3">
+        <button class="px-4 py-3.5 rounded-2xl border-2 border-border-subtle bg-bg-surface text-left hover:border-lime-deep transition">
+          <div class="text-[12px] text-text-tertiary">Sáng nay</div>
+          <div class="font-mono font-semibold text-text-primary">9:00 — 11:00</div>
+        </button>
+        <button class="px-4 py-3.5 rounded-2xl border-2 border-tier-s bg-clay-mint text-left ring-4 ring-lime/20">
+          <div class="text-[12px] text-tier-s">Chiều nay (đã chọn)</div>
+          <div class="font-mono font-semibold text-text-primary">14:00 — 16:00</div>
+        </button>
+        <button class="px-4 py-3.5 rounded-2xl border-2 border-border-subtle bg-bg-surface text-left hover:border-lime-deep transition">
+          <div class="text-[12px] text-text-tertiary">Mai sáng</div>
+          <div class="font-mono font-semibold text-text-primary">8:00 — 10:00</div>
+        </button>
+        <button class="px-4 py-3.5 rounded-2xl border-2 border-border-subtle bg-bg-surface text-left hover:border-lime-deep transition">
+          <div class="text-[12px] text-text-tertiary">Mai chiều</div>
+          <div class="font-mono font-semibold text-text-primary">13:00 — 15:00</div>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ILLUSTRATIONS -->
+<section id="illustrations" class="scroll-mt mb-24">
+  <div class="flex items-baseline gap-4 mb-10">
+    <span class="font-mono text-[14px] text-tier-s">04</span>
+    <div>
+      <h2 class="font-display font-bold text-[40px] tracking-tight">3D Clay illustrations</h2>
+      <p class="text-text-secondary mt-2">Đất sét bo tròn, gradient mềm. Dùng cho hero, empty state, education modal, milestone celebration.</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-6">
+    <!-- Bin (re-use) -->
+    <div class="bg-clay-mint rounded-[28px] p-8 shadow-clay aspect-square flex flex-col items-center justify-center">
+      <svg viewBox="0 0 240 240" class="w-40 drop-shadow-[0_15px_15px_rgba(15,31,24,0.10)]">
+        <ellipse cx="120" cy="220" rx="80" ry="8" fill="#0F1F18" opacity="0.10"/>
+        <path d="M55 90 Q55 75 70 75 L170 75 Q185 75 185 90 L175 205 Q173 220 158 220 L82 220 Q67 220 65 205 Z" fill="#52E08D"/>
+        <ellipse cx="120" cy="78" rx="72" ry="14" fill="#2BB36A"/>
+        <ellipse cx="120" cy="73" rx="72" ry="14" fill="#52E08D"/>
+        <ellipse cx="120" cy="69" rx="65" ry="10" fill="#7AEFA8" opacity="0.7"/>
+        <text x="120" y="160" text-anchor="middle" font-size="60" fill="white" opacity="0.85">♻</text>
+      </svg>
+      <div class="font-display font-semibold mt-4 text-text-primary">Recycle bin</div>
+      <div class="font-mono text-[12px] text-text-tertiary">hero · empty state</div>
+    </div>
+
+    <!-- Money/coin stack -->
+    <div class="bg-clay-butter rounded-[28px] p-8 shadow-clay aspect-square flex flex-col items-center justify-center">
+      <svg viewBox="0 0 240 240" class="w-40 drop-shadow-[0_15px_15px_rgba(15,31,24,0.10)]">
+        <ellipse cx="120" cy="225" rx="75" ry="8" fill="#0F1F18" opacity="0.10"/>
+        <ellipse cx="120" cy="180" rx="70" ry="20" fill="#C99820"/>
+        <ellipse cx="120" cy="173" rx="70" ry="20" fill="#E8B340"/>
+        <ellipse cx="120" cy="167" rx="64" ry="14" fill="#FFE9B3"/>
+        <ellipse cx="120" cy="135" rx="70" ry="20" fill="#C99820"/>
+        <ellipse cx="120" cy="128" rx="70" ry="20" fill="#E8B340"/>
+        <ellipse cx="120" cy="122" rx="64" ry="14" fill="#FFE9B3"/>
+        <ellipse cx="120" cy="90" rx="70" ry="20" fill="#C99820"/>
+        <ellipse cx="120" cy="83" rx="70" ry="20" fill="#E8B340"/>
+        <ellipse cx="120" cy="77" rx="64" ry="14" fill="#FFE9B3"/>
+        <text x="120" y="88" text-anchor="middle" font-size="32" font-weight="800" fill="#8B6D14">đ</text>
+      </svg>
+      <div class="font-display font-semibold mt-4 text-text-primary">Coin stack</div>
+      <div class="font-mono text-[12px] text-text-tertiary">wallet · GP</div>
+    </div>
+
+    <!-- Truck/Collector -->
+    <div class="bg-clay-sky rounded-[28px] p-8 shadow-clay aspect-square flex flex-col items-center justify-center">
+      <svg viewBox="0 0 240 240" class="w-44 drop-shadow-[0_15px_15px_rgba(15,31,24,0.10)]">
+        <ellipse cx="120" cy="200" rx="100" ry="8" fill="#0F1F18" opacity="0.10"/>
+        <!-- truck body -->
+        <rect x="40" y="100" width="120" height="70" rx="14" fill="#3B8DD1"/>
+        <rect x="42" y="102" width="60" height="66" rx="10" fill="#5BA5DD" opacity="0.6"/>
+        <!-- cabin -->
+        <path d="M155 110 L200 110 Q210 110 210 120 L210 170 L155 170 Z" fill="#86B5D6"/>
+        <rect x="165" y="120" width="35" height="25" rx="6" fill="#CFE6F5"/>
+        <!-- wheels -->
+        <circle cx="75" cy="180" r="20" fill="#1F2A28"/>
+        <circle cx="75" cy="180" r="10" fill="#525C5A"/>
+        <circle cx="180" cy="180" r="20" fill="#1F2A28"/>
+        <circle cx="180" cy="180" r="10" fill="#525C5A"/>
+        <!-- recycle on side -->
+        <text x="100" y="148" text-anchor="middle" font-size="36" fill="white">♻</text>
+      </svg>
+      <div class="font-display font-semibold mt-4 text-text-primary">Collector truck</div>
+      <div class="font-mono text-[12px] text-text-tertiary">tracking · ETA</div>
+    </div>
+
+    <!-- Tree growing (Trust Score) -->
+    <div class="bg-clay-mint rounded-[28px] p-8 shadow-clay aspect-square flex flex-col items-center justify-center">
+      <svg viewBox="0 0 240 240" class="w-40 drop-shadow-[0_15px_15px_rgba(15,31,24,0.10)]">
+        <ellipse cx="120" cy="215" rx="60" ry="6" fill="#0F1F18" opacity="0.10"/>
+        <!-- trunk -->
+        <rect x="113" y="160" width="14" height="55" rx="4" fill="#8B6D14"/>
+        <!-- foliage -->
+        <circle cx="80" cy="130" r="38" fill="#52E08D"/>
+        <circle cx="160" cy="130" r="38" fill="#52E08D"/>
+        <circle cx="120" cy="100" r="48" fill="#7AEFA8"/>
+        <circle cx="105" cy="115" r="32" fill="#A0F2BD" opacity="0.7"/>
+        <circle cx="138" cy="135" r="28" fill="#A0F2BD" opacity="0.7"/>
+        <!-- sparkles -->
+        <circle cx="50" cy="80" r="3" fill="#E8B340"/>
+        <circle cx="190" cy="100" r="4" fill="#E8B340"/>
+        <circle cx="200" cy="160" r="3" fill="#52E08D"/>
+      </svg>
+      <div class="font-display font-semibold mt-4 text-text-primary">Growing tree</div>
+      <div class="font-mono text-[12px] text-text-tertiary">"Xanh nhà em" · Trust gauge</div>
+    </div>
+
+    <!-- Box/Package -->
+    <div class="bg-clay-peach rounded-[28px] p-8 shadow-clay aspect-square flex flex-col items-center justify-center">
+      <svg viewBox="0 0 240 240" class="w-40 drop-shadow-[0_15px_15px_rgba(15,31,24,0.10)]">
+        <ellipse cx="120" cy="215" rx="75" ry="7" fill="#0F1F18" opacity="0.10"/>
+        <!-- box -->
+        <path d="M55 95 L120 65 L185 95 L120 130 Z" fill="#E8B340"/>
+        <path d="M55 95 L55 175 L120 210 L120 130 Z" fill="#C99820"/>
+        <path d="M185 95 L185 175 L120 210 L120 130 Z" fill="#FFE9B3"/>
+        <!-- tape -->
+        <path d="M55 95 L120 65 L185 95 L120 130 Z" fill="none" stroke="#E68A3F" stroke-width="3"/>
+        <line x1="120" y1="65" x2="120" y2="210" stroke="#E68A3F" stroke-width="3"/>
+        <!-- label -->
+        <rect x="100" y="105" width="40" height="15" fill="white" opacity="0.85"/>
+      </svg>
+      <div class="font-display font-semibold mt-4 text-text-primary">Package</div>
+      <div class="font-mono text-[12px] text-text-tertiary">order · Tier B/C</div>
+    </div>
+
+    <!-- Phone/OTP -->
+    <div class="bg-clay-lavender rounded-[28px] p-8 shadow-clay aspect-square flex flex-col items-center justify-center">
+      <svg viewBox="0 0 240 240" class="w-32 drop-shadow-[0_15px_15px_rgba(15,31,24,0.10)]">
+        <ellipse cx="120" cy="225" rx="55" ry="6" fill="#0F1F18" opacity="0.10"/>
+        <rect x="65" y="30" width="110" height="190" rx="22" fill="#2A2D33"/>
+        <rect x="73" y="48" width="94" height="160" rx="6" fill="#FAFAF7"/>
+        <!-- OTP digits -->
+        <g font-family="JetBrains Mono" font-weight="700">
+          <rect x="82" y="100" width="22" height="30" rx="6" fill="#C7F2D6"/>
+          <text x="93" y="123" text-anchor="middle" font-size="20" fill="#2BB36A">1</text>
+          <rect x="108" y="100" width="22" height="30" rx="6" fill="#C7F2D6"/>
+          <text x="119" y="123" text-anchor="middle" font-size="20" fill="#2BB36A">2</text>
+          <rect x="134" y="100" width="22" height="30" rx="6" fill="#C7F2D6"/>
+          <text x="145" y="123" text-anchor="middle" font-size="20" fill="#2BB36A">3</text>
+        </g>
+        <text x="120" y="160" text-anchor="middle" font-size="11" fill="#7C8A82">Mã OTP RE-LOOP</text>
+        <!-- ring -->
+        <circle cx="200" cy="55" r="20" fill="#52E08D" opacity="0.3"/>
+        <circle cx="200" cy="55" r="12" fill="#52E08D"/>
+        <text x="200" y="61" text-anchor="middle" font-size="14" fill="white">📱</text>
+      </svg>
+      <div class="font-display font-semibold mt-4 text-text-primary">OTP phone</div>
+      <div class="font-mono text-[12px] text-text-tertiary">sign-off · auth</div>
+    </div>
+  </div>
+
+  <p class="mt-6 text-[13px] text-text-tertiary font-mono">Lưu ý: 6 illustration trên là SVG inline (~3KB mỗi cái) tự draw để demo style. Production sẽ replace bằng PNG 3D từ Storyset/3dicons (download asset chính chủ, ~80KB mỗi cái, chất lượng raster cao hơn).</p>
+</section>
+
+<!-- 05 GOOGLE MAP -->
+<section id="map" class="scroll-mt mb-24">
+  <div class="flex items-baseline gap-4 mb-10">
+    <span class="font-mono text-[14px] text-tier-s">05</span>
+    <div>
+      <h2 class="font-display font-bold text-[40px] tracking-tight">Google Maps tracking</h2>
+      <p class="text-text-secondary mt-2">Giao diện Google Maps thật cho tracking. Production: dùng Maps JavaScript API. Design preview: SVG mock theo brand color Google chuẩn.</p>
+    </div>
+  </div>
+
+  <!-- Map preview -->
+  <div class="bg-bg-elevated rounded-[28px] border border-border-subtle shadow-clay overflow-hidden">
+    <div class="grid grid-cols-[1fr_360px] items-stretch min-h-[560px]">
+      <!-- Map area — stretches with grid row, image always covers fully -->
+      <div class="relative overflow-hidden" style="font-family: Roboto, Arial, sans-serif;">
+        <!-- Real Google Maps tile imagery (provided by user). Production: replace <img> với Maps JS API div -->
+        <img src="map-bg.png" alt="Google Maps" class="absolute inset-0 w-full h-full object-cover object-center"/>
+        <!-- Route polyline overlay (smooth bezier through Hub → Collector → User) -->
+        <svg viewBox="0 0 800 520" preserveAspectRatio="none" class="absolute inset-0 w-full h-full pointer-events-none">
+          <!-- White outer halo for legibility -->
+          <path d="M80 400 C 140 392, 200 360, 250 335 S 360 285, 400 260"
+                stroke="white" stroke-width="11" fill="none" stroke-linecap="round" opacity="0.85"/>
+          <path d="M400 260 C 445 248, 490 215, 525 195 S 555 175, 560 166"
+                stroke="white" stroke-width="11" fill="none" stroke-linecap="round" opacity="0.85"/>
+          <!-- Solid done segment Hub → Collector -->
+          <path d="M80 400 C 140 392, 200 360, 250 335 S 360 285, 400 260"
+                stroke="#1A73E8" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <!-- Dashed remaining Collector → User -->
+          <path d="M400 260 C 445 248, 490 215, 525 195 S 555 175, 560 166"
+                stroke="#1A73E8" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="11 8" opacity="0.85"/>
+        </svg>
+
+        <!-- Pins (HTML overlay on real Google Maps imagery) -->
+        <!-- Hub origin pin (Long Phước area) -->
+        <div class="absolute" style="left:10%;top:77%;transform:translate(-50%,-100%);">
+          <div class="flex flex-col items-center">
+            <div class="px-2.5 py-1 bg-[#0F3D26] rounded-md text-white text-[10px] font-bold mb-1 whitespace-nowrap" style="box-shadow: 0 2px 4px rgba(0,0,0,.2);">HUB</div>
+            <div class="w-7 h-7 rounded-full bg-[#0F3D26] border-[3px] border-white flex items-center justify-center" style="box-shadow: 0 3px 6px rgba(0,0,0,.25);">
+              <div class="w-2 h-2 rounded-full bg-white"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Collector pin (current position — Châu Đức area mid-route) -->
+        <div class="absolute" style="left:50%;top:50%;transform:translate(-50%,-50%);">
+          <div class="relative">
+            <div class="absolute inset-0 w-12 h-12 -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 rounded-full bg-[#1A73E8] opacity-25 animate-pulse"></div>
+            <div class="relative w-9 h-9 rounded-full bg-[#1A73E8] border-[3px] border-white flex items-center justify-center" style="box-shadow: 0 3px 8px rgba(26,115,232,.4);">
+              <span class="material-symbols-rounded text-white" style="font-size:18px;font-variation-settings:'FILL' 1;">two_wheeler</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- User home pin (upper right — Xuân Đường area) -->
+        <div class="absolute" style="left:70%;top:32%;transform:translate(-50%,-100%);">
+          <div class="relative" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,.25));">
+            <svg width="38" height="48" viewBox="0 0 38 48">
+              <path d="M19 0 C8.5 0 0 8.5 0 19 C0 33.25 19 48 19 48 C19 48 38 33.25 38 19 C38 8.5 29.5 0 19 0 Z" fill="#52E08D" stroke="#0F3D26" stroke-width="2"/>
+              <circle cx="19" cy="19" r="9" fill="#0F3D26"/>
+            </svg>
+            <span class="absolute inset-0 flex items-start justify-center pt-[10px] material-symbols-rounded text-[#52E08D]" style="font-size:16px;font-variation-settings:'FILL' 1;">home</span>
+          </div>
+        </div>
+
+        <!-- Bottom-right zoom controls -->
+        <div class="absolute bottom-4 right-4 flex flex-col bg-white rounded-2xl shadow-clay overflow-hidden">
+          <button class="w-11 h-11 flex items-center justify-center text-text-primary hover:bg-bg-surface border-b border-border-subtle">
+            <span class="material-symbols-rounded">add</span>
+          </button>
+          <button class="w-11 h-11 flex items-center justify-center text-text-primary hover:bg-bg-surface">
+            <span class="material-symbols-rounded">remove</span>
+          </button>
+        </div>
+
+        <!-- Google attribution -->
+        <div class="absolute bottom-2 left-3 text-[11px] text-[#5A5A5A] font-medium">
+          Map data ©2026 Google · <a href="#" class="underline">Terms</a>
+        </div>
+      </div>
+
+      <!-- Right side panel: Collector info -->
+      <div class="bg-bg-elevated p-7 flex flex-col">
+        <div class="font-mono text-[11px] text-text-tertiary uppercase tracking-wider mb-2">ETA · cập nhật mỗi 30s</div>
+        <div class="font-display font-extrabold text-[64px] leading-none text-text-primary tabular-nums">12<span class="text-tier-s">:</span>43</div>
+        <div class="text-[13px] text-text-tertiary mt-1 mb-6">Anh Tuấn đang ở Lê Văn Lương · 28 km/h</div>
+
+        <!-- Collector card -->
+        <div class="bg-bg-surface rounded-2xl p-5 shadow-inset-soft mb-5">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-clay-sky to-info flex items-center justify-center text-white font-display font-extrabold text-xl shadow-clay-sm">T</div>
+            <div class="flex-1">
+              <div class="font-display font-semibold text-[16px]">Anh Tuấn</div>
+              <div class="font-mono text-[12px] text-text-tertiary">Tier 1 · 🛵 51A-12345</div>
+              <div class="flex items-center gap-1 mt-1">
+                <span class="text-tier-b text-[12px]">★★★★★</span>
+                <span class="font-mono text-[11px] text-text-tertiary">4.8 · 87 đơn</span>
+              </div>
+            </div>
+            <button class="w-11 h-11 rounded-2xl bg-tier-s text-white flex items-center justify-center shadow-clay-sm">
+              <span class="material-symbols-rounded">call</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cluster info -->
+        <div class="bg-clay-butter rounded-2xl p-4 mb-5">
+          <div class="font-mono text-[11px] text-tier-b uppercase tracking-wider mb-1">Cụm 3 đơn</div>
+          <div class="text-[13px] text-text-primary">Anh Tuấn đang ở đơn <strong>2/3</strong> — bạn là đơn cuối cùng.</div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="space-y-3 flex-1">
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-full bg-tier-s flex items-center justify-center text-white text-[14px]">✓</div>
+            <span class="font-mono text-[13px] text-text-primary">Đã đặt đơn</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-full bg-tier-s flex items-center justify-center text-white text-[14px]">✓</div>
+            <span class="font-mono text-[13px] text-text-primary">Anh Tuấn nhận</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-full bg-info flex items-center justify-center text-white text-[14px] animate-pulse">🛵</div>
+            <span class="font-mono text-[13px] text-text-primary font-semibold">Đang trên đường</span>
+          </div>
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-7 h-7 rounded-full bg-bg-surface border-2 border-border-default flex items-center justify-center text-text-tertiary">4</div>
+            <span class="font-mono text-[13px]">Đến nhà</span>
+          </div>
+        </div>
+
+        <button class="bg-lime text-text-on-lime py-3.5 rounded-2xl font-semibold shadow-clay-lime mt-4">
+          Anh Tuấn đã đến
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <p class="mt-4 text-[13px] text-text-tertiary font-mono">Production: Maps JavaScript API + Polyline + Marker custom (key sẽ cấu hình env). Demo Figma + dev local: SVG mock như trên — đủ visual fidelity cho stakeholder review.</p>
+</section>
+
+<!-- 06 SCREENS PREVIEW -->
+<section id="screens" class="scroll-mt mb-24">
+  <div class="flex items-baseline gap-4 mb-10">
+    <span class="font-mono text-[14px] text-tier-s">06</span>
+    <div>
+      <h2 class="font-display font-bold text-[40px] tracking-tight">Screens preview (3 mẫu)</h2>
+      <p class="text-text-secondary mt-2">Áp dụng tokens + components mới vào 3 page chính. Phần còn lại sẽ rollout sau khi bạn approve.</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-3 gap-6">
+    <!-- Dashboard mock -->
+    <div class="bg-bg-elevated rounded-[28px] border border-border-subtle shadow-clay overflow-hidden">
+      <div class="bg-gradient-to-b from-clay-mint to-bg-elevated p-6">
+        <div class="font-mono text-[10px] text-text-tertiary mb-2">/ · DASHBOARD</div>
+        <div class="font-display font-extrabold text-[24px] leading-tight">Chào Linh 👋</div>
+        <div class="text-[12px] text-text-secondary mt-1">5 đơn · 1.240 GP</div>
+        <div class="mt-4 bg-bg-elevated rounded-2xl p-4 shadow-clay-sm">
+          <div class="font-mono text-[10px] text-text-tertiary">ZaloPay</div>
+          <div class="font-mono font-semibold text-[20px] text-tier-s">528.400đ</div>
+        </div>
+      </div>
+      <div class="p-5">
+        <button class="w-full bg-lime text-text-on-lime py-3 rounded-2xl font-semibold shadow-clay-lime text-[14px]">+ Đặt lịch thu gom</button>
+        <div class="mt-4 space-y-2">
+          <div class="flex items-center gap-2 text-[12px]">
+            <div class="w-8 h-8 rounded-xl bg-clay-mint flex items-center justify-center text-tier-s text-[14px]">♻</div>
+            <span class="flex-1">Chai PET 3.2kg</span>
+            <span class="font-mono text-tier-s font-semibold">38.400đ</span>
+          </div>
+          <div class="flex items-center gap-2 text-[12px]">
+            <div class="w-8 h-8 rounded-xl bg-clay-peach flex items-center justify-center text-tier-c text-[14px]">⚙</div>
+            <span class="flex-1">Mainboard PC</span>
+            <span class="font-mono text-tier-b font-semibold">~50.000đ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order/new mock -->
+    <div class="bg-bg-elevated rounded-[28px] border border-border-subtle shadow-clay overflow-hidden">
+      <div class="bg-clay-butter p-6">
+        <div class="font-mono text-[10px] text-text-tertiary mb-2">/orders/new · STEP 3/6</div>
+        <div class="font-display font-extrabold text-[24px] leading-tight">Giá CHẮC CHẮN</div>
+        <div class="text-[12px] text-text-secondary mt-1">Tier S · Chai PET 3.2kg</div>
+      </div>
+      <div class="p-6">
+        <div class="bg-clay-mint rounded-2xl p-5 text-center mb-4">
+          <div class="font-mono text-[11px] text-tier-s uppercase tracking-wider">Bạn nhận</div>
+          <div class="font-mono font-bold text-[40px] text-text-primary leading-none mt-1">38.400đ</div>
+        </div>
+        <div class="space-y-2 text-[12px] mb-5">
+          <div class="flex justify-between"><span class="text-text-tertiary">Bạn (75%)</span><span class="font-mono">28.800đ</span></div>
+          <div class="flex justify-between"><span class="text-text-tertiary">Hub (15%)</span><span class="font-mono">5.760đ</span></div>
+          <div class="flex justify-between"><span class="text-text-tertiary">RE-LOOP (10%)</span><span class="font-mono">3.840đ</span></div>
+        </div>
+        <button class="w-full bg-text-primary text-white py-3 rounded-2xl font-semibold shadow-clay text-[14px]">Tiếp tục →</button>
+      </div>
+    </div>
+
+    <!-- Wallet mock -->
+    <div class="bg-bg-elevated rounded-[28px] border border-border-subtle shadow-clay overflow-hidden">
+      <div class="bg-clay-sky p-6">
+        <div class="font-mono text-[10px] text-text-tertiary mb-2">/wallet · BALANCE</div>
+        <div class="font-display font-extrabold text-[24px] leading-tight">Ví của bạn</div>
+      </div>
+      <div class="p-5 space-y-3">
+        <div class="bg-bg-elevated border border-border-subtle rounded-2xl p-4 shadow-clay-sm">
+          <div class="font-mono text-[10px] text-text-tertiary uppercase">ZaloPay</div>
+          <div class="font-mono font-semibold text-[22px] text-tier-s">528.400đ</div>
+          <button class="mt-2 text-[11px] text-info font-semibold">Rút tiền →</button>
+        </div>
+        <div class="bg-clay-butter rounded-2xl p-4">
+          <div class="font-mono text-[10px] text-tier-b uppercase">Hold ví ảo</div>
+          <div class="font-mono font-semibold text-[22px] text-text-primary">60.000đ</div>
+          <div class="text-[11px] text-text-secondary mt-1">1 đơn · còn 8h</div>
+        </div>
+        <div class="bg-bg-surface rounded-2xl p-4">
+          <div class="font-mono text-[10px] text-text-tertiary uppercase mb-2">3 giao dịch gần</div>
+          <div class="space-y-1.5 text-[11px] font-mono">
+            <div class="flex justify-between"><span>+ PET 3.2kg</span><span class="text-tier-s">+38.400</span></div>
+            <div class="flex justify-between"><span>+ Mô tơ chốt</span><span class="text-tier-s">+38.700</span></div>
+            <div class="flex justify-between"><span>− Hold mainboard</span><span class="text-tier-b">−60.000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-bg-elevated rounded-[28px] border border-border-subtle p-10 shadow-clay">
+  <div class="grid grid-cols-3 gap-8 items-center">
+    <div>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-lime to-lime-deep shadow-clay-lime flex items-center justify-center">
+          <span class="material-symbols-rounded text-text-on-lime">recycling</span>
+        </div>
+        <div>
+          <div class="font-display font-extrabold text-[18px]">RE-LOOP</div>
+          <div class="font-mono text-[11px] text-text-tertiary">Design v2.0 · Light · Clay</div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center text-[13px] text-text-secondary">
+      28 colors · 11 type · 4 shadows · 6 illustrations · 1 map
+    </div>
+    <div class="text-right">
+      <button class="bg-lime text-text-on-lime px-6 py-3 rounded-2xl font-semibold shadow-clay-lime hover:translate-y-[-2px] active:translate-y-0 transition">
+        Approve & Apply
+      </button>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+</body>
+</html>

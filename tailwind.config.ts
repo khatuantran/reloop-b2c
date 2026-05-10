@@ -1,103 +1,82 @@
 import type { Config } from 'tailwindcss';
 
 export default {
-  darkMode: 'class',
   content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}'],
   theme: {
     extend: {
       colors: {
-        // Backgrounds
-        // Round 5 — slight brighten (~+15% lightness) while keeping forest green identity
-        'bg-base': '#14201B',
-        'bg-elevated': '#1B2D24',
-        'bg-surface': '#22372D',
-        background: '#14201B',
-        surface: '#14201B',
-        'surface-dim': '#14201B',
-        'surface-bright': '#3E4D44',
-        'surface-container-lowest': '#101A15',
-        'surface-container-low': '#1F2D26',
-        'surface-container': '#25342B',
-        'surface-container-high': '#2F3F35',
-        'surface-container-highest': '#38483E',
-        'surface-variant': '#38483E',
-        'inverse-surface': '#dde5db',
-        'inverse-on-surface': '#2b322c',
-        'surface-tint': '#51df8d',
+        // Light mode — sage + cream + lime accent (Round 7 design v2)
+        'bg-base': '#E5EDDD',
+        'bg-elevated': '#D6E3CC',
+        'bg-surface': '#C8D6BE',
+        'bg-tinted': '#DCEDDF',
+        background: '#E5EDDD',
+        surface: '#D6E3CC',
+
+        // Borders
+        'border-subtle': '#B8C9AE',
+        'border-default': '#A0B496',
+        'border-strong': '#6F8567',
+        outline: '#6F8567',
 
         // Text
-        'text-primary': '#F0F4F1',
-        'text-secondary': '#A8B5AC',
-        'text-tertiary': '#6B7C72',
-        'on-surface': '#dde5db',
-        'on-surface-variant': '#bccabc',
-        'on-background': '#dde5db',
+        'text-primary': '#0F1F18',
+        'text-secondary': '#41524A',
+        'text-tertiary': '#7C8A82',
+        'text-on-lime': '#0A1F12',
 
-        // Borders — bump để giữ contrast với bg sáng hơn
-        'border-subtle': '#253D31',
-        'border-default': '#365142',
-        outline: '#869487',
-        'outline-variant': '#3d4a3f',
+        // Brand — lime giữ DNA
+        'lime-soft': '#C7F2D6',
+        lime: '#52E08D',
+        'lime-deep': '#2BB36A',
+        forest: '#0F3D26',
 
-        // Brand & primary
-        primary: '#72fda7',
-        'on-primary': '#00391c',
-        'primary-container': '#52e08d',
-        'on-primary-container': '#006034',
-        'inverse-primary': '#006d3b',
-        'primary-fixed': '#71fda6',
-        'primary-fixed-dim': '#51df8d',
-        'on-primary-fixed': '#00210e',
-        'on-primary-fixed-variant': '#00522b',
+        // Brand legacy aliases (backward compat with existing components)
+        primary: '#52E08D',
+        'on-primary': '#0A1F12',
+        'primary-container': '#C7F2D6',
+        'on-primary-container': '#0F3D26',
 
-        // Secondary
-        secondary: '#a3d0bb',
-        'on-secondary': '#093729',
-        'secondary-container': '#265140',
-        'on-secondary-container': '#95c2ad',
-        'secondary-fixed': '#beedd7',
-        'secondary-fixed-dim': '#a3d0bb',
-        'on-secondary-fixed': '#002116',
-        'on-secondary-fixed-variant': '#244e3e',
+        // 4-Tier waste — softened cho light
+        'tier-s': '#2BB36A',
+        'tier-b': '#E8B340',
+        'tier-c': '#E68A3F',
+        'tier-h': '#D14B3B',
 
-        // Tertiary
-        tertiary: '#ffddc2',
-        'on-tertiary': '#4c2700',
-        'tertiary-container': '#ffb879',
-        'on-tertiary-container': '#794711',
-        'tertiary-fixed': '#ffdcc1',
-        'tertiary-fixed-dim': '#ffb879',
-        'on-tertiary-fixed': '#2e1500',
-        'on-tertiary-fixed-variant': '#6b3b05',
+        // Status
+        success: '#2BB36A',
+        warning: '#E8B340',
+        error: '#D14B3B',
+        info: '#3B8DD1',
 
-        // 4-Tier waste
-        'tier-s': '#52E0A8',
-        'tier-b': '#F4D060',
-        'tier-c': '#F4A261',
-        'tier-h': '#E76F51',
+        // Clay pastel layer — 3D backdrop + status chip BG
+        'clay-mint': '#BFE8CE',
+        'clay-butter': '#F2D58F',
+        'clay-peach': '#F2C2A6',
+        'clay-blush': '#E8B0AB',
+        'clay-sky': '#B5D2E5',
+        'clay-lavender': '#C7BCE8',
 
-        // Semantic
-        success: '#52E08D',
-        warning: '#F4B860',
-        error: '#E76F51',
-        info: '#5BC0EB',
-        'on-error': '#690005',
-        'error-container': '#93000a',
-        'on-error-container': '#ffdad6',
+        // Amber dark text — for chips on butter BG (better contrast than tier-b)
+        'amber-deep': '#7A5410',
       },
       fontFamily: {
         'display-xl': ['"Plus Jakarta Sans"', 'sans-serif'],
         'display-l': ['"Plus Jakarta Sans"', 'sans-serif'],
         'display-m': ['"Plus Jakarta Sans"', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', 'sans-serif'],
         h1: ['"Plus Jakarta Sans"', 'sans-serif'],
         h2: ['"Plus Jakarta Sans"', 'sans-serif'],
         h3: ['"Plus Jakarta Sans"', 'sans-serif'],
         h4: ['"Plus Jakarta Sans"', 'sans-serif'],
         'body-lg': ['Inter', 'sans-serif'],
         'body-md': ['Inter', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
         eyebrow: ['Inter', 'sans-serif'],
         'mono-md': ['"JetBrains Mono"', 'monospace'],
+        mono: ['"JetBrains Mono"', 'monospace'],
         sans: ['Inter', 'sans-serif'],
+        roboto: ['Roboto', 'Arial', 'sans-serif'],
       },
       fontSize: {
         'display-xl': ['96px', { lineHeight: '100px', letterSpacing: '-0.03em', fontWeight: '800' }],
@@ -117,8 +96,11 @@ export default {
         'space-8': '8px',
         'space-12': '12px',
         'space-16': '16px',
+        'space-20': '20px',
         'space-24': '24px',
+        'space-28': '28px',
         'space-32': '32px',
+        'space-40': '40px',
         'space-48': '48px',
         'space-64': '64px',
         'space-96': '96px',
@@ -127,12 +109,21 @@ export default {
         'space-240': '240px',
       },
       borderRadius: {
-        DEFAULT: '0.25rem',
-        lg: '0.5rem',
-        xl: '0.75rem',
-        '2xl': '1rem',
-        '3xl': '1.5rem',
+        DEFAULT: '0.5rem',
+        sm: '0.375rem',
+        md: '0.5rem',
+        lg: '0.75rem',
+        xl: '1rem',
+        '2xl': '1.25rem',
+        '3xl': '1.75rem',
         full: '9999px',
+      },
+      boxShadow: {
+        'clay-sm': '0 4px 10px -2px rgba(15,31,24,.06), 0 2px 4px -2px rgba(15,31,24,.04)',
+        clay: '0 12px 28px -8px rgba(15,31,24,.10), 0 4px 8px -4px rgba(15,31,24,.06)',
+        'clay-lg': '0 24px 48px -12px rgba(15,31,24,.14), 0 8px 16px -8px rgba(15,31,24,.08)',
+        'clay-lime': '0 12px 28px -8px rgba(82,224,141,.35), 0 4px 8px -4px rgba(82,224,141,.20)',
+        'inset-soft': 'inset 0 2px 4px rgba(255,255,255,.6), inset 0 -2px 4px rgba(15,31,24,.06)',
       },
       transitionTimingFunction: {
         'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',

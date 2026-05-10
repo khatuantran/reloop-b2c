@@ -3,15 +3,23 @@ interface Props {
   icon?: string;
   title: string;
   body?: string;
+  variant?: 'mint' | 'butter' | 'peach' | 'sky';
 }
-const { icon = 'inbox', title, body } = Astro.props;
+const { icon = 'inbox', title, body, variant = 'mint' } = Astro.props;
+
+const bgMap = {
+  mint: 'bg-clay-mint',
+  butter: 'bg-clay-butter',
+  peach: 'bg-clay-peach',
+  sky: 'bg-clay-sky',
+};
 ---
 
 <div class="flex flex-col items-center justify-center text-center py-space-96 gap-space-16">
-  <div class="w-20 h-20 rounded-full bg-bg-elevated border border-border-subtle flex items-center justify-center">
-    <span class="material-symbols-outlined !text-[32px] text-text-tertiary">{icon}</span>
+  <div class:list={['w-24 h-24 rounded-3xl flex items-center justify-center shadow-clay', bgMap[variant]]}>
+    <span class="material-symbols-rounded fill !text-[44px] text-text-primary/70">{icon}</span>
   </div>
-  <h3 class="font-h4 text-h4 text-text-primary">{title}</h3>
+  <h3 class="font-h3 text-h3 text-text-primary mt-space-8">{title}</h3>
   {body && <p class="font-body-md text-body-md text-text-secondary max-w-[400px]">{body}</p>}
   <slot />
 </div>

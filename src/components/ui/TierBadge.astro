@@ -2,41 +2,45 @@
 interface Props {
   tier: 'S' | 'B' | 'C' | 'H';
   label?: string;
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'solid' | 'soft';
 }
 
-const { tier, label, size = 'md' } = Astro.props;
+const { tier, label, size = 'md', variant = 'solid' } = Astro.props;
 
-const tierStyles: Record<string, { bg: string; border: string; text: string; dot: string }> = {
-  S: { bg: 'bg-tier-s/10', border: 'border-tier-s/30', text: 'text-tier-s', dot: 'bg-tier-s' },
-  B: { bg: 'bg-tier-b/10', border: 'border-tier-b/30', text: 'text-tier-b', dot: 'bg-tier-b' },
-  C: { bg: 'bg-tier-c/10', border: 'border-tier-c/30', text: 'text-tier-c', dot: 'bg-tier-c' },
-  H: { bg: 'bg-tier-h/10', border: 'border-tier-h/30', text: 'text-tier-h', dot: 'bg-tier-h' },
+const solidStyles: Record<string, string> = {
+  S: 'bg-tier-s text-white',
+  B: 'bg-tier-b text-text-primary',
+  C: 'bg-tier-c text-white',
+  H: 'bg-tier-h text-white',
+};
+const softStyles: Record<string, string> = {
+  S: 'bg-clay-mint text-tier-s border border-tier-s/40',
+  B: 'bg-clay-butter text-amber-deep border border-amber-deep/40',
+  C: 'bg-clay-peach text-tier-c border border-tier-c/40',
+  H: 'bg-clay-blush text-tier-h border border-tier-h/40',
 };
 
-const styles = tierStyles[tier];
 const labels: Record<string, string> = {
   S: 'Standard',
   B: 'Bulky',
   C: 'Complex',
   H: 'Hazardous',
 };
-const text = label ?? `Tier ${tier} · ${labels[tier]}`;
+const text = label ?? (size === 'sm' ? tier : `Tier ${tier} · ${labels[tier]}`);
 
-const padding = size === 'sm' ? 'px-space-8 py-[2px]' : 'px-space-12 py-space-4';
-const fontSize = size === 'sm' ? 'text-[10px]' : 'text-[12px]';
+const padding = size === 'sm' ? 'px-space-8 py-[2px]' : size === 'lg' ? 'px-space-16 py-space-8' : 'px-space-12 py-space-4';
+const fontSize = size === 'sm' ? 'text-[10px]' : size === 'lg' ? 'text-[14px]' : 'text-[12px]';
+const styles = variant === 'solid' ? solidStyles[tier] : softStyles[tier];
 ---
 
 <span
   class:list={[
-    'inline-flex items-center gap-space-8 rounded font-mono-md font-medium border',
+    'inline-flex items-center gap-space-8 rounded-full font-mono-md font-bold',
     padding,
     fontSize,
-    styles.bg,
-    styles.border,
-    styles.text,
+    styles,
   ]}
 >
-  <span class:list={['w-1.5 h-1.5 rounded-full', styles.dot]}></span>
   {text}
 </span>

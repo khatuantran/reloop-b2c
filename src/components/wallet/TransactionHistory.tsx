@@ -10,11 +10,11 @@ const filters = [
   { id: 'RELEASE', label: 'Release' },
 ] as const;
 
-const typeMeta: Record<string, { icon: string; color: string; sign: string }> = {
-  IN: { icon: 'south_west', color: 'text-success', sign: '+' },
-  OUT: { icon: 'north_east', color: 'text-error', sign: '−' },
-  HOLD: { icon: 'lock', color: 'text-warning', sign: '↓' },
-  RELEASE: { icon: 'lock_open', color: 'text-info', sign: '↑' },
+const typeMeta: Record<string, { icon: string; bg: string; text: string; sign: string }> = {
+  IN: { icon: 'south_west', bg: 'bg-clay-mint', text: 'text-tier-s', sign: '+' },
+  OUT: { icon: 'north_east', bg: 'bg-clay-blush', text: 'text-tier-h', sign: '−' },
+  HOLD: { icon: 'lock', bg: 'bg-clay-butter', text: 'text-amber-deep', sign: '↓' },
+  RELEASE: { icon: 'lock_open', bg: 'bg-clay-sky', text: 'text-info', sign: '↑' },
 };
 
 export default function TransactionHistory() {
@@ -26,9 +26,12 @@ export default function TransactionHistory() {
   }, [filter]);
 
   return (
-    <div className="bg-bg-elevated border border-border-subtle rounded-3xl p-space-32">
+    <div className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-32">
       <div className="flex items-baseline justify-between mb-space-24">
-        <h3 className="font-h3 text-h3 text-text-primary">Lịch sử giao dịch</h3>
+        <div>
+          <span className="font-mono-md text-[12px] text-tier-s uppercase tracking-wider font-semibold">LỊCH SỬ</span>
+          <h3 className="font-h2 text-h2 text-text-primary mt-space-8">Giao dịch</h3>
+        </div>
         <span className="font-mono-md text-[12px] text-text-tertiary">{list.length} mục</span>
       </div>
 
@@ -38,10 +41,10 @@ export default function TransactionHistory() {
             key={f.id}
             onClick={() => setFilter(f.id)}
             className={[
-              'px-space-12 py-space-4 rounded-full border font-body-md text-[12px] font-medium transition-colors',
+              'px-space-16 py-space-8 rounded-full border-2 font-mono-md text-[12px] font-semibold transition-all',
               filter === f.id
-                ? 'bg-success/10 border-success/40 text-success'
-                : 'bg-bg-base border-border-subtle text-text-secondary hover:border-border-default',
+                ? 'bg-clay-mint border-tier-s text-tier-s shadow-clay-sm'
+                : 'bg-bg-elevated border-border-subtle text-text-secondary hover:border-border-default',
             ].join(' ')}
           >
             {f.label}
@@ -61,16 +64,16 @@ export default function TransactionHistory() {
               <a
                 key={t.id}
                 href={t.orderId ? `/orders/${t.orderId}.html` : '#'}
-                className="flex items-center gap-space-16 px-space-16 py-space-12 rounded-xl bg-bg-base border border-border-subtle hover:border-border-default transition-colors"
+                className="flex items-center gap-space-16 px-space-16 py-space-16 rounded-2xl bg-bg-surface hover:shadow-clay-sm transition-all border border-transparent hover:border-border-subtle"
               >
-                <div className={`w-10 h-10 rounded-full bg-bg-elevated flex items-center justify-center ${meta.color}`}>
-                  <span className="material-symbols-outlined !text-[18px]">{meta.icon}</span>
+                <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shadow-inset-soft ${meta.bg}`}>
+                  <span className={`material-symbols-rounded fill !text-[20px] ${meta.text}`}>{meta.icon}</span>
                 </div>
-                <div className="flex-1">
-                  <span className="font-body-md text-[14px] text-text-primary block">{t.description}</span>
+                <div className="flex-1 min-w-0">
+                  <span className="font-display font-semibold text-[14px] text-text-primary block">{t.description}</span>
                   <span className="font-mono-md text-[11px] text-text-tertiary">{formatDateTime(t.date)}{t.orderId && ` · ${t.orderId}`}</span>
                 </div>
-                <span className={`font-mono-md text-[16px] font-bold tabular-nums ${meta.color}`}>
+                <span className={`font-mono-md text-[16px] font-bold tabular-nums ${meta.text}`}>
                   {meta.sign} {formatVND(t.amount)}
                 </span>
               </a>

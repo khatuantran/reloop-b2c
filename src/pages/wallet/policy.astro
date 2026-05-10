@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TopNav from '../../components/nav/TopNav.astro';
+import SpotCheckCard from '../../components/order/SpotCheckCard.astro';
+import CasingFraudCard from '../../components/order/CasingFraudCard.astro';
+import AntiFraudShield from '../../components/illustrations/AntiFraudShield.astro';
+
+const tabs = [
+  { id: 'fees', label: 'Quy tắc thanh toán', icon: 'payments', anchor: '#fees' },
+  { id: 'anti-fraud', label: 'Chống gian lận Tier C', icon: 'shield', anchor: '#anti-fraud' },
+  { id: 'spot-check', label: 'Hub Spot Check', icon: 'policy', anchor: '#spot-check' },
+];
+---
+
+<BaseLayout title="Quy tắc & minh bạch — RE-LOOP">
+  <TopNav active="wallet" />
+
+  <main class="pt-[100px] pb-space-96 min-h-screen">
+    <div class="max-w-[1280px] mx-auto px-[80px] flex flex-col gap-space-32">
+      <a href="/wallet.html" class="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-s font-semibold w-fit">
+        <span class="material-symbols-rounded !text-[16px]">arrow_back</span>
+        Ví của tôi
+      </a>
+
+      <!-- Hero -->
+      <section class="grad-hero rounded-[40px] px-space-48 py-space-32 border border-border-subtle relative overflow-hidden">
+        <div class="grid grid-cols-[1.4fr_1fr] gap-space-32 items-center">
+          <div class="relative z-10">
+            <span class="font-mono-md text-[11px] uppercase tracking-[0.2em] text-info font-bold bg-clay-sky border-2 border-info/30 rounded-full px-space-12 py-[4px] inline-flex items-center gap-space-8 shadow-clay-sm mb-space-12">
+              <span class="material-symbols-rounded fill !text-[14px]">policy</span>
+              QUY TẮC & MINH BẠCH
+            </span>
+            <h1 class="font-display-l text-[44px] font-extrabold leading-[1.05] tracking-tight text-text-primary mb-space-12">RE-LOOP không giấu phí, không giấu logic</h1>
+            <p class="font-body-lg text-body-lg text-text-secondary mb-space-16">3 chủ đề minh bạch — quy tắc thanh toán, cơ chế chống gian lận Tier C, audit Hub Spot Check công khai</p>
+            <div class="flex flex-wrap gap-space-8">
+              {tabs.map((t) => (
+                <a href={t.anchor} class="bg-bg-elevated/95 backdrop-blur border border-border-subtle rounded-full px-space-12 py-space-8 shadow-clay-sm flex items-center gap-space-8 hover:border-info hover:shadow-clay transition">
+                  <span class="material-symbols-rounded fill !text-[16px] text-info">{t.icon}</span>
+                  <span class="font-mono-md text-[12px] text-text-primary font-semibold">{t.label}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+          <div class="relative h-[200px] flex items-center justify-center">
+            <AntiFraudShield class="w-full h-full max-h-[200px]" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Payment rules -->
+      <section id="fees" class="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-32 scroll-mt-[120px]">
+        <div class="mb-space-24">
+          <span class="font-mono-md text-[12px] uppercase tracking-wider text-tier-s font-semibold flex items-center gap-space-8">
+            <span class="material-symbols-rounded fill !text-[16px]">payments</span>
+            CHỦ ĐỀ 1 · THANH TOÁN
+          </span>
+          <h2 class="font-h1 text-h1 text-text-primary mt-space-8">Quy tắc thanh toán minh bạch</h2>
+          <p class="font-body-md text-[13px] text-text-secondary mt-space-4">3 nguyên tắc giúp bạn hiểu chính xác phí, thưởng, và quy trình hoá đơn</p>
+        </div>
+        <div class="grid grid-cols-3 gap-space-16">
+          <div class="bg-clay-mint rounded-2xl p-space-24 border-2 border-tier-s/20 shadow-clay-sm">
+            <div class="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+              <span class="material-symbols-rounded fill !text-[24px] text-tier-s">payments</span>
+            </div>
+            <span class="font-mono-md text-[10px] uppercase tracking-wider text-tier-s font-bold">PHÍ ZALOPAY</span>
+            <h4 class="font-display font-bold text-[18px] text-text-primary mt-space-4 mb-space-8">0đ — RE-LOOP trả</h4>
+            <p class="font-body-md text-[12px] text-text-secondary leading-relaxed">Phí dịch vụ payment gateway do RE-LOOP chịu, không trừ vào tiền của bạn. Ngay cả các đơn dưới 50.000đ.</p>
+          </div>
+          <div class="bg-clay-butter rounded-2xl p-space-24 border-2 border-amber-deep/20 shadow-clay-sm">
+            <div class="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+              <span class="material-symbols-rounded fill !text-[24px] text-amber-deep">savings</span>
+            </div>
+            <span class="font-mono-md text-[10px] uppercase tracking-wider text-amber-deep font-bold">CASH INCENTIVE</span>
+            <h4 class="font-display font-bold text-[18px] text-text-primary mt-space-4 mb-space-8">+2.000đ/đơn ZaloPay</h4>
+            <p class="font-body-md text-[12px] text-text-secondary leading-relaxed">Chọn ZaloPay thay vì tiền mặt được thưởng 2k. Phí tiền mặt 5k do collector tự xử lý — bạn nhận đủ giá đơn.</p>
+          </div>
+          <div class="bg-clay-sky rounded-2xl p-space-24 border-2 border-info/20 shadow-clay-sm">
+            <div class="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+              <span class="material-symbols-rounded fill !text-[24px] text-info">receipt_long</span>
+            </div>
+            <span class="font-mono-md text-[10px] uppercase tracking-wider text-info font-bold">HOÁ ĐƠN GTGT</span>
+            <h4 class="font-display font-bold text-[18px] text-text-primary mt-space-4 mb-space-8">Tự động · Có sẵn 30 ngày</h4>
+            <p class="font-body-md text-[12px] text-text-secondary leading-relaxed">Hoá đơn điện tử có MST. Doanh nghiệp dùng cho ESG report — Gold tier auto, Bronze on-demand.</p>
+          </div>
+        </div>
+        <div class="mt-space-16 grid grid-cols-2 gap-space-12">
+          <button class="bg-bg-surface text-text-primary border-2 border-border-subtle px-space-24 py-space-12 rounded-2xl font-semibold shadow-clay-sm text-[14px] inline-flex items-center justify-center gap-space-8 hover:shadow-clay">
+            <span class="material-symbols-rounded fill !text-[18px] text-info">download</span>
+            Tải hoá đơn GTGT 04/2026
+          </button>
+          <button class="bg-bg-surface text-text-primary border-2 border-border-subtle px-space-24 py-space-12 rounded-2xl font-semibold shadow-clay-sm text-[14px] inline-flex items-center justify-center gap-space-8 hover:shadow-clay">
+            <span class="material-symbols-rounded fill !text-[18px] text-tier-s">file_download</span>
+            Export CSV giao dịch
+          </button>
+        </div>
+      </section>
+
+      <!-- Section 2: Anti-fraud Tier C -->
+      <section id="anti-fraud" class="scroll-mt-[120px]">
+        <div class="mb-space-16">
+          <span class="font-mono-md text-[12px] uppercase tracking-wider text-amber-deep font-semibold flex items-center gap-space-8">
+            <span class="material-symbols-rounded fill !text-[16px]">shield</span>
+            CHỦ ĐỀ 2 · CHỐNG GIAN LẬN
+          </span>
+          <h2 class="font-h1 text-h1 text-text-primary mt-space-8">Casing Fraud & cơ chế bảo vệ Tier C</h2>
+        </div>
+        <div class="grid grid-cols-[1fr_320px] gap-space-24">
+          <CasingFraudCard variant="inline" isFirstTimeTierC={false} />
+          <div class="bg-clay-mint rounded-[28px] shadow-clay border-2 border-tier-s/30 p-space-24 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute inset-0 opacity-25">
+              <AntiFraudShield class="w-full h-full" />
+            </div>
+            <div class="relative z-10">
+              <span class="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold">YOUR PROTECTION</span>
+              <h3 class="font-display font-extrabold text-[36px] text-text-primary tabular-nums mt-space-8">94%</h3>
+              <span class="font-mono-md text-[12px] text-text-secondary block mt-space-4">Mass-balance accuracy</span>
+              <div class="h-px bg-tier-s/20 my-space-12"></div>
+              <span class="font-display font-bold text-[14px] text-text-primary block">5/5 đơn không có flag</span>
+              <span class="font-body-md text-[11px] text-text-secondary mt-space-4 block">Đóng gói trung thực = % tạm ứng tăng</span>
+              <div class="mt-space-12 bg-bg-elevated/80 rounded-xl p-space-12">
+                <span class="font-mono-md text-[10px] text-tier-s uppercase tracking-wider font-bold block">% TẠM ỨNG HIỆN TẠI</span>
+                <span class="font-display font-extrabold text-[24px] text-tier-s tabular-nums leading-none mt-space-4 block">50%</span>
+                <span class="font-mono-md text-[10px] text-text-tertiary mt-space-4 block">Còn 5 điểm Trust để 70%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Hub Spot Check -->
+      <section id="spot-check" class="scroll-mt-[120px]">
+        <div class="mb-space-16">
+          <span class="font-mono-md text-[12px] uppercase tracking-wider text-info font-semibold flex items-center gap-space-8">
+            <span class="material-symbols-rounded fill !text-[16px]">policy</span>
+            CHỦ ĐỀ 3 · AUDIT MINH BẠCH
+          </span>
+          <h2 class="font-h1 text-h1 text-text-primary mt-space-8">Hub Spot Check ngẫu nhiên 10%</h2>
+        </div>
+        <SpotCheckCard
+          passRate={94}
+          totalChecks={50}
+          recentChecks={[
+            { date: '08/05/2026 16:02', hubName: 'Hub Q.7 RE-LOOP', itemsChecked: 12, passed: 12, status: 'PASSED', evidenceCount: 8 },
+            { date: '02/05/2026 11:45', hubName: 'Hub Q.7 RE-LOOP', itemsChecked: 10, passed: 9, status: 'MINOR', evidenceCount: 6 },
+            { date: '24/04/2026 09:30', hubName: 'Hub Bình Thạnh', itemsChecked: 14, passed: 14, status: 'PASSED', evidenceCount: 10 },
+            { date: '15/04/2026 14:20', hubName: 'Hub Q.7 RE-LOOP', itemsChecked: 11, passed: 11, status: 'PASSED', evidenceCount: 7 },
+          ]}
+        />
+      </section>
+
+      <!-- Footer help -->
+      <section class="grid grid-cols-2 gap-space-16">
+        <a href="/help.html" class="bg-clay-mint rounded-[24px] shadow-clay-sm border-2 border-tier-s/30 p-space-24 flex items-center gap-space-16 hover:shadow-clay transition">
+          <div class="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm">
+            <span class="material-symbols-rounded fill !text-[22px] text-tier-s">help_center</span>
+          </div>
+          <div class="flex-1">
+            <span class="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold block">FAQ ĐẦY ĐỦ</span>
+            <span class="font-display font-bold text-[14px] text-text-primary">8 câu hỏi thường gặp</span>
+          </div>
+          <span class="material-symbols-rounded !text-[20px] text-tier-s">arrow_forward</span>
+        </a>
+        <a href="tel:19007356677" class="bg-clay-blush rounded-[24px] shadow-clay-sm border-2 border-tier-h/30 p-space-24 flex items-center gap-space-16 hover:shadow-clay transition">
+          <div class="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm">
+            <span class="material-symbols-rounded fill !text-[22px] text-tier-h">support_agent</span>
+          </div>
+          <div class="flex-1">
+            <span class="font-mono-md text-[11px] uppercase tracking-wider text-tier-h font-bold block">CẦN GIẢI ĐÁP?</span>
+            <span class="font-display font-bold text-[14px] text-text-primary">1900-RELOOP · Phím 4</span>
+          </div>
+          <span class="material-symbols-rounded !text-[20px] text-tier-h">arrow_forward</span>
+        </a>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

@@ -43,7 +43,11 @@ export interface Order {
   tier: Tier;
   status: OrderStatus;
   item: string;
-  itemSlug: 'pet' | 'carton' | 'aluminum' | 'motor-wm' | 'mainboard' | 'wire-cu';
+  itemSlug: 'pet' | 'carton' | 'aluminum' | 'motor-wm' | 'mainboard' | 'wire-cu' | 'fridge' | 'tv' | 'sofa' | 'washer' | 'pin-aa' | 'pin-li' | 'bulb' | 'oil';
+  mode?: 'speed' | 'auction'; // Tier B mode
+  winningBid?: number; // Tier B Auction winning amount
+  speedFloor?: number; // Tier B Auction reference floor
+  hazardousItems?: { name: string; count: number; unit: string }[]; // Tier H
   weight: number; // kg
   amount?: number; // Tier S final, hoặc Tier C total
   advance?: number; // Tier C tạm ứng
@@ -220,6 +224,79 @@ export const ORDERS: Order[] = [
     expectedRange: [25_000, 60_000],
     createdAt: '2026-05-08T11:00:00',
     collectorId: 'c-002',
+  },
+  // === Tier B (Speed + Auction) ===
+  {
+    id: 'RL-2026-001241',
+    tier: 'B',
+    status: 'COMPLETED',
+    item: 'Tủ lạnh đôi 300L Samsung',
+    itemSlug: 'fridge',
+    weight: 62,
+    amount: 1_650_000,
+    createdAt: '2026-05-04T14:22:00',
+    completedAt: '2026-05-04T17:40:00',
+    collectorId: 'c-002',
+    mode: 'speed',
+  },
+  {
+    id: 'RL-2026-001242',
+    tier: 'B',
+    status: 'COMPLETED',
+    item: 'Tivi LCD 42" Samsung',
+    itemSlug: 'tv',
+    weight: 14,
+    amount: 850_000,
+    createdAt: '2026-04-25T10:15:00',
+    completedAt: '2026-04-25T15:30:00',
+    collectorId: 'c-002',
+    mode: 'auction',
+    winningBid: 850_000,
+    speedFloor: 580_000,
+  },
+  {
+    id: 'RL-2026-001243',
+    tier: 'B',
+    status: 'IN_TRANSIT',
+    item: 'Sofa 3 chỗ vải',
+    itemSlug: 'sofa',
+    weight: 38,
+    amount: 320_000,
+    createdAt: '2026-05-09T09:00:00',
+    collectorId: 'c-002',
+    mode: 'speed',
+  },
+  // === Tier H (chất thải nguy hại) ===
+  {
+    id: 'RL-H-2026-000086',
+    tier: 'H',
+    status: 'COMPLETED',
+    item: 'Pin AA + bóng đèn huỳnh quang',
+    itemSlug: 'pin-aa',
+    weight: 0.8,
+    amount: 0,
+    createdAt: '2026-04-15T11:00:00',
+    completedAt: '2026-04-17T15:00:00',
+    collectorId: 'c-001',
+    hazardousItems: [
+      { name: 'Pin AA/AAA', count: 18, unit: 'cục' },
+      { name: 'Bóng huỳnh quang', count: 3, unit: 'bóng' },
+    ],
+  },
+  {
+    id: 'RL-H-2026-000087',
+    tier: 'H',
+    status: 'PENDING_VERIFY',
+    item: 'Pin xe máy + pin AA',
+    itemSlug: 'pin-li',
+    weight: 4.8,
+    amount: 0,
+    createdAt: '2026-05-10T14:42:00',
+    collectorId: 'c-001',
+    hazardousItems: [
+      { name: 'Pin AA/AAA', count: 12, unit: 'cục' },
+      { name: 'Pin xe máy', count: 1, unit: 'cục' },
+    ],
   },
 ];
 

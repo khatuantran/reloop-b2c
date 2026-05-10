@@ -1,0 +1,341 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import TopNav from '../../../../components/nav/TopNav.astro';
+
+// Tier C — đơn vừa đặt (demo dùng đơn mẫu RL-2026-001240 để các link chi tiết/track/chat hoạt động)
+const order = {
+  id: 'RL-2026-001240',
+  createdAt: '10/05/2026 · 10:32',
+  item: 'Mainboard PC cũ',
+  itemHint: '~1.0 kg ước tính · AI confidence 78% (vật phẩm hỗn hợp)',
+  estLow: 25_000,
+  estHigh: 60_000,
+  advance: 60_000,
+  hub: 'Hub Q.7 RE-LOOP',
+  collector: 'Chị Hoa',
+  collectorTier: 2,
+  collectorRating: 4.9,
+  collectorDone: 124,
+  collectorVehicle: 'Xe ba gác · 51B-67890',
+  slot: 'Hôm nay · 14:00 — 16:00',
+  address: '123 Nguyễn Văn Linh, P. Tân Phong, Q.7',
+  paymentMethod: 'Ví ảo HOLD → ZaloPay sau verify',
+  gp: 8,
+  co2: 3,
+};
+
+const timeline = [
+  { time: 'Vừa xong', label: 'Đơn đã tạo', sub: `Mã ${order.id}`, icon: 'check_circle', state: 'done' },
+  { time: 'Đang diễn ra', label: 'Hub Q.7 điều phối', sub: 'Collector verified xử lý Tier C', icon: 'broadcast_on_personal', state: 'active' },
+  { time: 'Trong 5 phút', label: 'Collector phản hồi', sub: `${order.collector} sẽ gọi xác nhận`, icon: 'call', state: 'pending' },
+  { time: 'Theo slot', label: 'Đến nhà · Peek-check + cân', sub: 'Cân → khối lượng → peek-check chống fraud → HOLD ví ảo → OTP bàn giao Hub. Bấm để xem trước flow.', icon: 'fact_check', state: 'pending', href: '/orders/transaction-flow/tier-c/weighing.html' },
+  { time: '+24 giờ', label: 'Hub rã xác → BOM thực', sub: 'Chuỗi hành trình mẫu (chain of custody) công khai', icon: 'precision_manufacturing', state: 'pending' },
+  { time: 'Sau verify', label: 'Phần chênh về ZaloPay', sub: 'BOM thực ≥ tạm ứng → trả thêm; thấp hơn → vẫn giữ tạm ứng', icon: 'price_check', state: 'pending' },
+];
+
+const quickActions = [
+  { icon: 'visibility', label: 'Xem chi tiết đơn', href: `/orders/${order.id}/index.html`, accent: 'tier-c', bg: 'bg-clay-peach', border: 'border-tier-c/30' },
+  { icon: 'my_location', label: 'Theo dõi collector', href: `/orders/${order.id}/track.html`, accent: 'info', bg: 'bg-clay-sky', border: 'border-info/30' },
+  { icon: 'chat', label: `Chat với ${order.collector}`, href: `/orders/${order.id}/chat.html`, accent: 'amber-deep', bg: 'bg-clay-butter', border: 'border-amber-deep/30' },
+];
+---
+
+<BaseLayout title="Đơn Tier C đã đặt — RE-LOOP">
+  <TopNav active="orders" />
+
+  <main class="pt-[100px] pb-space-96 min-h-screen">
+    <div class="max-w-[1280px] mx-auto px-[80px]">
+      <!-- Confetti hero -->
+      <section class="grad-hero rounded-[32px] shadow-clay-lg border-2 border-tier-c/30 p-space-48 mb-space-32 relative overflow-hidden">
+        <svg class="absolute top-space-24 left-space-32 w-8 h-8" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#E68A3F" opacity="0.7" />
+        </svg>
+        <svg class="absolute top-space-40 right-[20%] w-6 h-6" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="4" fill="#52E08D" opacity="0.6" />
+        </svg>
+        <svg class="absolute bottom-space-24 right-space-48 w-10 h-10" viewBox="0 0 40 40" fill="none">
+          <rect x="8" y="8" width="6" height="20" fill="#E68A3F" opacity="0.5" transform="rotate(15 11 18)" />
+          <rect x="22" y="6" width="6" height="22" fill="#E8B340" opacity="0.5" transform="rotate(-20 25 17)" />
+        </svg>
+        <svg class="absolute bottom-space-32 left-[40%] w-8 h-8" viewBox="0 0 32 32" fill="none">
+          <path d="M16 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#E68A3F" opacity="0.55" />
+        </svg>
+
+        <div class="relative grid grid-cols-[auto_1fr_auto] gap-space-32 items-center">
+          <div class="relative w-[120px] h-[120px] shrink-0">
+            <div class="absolute inset-0 rounded-full bg-tier-c/20 animate-ping"></div>
+            <div class="relative w-full h-full rounded-full bg-gradient-to-br from-tier-c to-amber-deep flex items-center justify-center shadow-clay-lg">
+              <span class="material-symbols-rounded fill text-white" style="font-size: 64px;">check_circle</span>
+            </div>
+          </div>
+
+          <div class="text-col">
+            <span class="font-mono-md text-[12px] uppercase tracking-wider text-tier-c font-bold flex items-center gap-space-8">
+              <span class="material-symbols-rounded fill !text-[16px]">developer_board</span>
+              TIER C · ĐƠN ĐÃ ĐẶT
+            </span>
+            <h1 class="font-h1 text-h1 text-text-primary mt-space-12">Collector chuyên Tier C sắp đến lấy mainboard</h1>
+            <p class="font-body-lg text-[15px] text-text-secondary mt-space-12">Mã đơn <strong class="font-mono-md text-tier-c tabular-nums">{order.id}</strong> · tạo lúc {order.createdAt}. {order.collector} đến cân & HOLD ví ảo ngay; BOM thực + phần chênh trong 24h sau khi Hub rã xác.</p>
+            <div class="mt-space-20 flex flex-wrap gap-space-12">
+              <span class="px-space-16 py-space-8 rounded-full bg-bg-elevated/95 backdrop-blur shadow-clay-sm flex items-center gap-space-8">
+                <span class="material-symbols-rounded fill !text-[14px] text-tier-c">price_change</span>
+                <span class="font-mono-md text-[12px] text-text-primary font-bold tabular-nums">Dải BOM {order.estLow.toLocaleString('vi-VN')} — {order.estHigh.toLocaleString('vi-VN')}đ</span>
+              </span>
+              <span class="px-space-16 py-space-8 rounded-full bg-clay-butter shadow-clay-sm flex items-center gap-space-8">
+                <span class="material-symbols-rounded fill !text-[14px] text-amber-deep">pending_actions</span>
+                <span class="font-mono-md text-[12px] text-amber-deep font-bold tabular-nums">HOLD ~{order.advance.toLocaleString('vi-VN')}đ tại bàn cân</span>
+              </span>
+              <span class="px-space-16 py-space-8 rounded-full bg-bg-elevated/95 backdrop-blur shadow-clay-sm flex items-center gap-space-8">
+                <span class="material-symbols-rounded fill !text-[14px] text-tier-c">schedule</span>
+                <span class="font-mono-md text-[12px] text-text-primary font-bold">{order.slot}</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="hidden lg:flex flex-col gap-space-8 shrink-0">
+            <button class="bg-bg-elevated/95 backdrop-blur border border-border-subtle p-space-12 rounded-2xl shadow-clay-sm hover:shadow-clay flex items-center gap-space-8 transition">
+              <span class="material-symbols-rounded !text-[18px] text-text-secondary">share</span>
+              <span class="font-mono-md text-[11px] text-text-primary font-bold">Chia sẻ</span>
+            </button>
+            <button class="bg-bg-elevated/95 backdrop-blur border border-border-subtle p-space-12 rounded-2xl shadow-clay-sm hover:shadow-clay flex items-center gap-space-8 transition">
+              <span class="material-symbols-rounded !text-[18px] text-text-secondary">qr_code</span>
+              <span class="font-mono-md text-[11px] text-text-primary font-bold">QR đơn</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick actions strip -->
+      <div class="grid grid-cols-3 gap-space-16 mb-space-32">
+        {quickActions.map((a) => (
+          <a href={a.href} class:list={['rounded-2xl border-2 p-space-20 shadow-clay-sm hover:shadow-clay flex items-center gap-space-16 transition group', a.bg, a.border]}>
+            <div class={`w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm shrink-0 text-${a.accent}`}>
+              <span class="material-symbols-rounded fill !text-[24px]">{a.icon}</span>
+            </div>
+            <span class="font-display font-bold text-[15px] text-text-primary flex-1 text-col">{a.label}</span>
+            <span class={`material-symbols-rounded !text-[20px] text-${a.accent} group-hover:translate-x-1 transition`}>arrow_forward</span>
+          </a>
+        ))}
+      </div>
+
+      <div class="grid grid-cols-[2fr_1fr] gap-space-32">
+        <div class="flex flex-col gap-space-24">
+          <!-- Timeline -->
+          <section class="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-32">
+            <span class="font-mono-md text-[12px] uppercase tracking-wider text-tier-c font-semibold flex items-center gap-space-8">
+              <span class="material-symbols-rounded fill !text-[16px]">timeline</span>
+              TIẾN TRÌNH ĐƠN
+            </span>
+            <h2 class="font-h2 text-h2 text-text-primary mt-space-8 mb-space-24">Từ đặt đơn → BOM thực minh bạch</h2>
+
+            <div class="relative">
+              <div class="absolute left-[27px] top-space-12 bottom-space-12 w-[2px] bg-border-subtle"></div>
+              <div class="flex flex-col gap-space-20">
+                {timeline.map((t) => {
+                  const Wrap = t.href ? 'a' : 'div';
+                  return (
+                  <Wrap href={t.href} class:list={['relative flex items-start gap-space-20', t.href && 'group rounded-2xl -mx-space-8 px-space-8 py-space-8 hover:bg-clay-peach/40 transition']}>
+                    <div class:list={['relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center shadow-clay-sm shrink-0 border-2',
+                      t.state === 'done' ? 'bg-tier-s text-white border-tier-s' :
+                      t.state === 'active' ? 'bg-clay-peach text-tier-c border-tier-c animate-pulse' :
+                      t.href ? 'bg-clay-peach text-tier-c border-tier-c/40' :
+                      'bg-bg-base text-text-tertiary border-border-subtle']}>
+                      <span class="material-symbols-rounded fill !text-[24px]">{t.icon}</span>
+                    </div>
+                    <div class="flex-1 text-col pt-space-4">
+                      <div class="flex items-center gap-space-12 flex-wrap">
+                        <span class="font-display font-bold text-[15px] text-text-primary">{t.label}</span>
+                        <span class:list={['px-space-8 py-[2px] rounded-full font-mono-md text-[10px] font-bold uppercase tracking-wider whitespace-nowrap',
+                          t.state === 'done' ? 'bg-tier-s/15 text-tier-s' :
+                          t.state === 'active' ? 'bg-tier-c/15 text-tier-c' :
+                          'bg-bg-base text-text-tertiary']}>
+                          {t.time}
+                        </span>
+                      </div>
+                      <p class="font-body-md text-[13px] text-text-secondary mt-space-4">{t.sub}</p>
+                    </div>
+                    {t.href && <span class="material-symbols-rounded !text-[20px] text-tier-c self-center shrink-0 group-hover:translate-x-1 transition">arrow_forward</span>}
+                  </Wrap>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          <!-- Order summary -->
+          <section class="bg-bg-elevated rounded-[28px] shadow-clay-sm border border-border-subtle p-space-32">
+            <span class="font-mono-md text-[12px] uppercase tracking-wider text-tier-c font-semibold flex items-center gap-space-8">
+              <span class="material-symbols-rounded fill !text-[16px]">receipt_long</span>
+              CHI TIẾT ĐƠN
+            </span>
+            <h2 class="font-h2 text-h2 text-text-primary mt-space-8 mb-space-20">Tóm tắt</h2>
+
+            <div class="grid grid-cols-2 gap-space-16">
+              <div class="bg-clay-peach/40 rounded-2xl p-space-20 border border-tier-c/20">
+                <div class="flex items-center gap-space-12 mb-space-12">
+                  <span class="material-symbols-rounded fill !text-[20px] text-tier-c">developer_board</span>
+                  <span class="font-mono-md text-[10px] text-tier-c uppercase tracking-wider font-bold">VẬT PHẨM</span>
+                </div>
+                <span class="font-display font-bold text-[14px] text-text-primary block text-col">{order.item}</span>
+                <span class="font-mono-md text-[11px] text-text-tertiary block mt-space-4">{order.itemHint}</span>
+              </div>
+
+              <div class="bg-clay-butter/40 rounded-2xl p-space-20 border border-amber-deep/20">
+                <div class="flex items-center gap-space-12 mb-space-12">
+                  <span class="material-symbols-rounded fill !text-[20px] text-amber-deep">pending_actions</span>
+                  <span class="font-mono-md text-[10px] text-amber-deep uppercase tracking-wider font-bold">TẠM ỨNG HOLD</span>
+                </div>
+                <span class="font-display font-extrabold text-[20px] text-text-primary tabular-nums block">~{order.advance.toLocaleString('vi-VN')}đ</span>
+                <span class="font-mono-md text-[11px] text-text-tertiary mt-space-4 block">Vào ví ảo ngay tại bàn cân · dải BOM {order.estLow.toLocaleString('vi-VN')}–{order.estHigh.toLocaleString('vi-VN')}đ</span>
+              </div>
+
+              <div class="bg-clay-sky/40 rounded-2xl p-space-20 border border-info/20">
+                <div class="flex items-center gap-space-12 mb-space-12">
+                  <span class="material-symbols-rounded fill !text-[20px] text-info">location_on</span>
+                  <span class="font-mono-md text-[10px] text-info uppercase tracking-wider font-bold">ĐỊA CHỈ + SLOT</span>
+                </div>
+                <span class="font-display font-bold text-[14px] text-text-primary block text-col">{order.address}</span>
+                <span class="font-mono-md text-[11px] text-text-tertiary block mt-space-4">{order.slot}</span>
+              </div>
+
+              <div class="bg-clay-lavender/40 rounded-2xl p-space-20 border border-info/20">
+                <div class="flex items-center gap-space-12 mb-space-12">
+                  <span class="material-symbols-rounded fill !text-[20px] text-info">account_balance_wallet</span>
+                  <span class="font-mono-md text-[10px] text-info uppercase tracking-wider font-bold">THANH TOÁN</span>
+                </div>
+                <span class="font-display font-bold text-[14px] text-text-primary block">{order.paymentMethod}</span>
+                <span class="font-mono-md text-[11px] text-text-tertiary block mt-space-4">HOLD ngay → phần chênh sau khi Hub verify BOM thực</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tips -->
+          <section class="bg-clay-peach rounded-[28px] shadow-clay-sm border-2 border-tier-c/30 p-space-32">
+            <span class="font-mono-md text-[12px] uppercase tracking-wider text-tier-c font-semibold flex items-center gap-space-8 mb-space-16">
+              <span class="material-symbols-rounded fill !text-[16px]">tips_and_updates</span>
+              CHUẨN BỊ TRƯỚC SLOT
+            </span>
+            <div class="grid grid-cols-3 gap-space-16">
+              <div class="bg-bg-elevated/70 rounded-2xl p-space-20 text-col">
+                <div class="w-10 h-10 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span class="material-symbols-rounded fill !text-[20px] text-tier-c">inventory_2</span>
+                </div>
+                <span class="font-display font-bold text-[13px] text-text-primary block">Bọc chống va đập</span>
+                <p class="font-body-md text-[12px] text-text-secondary mt-space-4">Giữ nguyên vẹn linh kiện = BOM thực cao hơn</p>
+              </div>
+              <div class="bg-bg-elevated/70 rounded-2xl p-space-20 text-col">
+                <div class="w-10 h-10 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span class="material-symbols-rounded fill !text-[20px] text-tier-c">photo_camera</span>
+                </div>
+                <span class="font-display font-bold text-[13px] text-text-primary block">Chụp ảnh tình trạng</span>
+                <p class="font-body-md text-[12px] text-text-secondary mt-space-4">Đề phòng dispute · đối chiếu với chuỗi hành trình</p>
+              </div>
+              <div class="bg-bg-elevated/70 rounded-2xl p-space-20 text-col">
+                <div class="w-10 h-10 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span class="material-symbols-rounded fill !text-[20px] text-tier-c">block</span>
+                </div>
+                <span class="font-display font-bold text-[13px] text-text-primary block">Đừng tự tháo linh kiện</span>
+                <p class="font-body-md text-[12px] text-text-secondary mt-space-4">Tháo lẻ → AI soft-flag, Hub phải thẩm định lại</p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="flex flex-col gap-space-16">
+          <div class="bg-bg-elevated rounded-[24px] shadow-clay border border-border-subtle p-space-24">
+            <span class="font-mono-md text-[11px] uppercase tracking-wider text-tier-c font-bold flex items-center gap-space-8">
+              <span class="material-symbols-rounded fill !text-[14px]">person_pin</span>
+              COLLECTOR ĐỀ XUẤT
+            </span>
+            <div class="mt-space-16 flex items-center gap-space-12">
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-clay-peach to-tier-c flex items-center justify-center text-white font-display font-extrabold text-[22px] shadow-clay-sm shrink-0">
+                H
+              </div>
+              <div class="flex-1 text-col">
+                <span class="font-display font-bold text-[14px] text-text-primary block">{order.collector}</span>
+                <span class="font-mono-md text-[11px] text-text-tertiary">{order.hub} · Tier {order.collectorTier} · verified Tier C</span>
+              </div>
+            </div>
+            <div class="mt-space-12 grid grid-cols-2 gap-space-8">
+              <div class="bg-bg-base/60 rounded-xl p-space-12 text-col">
+                <span class="font-mono-md text-[9px] text-text-tertiary uppercase tracking-wider font-semibold block">Đánh giá</span>
+                <span class="font-display font-bold text-[16px] text-amber-deep tabular-nums mt-space-4 block">★ {order.collectorRating}</span>
+              </div>
+              <div class="bg-bg-base/60 rounded-xl p-space-12 text-col">
+                <span class="font-mono-md text-[9px] text-text-tertiary uppercase tracking-wider font-semibold block">Đơn xong</span>
+                <span class="font-display font-bold text-[16px] text-tier-s tabular-nums mt-space-4 block">{order.collectorDone}</span>
+              </div>
+            </div>
+            <div class="mt-space-12 p-space-12 bg-bg-base/60 rounded-xl text-col">
+              <span class="font-mono-md text-[9px] text-text-tertiary uppercase tracking-wider font-semibold block">Phương tiện</span>
+              <span class="font-body-md text-[12px] text-text-primary font-semibold mt-space-4 block">{order.collectorVehicle}</span>
+            </div>
+            <div class="mt-space-12 grid grid-cols-2 gap-space-8">
+              <a href="#" class="bg-tier-c text-white py-space-12 rounded-2xl font-mono-md text-[12px] font-bold shadow-clay-sm inline-flex items-center justify-center gap-space-8 hover:-translate-y-[1px] transition">
+                <span class="material-symbols-rounded fill !text-[16px]">call</span>
+                Gọi
+              </a>
+              <a href={`/orders/${order.id}/chat.html`} class="bg-bg-elevated text-text-primary border border-border-subtle py-space-12 rounded-2xl font-mono-md text-[12px] font-bold shadow-clay-sm inline-flex items-center justify-center gap-space-8 hover:shadow-clay transition">
+                <span class="material-symbols-rounded fill !text-[16px]">chat</span>
+                Chat
+              </a>
+            </div>
+          </div>
+
+          <!-- Anti-fraud assurance -->
+          <div class="bg-clay-sky/40 rounded-[24px] shadow-clay-sm border border-info/20 p-space-24">
+            <span class="font-mono-md text-[11px] uppercase tracking-wider text-info font-bold flex items-center gap-space-8">
+              <span class="material-symbols-rounded fill !text-[14px]">shield</span>
+              MINH BẠCH TIER C
+            </span>
+            <p class="font-body-md text-[12px] text-text-secondary mt-space-12 text-col">Mỗi đơn Tier C có: peek-check chống đánh tráo tại nhà, chuỗi hành trình mẫu (chain of custody) công khai, BOM thực do Hub rã xác — đối chiếu được trên app.</p>
+            <a href="/wallet/policy.html" class="mt-space-12 inline-flex items-center gap-space-4 font-mono-md text-[12px] text-info font-bold hover:underline">
+              Xem quy định BOM
+              <span class="material-symbols-rounded !text-[14px]">arrow_forward</span>
+            </a>
+          </div>
+
+          <!-- Collector đã đến → vào flow giao dịch tại nhà -->
+          <a href="/orders/transaction-flow/tier-c/weighing.html" class="bg-clay-peach rounded-[24px] shadow-clay border-2 border-tier-c/30 p-space-24 group hover:shadow-clay-lg transition relative overflow-hidden">
+            <svg class="absolute -top-2 -right-2 w-12 h-12" viewBox="0 0 48 48" fill="none"><path d="M24 6l3 9h9l-7.5 6 3 9-7.5-6-7.5 6 3-9-7.5-6h9z" fill="#E68A3F" opacity="0.18" /></svg>
+            <div class="flex items-center gap-space-12">
+              <div class="relative w-12 h-12 shrink-0">
+                <div class="absolute inset-0 rounded-2xl bg-tier-c/20 animate-ping"></div>
+                <div class="relative w-full h-full rounded-2xl bg-tier-c flex items-center justify-center shadow-clay-sm"><span class="material-symbols-rounded fill !text-[22px] text-white">waving_hand</span></div>
+              </div>
+              <div class="flex-1 text-col">
+                <span class="font-mono-md text-[10px] uppercase tracking-wider text-tier-c font-bold block">COLLECTOR ĐÃ ĐẾN NHÀ</span>
+                <span class="font-display font-bold text-[15px] text-text-primary">Bắt đầu cân + Peek-check →</span>
+              </div>
+              <span class="material-symbols-rounded !text-[20px] text-tier-c group-hover:translate-x-1 transition shrink-0">arrow_forward</span>
+            </div>
+            <p class="font-body-md text-[12px] text-text-secondary mt-space-12 text-col">{order.collector} quét QR đơn để mở: cân → khối lượng → peek-check chống fraud → HOLD ví ảo → OTP bàn giao Hub.</p>
+            <div class="mt-space-12 flex gap-space-8">
+              {['scale', 'monitor_weight', 'policy', 'pending_actions', 'lock', 'check_circle'].map((ic, i) => (
+                <div class:list={['w-8 h-8 rounded-xl flex items-center justify-center shadow-clay-sm', i === 0 ? 'bg-tier-c text-white' : 'bg-bg-elevated/80 text-text-tertiary']}><span class="material-symbols-rounded fill !text-[14px]">{ic}</span></div>
+              ))}
+            </div>
+          </a>
+
+          <!-- Cancel/Reschedule -->
+          <div class="bg-clay-blush/40 rounded-[24px] shadow-clay-sm border border-tier-h/20 p-space-24">
+            <span class="font-mono-md text-[11px] uppercase tracking-wider text-tier-h font-bold flex items-center gap-space-8">
+              <span class="material-symbols-rounded fill !text-[14px]">edit_calendar</span>
+              ĐỔI Ý?
+            </span>
+            <p class="font-body-md text-[12px] text-text-secondary mt-space-12 text-col">Huỷ miễn phí trước slot 1 giờ. Sau khi đã HOLD ví ảo, đơn không huỷ được — chờ verify hoàn tất.</p>
+            <button class="mt-space-16 w-full bg-bg-elevated text-text-primary border border-border-subtle py-space-12 rounded-2xl font-mono-md text-[12px] font-bold shadow-clay-sm hover:shadow-clay">
+              Đổi slot / địa chỉ
+            </button>
+          </div>
+
+          <a href="/orders.html" class="bg-text-primary text-white py-space-16 rounded-2xl font-bold shadow-clay text-[15px] inline-flex items-center justify-center gap-space-8 hover:-translate-y-[2px] transition">
+            <span class="material-symbols-rounded fill !text-[20px]">list_alt</span>
+            Về danh sách đơn
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

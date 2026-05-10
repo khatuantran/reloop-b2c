@@ -1,0 +1,162 @@
+---
+interface Props {
+  collectorName: string;
+  hubName?: string;
+  alreadyReviewed?: boolean;
+  collectorRating?: number;
+  hubRating?: number;
+  collectorTags?: string[];
+  reviewText?: string;
+  reviewedAt?: string;
+}
+
+const {
+  collectorName,
+  hubName = 'Hub Q.7',
+  alreadyReviewed = false,
+  collectorRating = 5,
+  hubRating = 5,
+  collectorTags = ['Đúng giờ', 'Cân chuẩn', 'Lịch sự'],
+  reviewText,
+  reviewedAt,
+} = Astro.props;
+
+const collectorTagOptions = [
+  { id: 'on_time', label: 'Đúng giờ', icon: 'schedule', tone: 'mint' },
+  { id: 'fair_scale', label: 'Cân chuẩn', icon: 'scale', tone: 'mint' },
+  { id: 'polite', label: 'Lịch sự', icon: 'sentiment_satisfied', tone: 'mint' },
+  { id: 'careful', label: 'Cẩn thận', icon: 'verified_user', tone: 'sky' },
+  { id: 'late', label: 'Đến trễ', icon: 'schedule', tone: 'butter' },
+  { id: 'rude', label: 'Thái độ tệ', icon: 'sentiment_dissatisfied', tone: 'blush' },
+];
+
+const toneClass: Record<string, string> = {
+  mint: 'bg-clay-mint border-tier-s/30 text-tier-s',
+  sky: 'bg-clay-sky border-info/30 text-info',
+  butter: 'bg-clay-butter border-amber-deep/30 text-amber-deep',
+  blush: 'bg-clay-blush border-tier-h/30 text-tier-h',
+};
+---
+
+<section class="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-32">
+  {alreadyReviewed ? (
+    <div>
+      <div class="flex items-center justify-between mb-space-16">
+        <div>
+          <span class="font-mono-md text-[12px] uppercase tracking-wider text-tier-s font-semibold flex items-center gap-space-8">
+            <span class="material-symbols-rounded fill !text-[16px]">reviews</span>
+            ĐÁNH GIÁ CỦA BẠN
+          </span>
+          <h3 class="font-h2 text-h2 text-text-primary mt-space-8">Đã gửi · {reviewedAt}</h3>
+        </div>
+        <button class="font-mono-md text-[12px] text-tier-s font-bold hover:underline inline-flex items-center gap-space-4">
+          <span class="material-symbols-rounded !text-[14px]">edit</span>
+          Sửa
+        </button>
+      </div>
+      <div class="grid grid-cols-2 gap-space-16">
+        <!-- Collector review -->
+        <div class="bg-clay-mint rounded-2xl p-space-24 border-2 border-tier-s/20 shadow-clay-sm">
+          <span class="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold block mb-space-8">COLLECTOR</span>
+          <span class="font-display font-bold text-[14px] text-text-primary block mb-space-8">{collectorName}</span>
+          <div class="flex items-center gap-space-4 mb-space-12">
+            {[1, 2, 3, 4, 5].map((s) => (
+              <span class:list={['material-symbols-rounded fill !text-[20px]', s <= collectorRating ? 'text-amber-deep' : 'text-text-tertiary opacity-30']}>star</span>
+            ))}
+            <span class="font-mono-md text-[13px] text-text-primary font-bold tabular-nums ml-space-8">{collectorRating}.0</span>
+          </div>
+          <div class="flex flex-wrap gap-space-4">
+            {collectorTags.map((t) => (
+              <span class="px-space-8 py-[2px] rounded-full bg-bg-elevated border border-tier-s/30 font-mono-md text-[10px] text-tier-s font-bold">{t}</span>
+            ))}
+          </div>
+        </div>
+        <!-- Hub review -->
+        <div class="bg-clay-sky rounded-2xl p-space-24 border-2 border-info/20 shadow-clay-sm">
+          <span class="font-mono-md text-[11px] uppercase tracking-wider text-info font-bold block mb-space-8">HUB</span>
+          <span class="font-display font-bold text-[14px] text-text-primary block mb-space-8">{hubName}</span>
+          <div class="flex items-center gap-space-4 mb-space-12">
+            {[1, 2, 3, 4, 5].map((s) => (
+              <span class:list={['material-symbols-rounded fill !text-[20px]', s <= hubRating ? 'text-amber-deep' : 'text-text-tertiary opacity-30']}>star</span>
+            ))}
+            <span class="font-mono-md text-[13px] text-text-primary font-bold tabular-nums ml-space-8">{hubRating}.0</span>
+          </div>
+          {reviewText && <p class="font-body-md text-[12px] text-text-secondary leading-relaxed">{reviewText}</p>}
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div>
+      <div class="mb-space-24">
+        <span class="font-mono-md text-[12px] uppercase tracking-wider text-tier-s font-semibold flex items-center gap-space-8">
+          <span class="material-symbols-rounded fill !text-[16px]">reviews</span>
+          ĐÁNH GIÁ TRẢI NGHIỆM
+        </span>
+        <h3 class="font-h2 text-h2 text-text-primary mt-space-8">Trải nghiệm của bạn thế nào?</h3>
+        <p class="font-body-md text-[13px] text-text-secondary mt-space-4">Đánh giá giúp Trust & Safety theo dõi chất lượng — bạn được +5 GP cho mỗi review</p>
+      </div>
+
+      <!-- Collector rating -->
+      <div class="mb-space-24 p-space-24 bg-bg-surface rounded-2xl border-2 border-border-subtle">
+        <div class="flex items-center justify-between mb-space-16">
+          <div class="flex items-center gap-space-12">
+            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-clay-sky to-info flex items-center justify-center text-white font-display font-extrabold shadow-clay-sm">
+              {collectorName[0]}
+            </div>
+            <div>
+              <span class="font-mono-md text-[10px] uppercase tracking-wider text-info font-bold block">COLLECTOR</span>
+              <span class="font-display font-bold text-[14px] text-text-primary">{collectorName}</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-space-4">
+            {[1, 2, 3, 4, 5].map((s) => (
+              <button class:list={['w-10 h-10 rounded-xl flex items-center justify-center shadow-clay-sm transition hover:-translate-y-[1px]', s <= 5 ? 'bg-clay-butter border border-amber-deep/30' : 'bg-bg-elevated border border-border-subtle']}>
+                <span class:list={['material-symbols-rounded fill !text-[24px]', s <= 5 ? 'text-amber-deep' : 'text-text-tertiary']}>star</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-space-8">
+          {collectorTagOptions.map((t, i) => (
+            <button class:list={['px-space-12 py-space-8 rounded-full border-2 font-mono-md text-[12px] font-semibold flex items-center gap-space-8 transition shadow-clay-sm hover:shadow-clay', i < 3 ? toneClass[t.tone] : 'bg-bg-elevated border-border-subtle text-text-secondary']}>
+              <span class="material-symbols-rounded !text-[14px]">{t.icon}</span>
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Hub rating -->
+      <div class="mb-space-24 p-space-24 bg-bg-surface rounded-2xl border-2 border-border-subtle">
+        <div class="flex items-center justify-between mb-space-16">
+          <div class="flex items-center gap-space-12">
+            <div class="w-10 h-10 rounded-2xl bg-clay-mint flex items-center justify-center shadow-clay-sm">
+              <span class="material-symbols-rounded fill !text-[20px] text-tier-s">warehouse</span>
+            </div>
+            <div>
+              <span class="font-mono-md text-[10px] uppercase tracking-wider text-tier-s font-bold block">HUB</span>
+              <span class="font-display font-bold text-[14px] text-text-primary">{hubName} · Tier 3 ISO 14001</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-space-4">
+            {[1, 2, 3, 4, 5].map((s) => (
+              <button class:list={['w-10 h-10 rounded-xl flex items-center justify-center shadow-clay-sm transition hover:-translate-y-[1px]', s <= 5 ? 'bg-clay-butter border border-amber-deep/30' : 'bg-bg-elevated border border-border-subtle']}>
+                <span class:list={['material-symbols-rounded fill !text-[24px]', s <= 5 ? 'text-amber-deep' : 'text-text-tertiary']}>star</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Free text -->
+      <div class="mb-space-24 bg-bg-surface rounded-2xl border-2 border-border-subtle p-space-16 shadow-inset-soft">
+        <textarea class="w-full h-24 bg-transparent border-0 focus:outline-none font-body-md text-[14px] text-text-primary resize-none placeholder:text-text-tertiary" placeholder="Chia sẻ thêm (tuỳ chọn) — review hữu ích nhất sẽ hiển thị công khai trên hồ sơ Hub"></textarea>
+      </div>
+
+      <button class="w-full bg-text-primary text-white py-space-16 rounded-2xl font-semibold shadow-clay text-[15px] inline-flex items-center justify-center gap-space-8 hover:-translate-y-[2px] transition">
+        <span class="material-symbols-rounded fill !text-[20px]">send</span>
+        Gửi đánh giá · Nhận +5 GP
+      </button>
+    </div>
+  )}
+</section>

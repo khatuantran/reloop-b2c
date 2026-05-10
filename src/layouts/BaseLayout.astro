@@ -1,39 +1,43 @@
 ---
 import '../styles/global.css';
+import Footer from '../components/layout/Footer.astro';
 
 interface Props {
   title?: string;
   description?: string;
   hideNav?: boolean;
+  hideFooter?: boolean;
 }
 
 const {
   title = 'RE-LOOP — Bán rác trong 60 giây',
   description = 'Nền tảng kinh tế tuần hoàn B2C cho Việt Nam. AI 4-Tier waste classification, ZaloPay 60 giây.',
-  hideNav = false,
+  hideFooter = false,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="vi" class="dark">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#E5EDDD" />
     <meta name="description" content={description} />
     <title>{title}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200..700,0..1,0..200&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400..700,0..1,0..200&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200..700,0..1,0..200&display=swap"
       rel="stylesheet"
     />
   </head>
   <body class="bg-bg-base text-text-primary font-body-md">
     <slot />
+    {!hideFooter && <Footer />}
   </body>
 </html>

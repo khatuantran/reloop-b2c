@@ -1,0 +1,68 @@
+---
+interface SpotCheck {
+  date: string;
+  hubName: string;
+  itemsChecked: number;
+  passed: number;
+  status: 'PASSED' | 'MINOR' | 'MAJOR';
+  evidenceCount: number;
+}
+
+interface Props {
+  recentChecks: SpotCheck[];
+  passRate: number;
+  totalChecks: number;
+}
+
+const { recentChecks, passRate, totalChecks } = Astro.props;
+
+const statusMeta: Record<string, { label: string; clay: string; accent: string; icon: string }> = {
+  PASSED: { label: 'Đạt 100%', clay: 'bg-clay-mint', accent: 'text-tier-s', icon: 'check_circle' },
+  MINOR: { label: 'Sai số nhỏ', clay: 'bg-clay-butter', accent: 'text-amber-deep', icon: 'warning' },
+  MAJOR: { label: 'Cảnh báo', clay: 'bg-clay-blush', accent: 'text-tier-h', icon: 'error' },
+};
+---
+
+<div class="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-32">
+  <div class="flex items-end justify-between mb-space-24">
+    <div>
+      <span class="font-mono-md text-[12px] uppercase tracking-wider text-tier-s font-semibold flex items-center gap-space-8">
+        <span class="material-symbols-rounded fill !text-[16px]">policy</span>
+        HUB SPOT CHECK
+      </span>
+      <h3 class="font-h2 text-h2 text-text-primary mt-space-8">Kiểm tra ngẫu nhiên 10%</h3>
+      <p class="font-body-md text-[12px] text-text-secondary mt-space-4 max-w-[440px]">
+        RE-LOOP audit ngẫu nhiên 10% đơn Tier C tại Hub · Kết quả công khai để bạn theo dõi tính minh bạch
+      </p>
+    </div>
+    <div class="bg-clay-mint rounded-2xl p-space-16 border-2 border-tier-s/30 shadow-clay-sm flex flex-col items-center min-w-[120px]">
+      <span class="font-mono-md text-[10px] text-tier-s uppercase tracking-wider font-bold">PASS RATE</span>
+      <span class="font-display font-extrabold text-[32px] text-tier-s tabular-nums leading-none mt-space-4">{passRate}%</span>
+      <span class="font-mono-md text-[10px] text-text-tertiary mt-space-4">{totalChecks} lần check</span>
+    </div>
+  </div>
+
+  <div class="flex flex-col divide-y divide-border-subtle">
+    {recentChecks.map((c) => {
+      const meta = statusMeta[c.status];
+      return (
+        <div class="flex items-center gap-space-16 py-space-16">
+          <div class:list={['w-12 h-12 rounded-2xl flex items-center justify-center shadow-clay-sm shrink-0', meta.clay]}>
+            <span class:list={['material-symbols-rounded fill !text-[22px]', meta.accent]}>{meta.icon}</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-space-8 mb-space-4">
+              <span class="font-display font-bold text-[14px] text-text-primary truncate">{c.hubName}</span>
+              <span class:list={['font-mono-md text-[10px] uppercase tracking-wider font-bold px-space-8 py-[2px] rounded-full border', meta.accent, `border-${meta.accent.replace('text-', '')}/40`, meta.clay]}>{meta.label}</span>
+            </div>
+            <span class="font-mono-md text-[11px] text-text-tertiary">{c.date} · {c.passed}/{c.itemsChecked} mục đạt · {c.evidenceCount} ảnh evidence</span>
+          </div>
+          <a href="#" class="font-mono-md text-[11px] text-tier-s font-bold hover:underline inline-flex items-center gap-space-4 shrink-0">
+            Xem
+            <span class="material-symbols-rounded !text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+      );
+    })}
+  </div>
+</div>
