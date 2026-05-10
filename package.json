@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "build": "astro build && node scripts/relativize.mjs",
     "build:figma": "npm run build && node scripts/build-figma.mjs",
+    "bundle:handoff": "npm run build:figma && node scripts/bundle-handoff.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

@@ -170,8 +170,11 @@ export PATH="/opt/homebrew/bin:$PATH"   # nếu hệ thống có Node v12 cũ
 npm run dev          # localhost:4321
 npm run build        # → dist/ với post-build relativize (multi-file, dev preview)
 npm run build:figma  # → dist-figma/ self-contained HTML cho Figma html.to.design import
+npm run bundle:handoff  # → handoff/ (screens-html + source-code + raster-images + docs) để hand cho AI tái tạo; xem docs/AI_HANDOFF.md
 npm run preview      # serve dist/
 ```
+
+**AI handoff bundle** (`scripts/bundle-handoff.mjs` → `handoff/`, gitignored): đóng gói toàn bộ artifact (HTML standalone, source, ảnh, docs) + `docs/AI_HANDOFF.md` (spec + prompt) để hand cho Claude/công cụ design dựng lại app y chang. Thêm route/màn mới → `docs/AI_HANDOFF.md` §4 (map 87 màn) cần cập nhật theo.
 
 ## Building for Figma import
 
