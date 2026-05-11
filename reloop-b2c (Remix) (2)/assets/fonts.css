@@ -1,0 +1,7 @@
+/*
+ * RE-LOOP — fonts (CDN)
+ * Replaces the 2.4MB base64-embedded build. Browser caches Google Fonts
+ * across sessions; Inter / Plus Jakarta Sans / JetBrains Mono are common
+ * enough that most visitors already have them cached.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');

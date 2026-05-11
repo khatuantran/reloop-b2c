@@ -1,0 +1,129 @@
+export default function PersonaLinh({ className = '' }) {
+  return (
+    <>
+      <svg viewBox="0 0 300 300" className={className} xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="pl-bg" cx="50%" cy="40%">
+            <stop offset="0%" stopColor="#C7F2D6"/>
+            <stop offset="100%" stopColor="#52E08D"/>
+          </radialGradient>
+          <radialGradient id="pl-skin" cx="40%" cy="35%">
+            <stop offset="0%" stopColor="#FFE3CC"/>
+            <stop offset="100%" stopColor="#E8B89C"/>
+          </radialGradient>
+          <linearGradient id="pl-hair" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#3F2A0F"/>
+            <stop offset="100%" stopColor="#1F1308"/>
+          </linearGradient>
+          <linearGradient id="pl-shirt" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#7AEFA8"/>
+            <stop offset="100%" stopColor="#2BB36A"/>
+          </linearGradient>
+          <radialGradient id="pl-cheek" cx="50%" cy="50%">
+            <stop offset="0%" stopColor="#FFB8A8" stopOpacity="0.7"/>
+            <stop offset="100%" stopColor="#FFB8A8" stopOpacity="0"/>
+          </radialGradient>
+        </defs>
+      
+        {/* Background circle */}
+        <circle cx="150" cy="150" r="150" fill="url(#pl-bg)"/>
+        {/* Decorative dots */}
+        <g fill="white" opacity="0.4">
+          <circle cx="40" cy="60" r="4"/>
+          <circle cx="260" cy="80" r="5"/>
+          <circle cx="50" cy="240" r="3"/>
+          <circle cx="270" cy="220" r="4"/>
+          <circle cx="30" cy="150" r="2.5"/>
+        </g>
+        <g transform="translate(50,50)">
+          <path d="M0 -8 L1.5 -1.5 L8 0 L1.5 1.5 L0 8 L-1.5 1.5 L-8 0 L-1.5 -1.5 Z" fill="white" opacity="0.7"/>
+        </g>
+        <g transform="translate(255,160)">
+          <path d="M0 -10 L2 -2 L10 0 L2 2 L0 10 L-2 2 L-10 0 L-2 -2 Z" fill="white" opacity="0.6"/>
+        </g>
+      
+        {/* Body shoulders */}
+        <path d="M70 290 Q70 220 150 215 Q230 220 230 290 Z" fill="url(#pl-shirt)"/>
+        {/* Shirt collar */}
+        <path d="M130 220 Q150 235 170 220 L170 230 Q150 245 130 230 Z" fill="white" opacity="0.85"/>
+        {/* Shirt highlight */}
+        <path d="M75 290 Q75 240 110 225" stroke="#9CF5BF" strokeWidth="3" fill="none" opacity="0.6"/>
+      
+        {/* Neck */}
+        <path d="M132 200 Q132 220 150 222 Q168 220 168 200 Z" fill="url(#pl-skin)"/>
+        <path d="M134 215 Q150 224 166 215" stroke="#C99880" strokeWidth="0.8" fill="none" opacity="0.6"/>
+      
+        {/* Head shape */}
+        <ellipse cx="150" cy="140" rx="58" ry="65" fill="url(#pl-skin)"/>
+        {/* Face shadow side */}
+        <path d="M192 110 Q210 140 200 195 Q175 200 170 198 Q170 150 180 120 Z" fill="#E8B89C" opacity="0.5"/>
+      
+        {/* Hair back */}
+        <path d="M85 130 Q80 80 130 70 Q170 65 210 80 Q220 110 215 145 Q215 105 195 90 Q170 80 145 82 Q115 88 95 110 Q88 130 90 155 Q82 145 85 130 Z" fill="url(#pl-hair)"/>
+        {/* Hair top */}
+        <path d="M93 105 Q105 60 155 55 Q210 60 218 110 Q220 95 215 85 Q200 50 155 50 Q105 50 90 95 Q88 110 93 105 Z" fill="url(#pl-hair)"/>
+        {/* Hair side strands */}
+        <path d="M93 130 Q90 200 105 240 Q98 200 95 145 Z" fill="url(#pl-hair)"/>
+        <path d="M210 130 Q215 200 200 240 Q210 200 213 145 Z" fill="url(#pl-hair)"/>
+        {/* Hair highlight */}
+        <path d="M105 80 Q120 65 145 62" stroke="#5A3F1A" strokeWidth="2" fill="none" opacity="0.6"/>
+        <path d="M195 75 Q210 90 215 110" stroke="#5A3F1A" strokeWidth="2" fill="none" opacity="0.6"/>
+        {/* Bangs */}
+        <path d="M115 95 Q130 110 150 105 Q170 100 180 110 Q175 90 155 85 Q130 88 115 95 Z" fill="url(#pl-hair)"/>
+      
+        {/* Earrings */}
+        <circle cx="92" cy="155" r="3" fill="#E8B340"/>
+        <circle cx="208" cy="155" r="3" fill="#E8B340"/>
+      
+        {/* Eyebrows */}
+        <path d="M118 122 Q128 117 140 121" stroke="#1F1308" strokeWidth="3" fill="none" strokeLinecap="round"/>
+        <path d="M160 121 Q172 117 182 122" stroke="#1F1308" strokeWidth="3" fill="none" strokeLinecap="round"/>
+      
+        {/* Eyes */}
+        <g>
+          {/* Left eye */}
+          <ellipse cx="128" cy="138" rx="7" ry="5" fill="white"/>
+          <circle cx="128" cy="139" r="4.5" fill="#3F2A0F"/>
+          <circle cx="128" cy="138" r="2.5" fill="#1F1308"/>
+          <circle cx="129" cy="136" r="1.5" fill="white"/>
+          {/* Right eye */}
+          <ellipse cx="172" cy="138" rx="7" ry="5" fill="white"/>
+          <circle cx="172" cy="139" r="4.5" fill="#3F2A0F"/>
+          <circle cx="172" cy="138" r="2.5" fill="#1F1308"/>
+          <circle cx="173" cy="136" r="1.5" fill="white"/>
+          {/* Eyelashes */}
+          <path d="M122 134 L120 132 M125 132 L124 130 M131 132 L132 130 M134 134 L136 132" stroke="#1F1308" strokeWidth="1" strokeLinecap="round"/>
+          <path d="M166 134 L164 132 M169 132 L168 130 M175 132 L176 130 M178 134 L180 132" stroke="#1F1308" strokeWidth="1" strokeLinecap="round"/>
+        </g>
+      
+        {/* Nose */}
+        <path d="M148 150 Q146 162 145 168 Q150 172 155 168 Q154 162 152 150" fill="#E8B89C" opacity="0.7"/>
+        <ellipse cx="146" cy="170" rx="1.5" ry="1" fill="#C99880" opacity="0.5"/>
+        <ellipse cx="154" cy="170" rx="1.5" ry="1" fill="#C99880" opacity="0.5"/>
+      
+        {/* Cheeks blush */}
+        <ellipse cx="115" cy="160" rx="14" ry="9" fill="url(#pl-cheek)"/>
+        <ellipse cx="185" cy="160" rx="14" ry="9" fill="url(#pl-cheek)"/>
+      
+        {/* Mouth - friendly smile */}
+        <path d="M138 182 Q150 192 162 182" stroke="#A04030" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+        <path d="M141 184 Q150 188 159 184" fill="#FFB8A8" opacity="0.6"/>
+      
+        {/* Recycling necklace pendant (eco theme) */}
+        <g transform="translate(150,235)">
+          <line x1="-25" y1="-22" x2="0" y2="-2" stroke="#E8B340" strokeWidth="0.8"/>
+          <line x1="25" y1="-22" x2="0" y2="-2" stroke="#E8B340" strokeWidth="0.8"/>
+          <circle cy="3" r="9" fill="#E8B340"/>
+          <circle cy="3" r="7" fill="#FFE9B3"/>
+          <text y="6" textAnchor="middle" fontSize="9" fontWeight="800" fill="#52E08D" fontFamily="Inter">♻</text>
+        </g>
+      
+        {/* Verified badge */}
+        <g transform="translate(220,90)">
+          <circle r="20" fill="#52E08D" stroke="white" strokeWidth="3"/>
+          <path d="M-7 0 L-2 6 L7 -6" stroke="white" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+        </g>
+      </svg>
+    </>
+  );
+}

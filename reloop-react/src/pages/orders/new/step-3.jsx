@@ -1,0 +1,153 @@
+import { cx } from '@/lib/cx';
+import OrderStepperBar from '../../../components/order/OrderStepperBar';
+import StepHero from '../../../components/order/StepHero';
+
+export default function Step3() {
+  const steps = [
+    { n: 1, label: 'Chụp ảnh', icon: 'photo_camera', href: '/orders/new/tier-s.html' },
+    { n: 2, label: 'AI nhận diện', icon: 'smart_toy', href: '/orders/new/step-2.html' },
+    { n: 3, label: 'Báo giá', icon: 'paid', href: '/orders/new/step-3.html' },
+    { n: 4, label: 'Địa chỉ', icon: 'location_on', href: '/orders/new/step-4.html' },
+    { n: 5, label: 'Lịch hẹn', icon: 'schedule', href: '/orders/new/step-5.html' },
+    { n: 6, label: 'Xác nhận', icon: 'check_circle', href: '/orders/new/step-6.html' },
+  ];
+  
+  const total = 17_600; // 3.2 kg × 5.500đ
+  const userShare = Math.round(total * 0.75); // 13.200
+  const hubShare = Math.round(total * 0.15); // 2.640
+  const reloopShare = total - userShare - hubShare; // 1.760
+  const split = [
+    { who: 'Bạn (75%)', amount: userShare, accent: 'text-tier-s', strong: true },
+    { who: 'Hub thu gom (15%)', amount: hubShare, accent: 'text-text-tertiary', strong: false },
+    { who: 'RE-LOOP — logistics, app, ZaloPay (10%)', amount: reloopShare, accent: 'text-text-tertiary', strong: false },
+  ];
+  const why = [
+    { icon: 'local_shipping', t: 'Hub lo logistics', d: 'Collector tới tận nhà, cân, vận chuyển về Hub — bạn không trả phí xe.' },
+    { icon: 'account_balance_wallet', t: 'RE-LOOP chịu phí ZaloPay', d: 'Chuyển khoản 60 giây, không trừ phí giao dịch của bạn.' },
+  ];
+  return (
+    <>
+      <main className="pt-[100px] pb-space-96 min-h-screen">
+          <div className="max-w-[1280px] mx-auto px-[80px]">
+            <a href="/orders/new/step-2" className="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-s font-semibold mb-space-16">
+              <span className="material-symbols-rounded !text-[16px]">arrow_back</span>
+              Bước 2 · AI nhận diện
+            </a>
+      
+            <OrderStepperBar steps={steps} activeStep={3} tierAccent="tier-s" />
+      
+            <StepHero
+              eyebrow="Tier S · Bước 3/6 · Báo giá"
+              title="Giá CHẮC CHẮN — không thương lượng"
+              subtitle="Tier S vật liệu đồng nhất → AI báo giá cuối ngay, chốt tại bàn cân"
+              accent="tier-s"
+              illustration="package"
+              chips={[
+                { icon: 'verified', label: 'Cam kết', value: 'Giá cứng', tone: 'mint' },
+                { icon: 'paid', label: 'Đơn giá PET', value: '5.500đ/kg', tone: 'sky' },
+                { icon: 'scale', label: 'Khối lượng', value: '~3.2 kg', tone: 'mint' },
+              ]}
+            />
+      
+            <div className="grid grid-cols-[2fr_1fr] gap-space-32">
+              <div className="flex flex-col gap-space-24">
+                {/* Price card */}
+                <section className="bg-clay-mint rounded-[28px] shadow-clay border-2 border-tier-s/30 p-space-40 relative overflow-hidden">
+                  <svg className="absolute top-space-16 right-space-24 w-8 h-8" viewBox="0 0 32 32" fill="none">
+                    <path d="M16 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#2BB36A" opacity="0.5" />
+                  </svg>
+                  <span className="font-mono-md text-[12px] uppercase tracking-wider text-tier-s font-semibold flex items-center gap-space-8">
+                    <span className="material-symbols-rounded fill !text-[16px]">payments</span>
+                    BẠN NHẬN
+                  </span>
+                  <div className="font-display font-extrabold text-[56px] text-text-primary tabular-nums leading-none mt-space-12">{userShare.toLocaleString('vi-VN')}đ</div>
+                  <p className="font-body-md text-[13px] text-text-secondary mt-space-8">3.2 kg × 5.500đ/kg = {total.toLocaleString('vi-VN')}đ giá thị trường</p>
+                  <div className="mt-space-24 flex flex-col gap-space-8 bg-bg-elevated/60 rounded-2xl p-space-20">
+                    {split.map((s) => (
+                      <div className="flex items-center justify-between">
+                        <span className={cx(['font-body-md text-[13px]', s.strong ? 'text-text-primary font-semibold' : 'text-text-secondary'])}>{s.who}</span>
+                        <span className={cx(['font-mono-md text-[13px] tabular-nums', s.accent, s.strong && 'font-bold'])}>{s.amount.toLocaleString('vi-VN')}đ</span>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+      
+                {/* Why 75% */}
+                <section className="bg-bg-elevated rounded-[28px] shadow-clay-sm border border-border-subtle p-space-32">
+                  <span className="font-mono-md text-[12px] uppercase tracking-wider text-tier-s font-semibold flex items-center gap-space-8 mb-space-16">
+                    <span className="material-symbols-rounded fill !text-[16px]">info</span>
+                    VÌ SAO BẠN NHẬN 75%?
+                  </span>
+                  <p className="font-body-md text-[14px] text-text-secondary mb-space-16 text-col">25% còn lại trả cho việc collector tới tận nhà cân + vận chuyển về Hub + xử lý chuyển khoản. Bạn <strong className="text-text-primary">không trả thêm đồng nào</strong> — không phí xe, không phí ZaloPay.</p>
+                  <div className="grid grid-cols-2 gap-space-16">
+                    {why.map((w) => (
+                      <div className="bg-bg-base/50 rounded-2xl border border-border-subtle p-space-20 flex items-start gap-space-12">
+                        <div className="w-10 h-10 rounded-xl bg-clay-mint flex items-center justify-center shadow-clay-sm shrink-0">
+                          <span className="material-symbols-rounded fill !text-[18px] text-tier-s">{w.icon}</span>
+                        </div>
+                        <div className="flex-1 text-col">
+                          <span className="font-display font-bold text-[13px] text-text-primary block">{w.t}</span>
+                          <p className="font-body-md text-[12px] text-text-secondary mt-space-4">{w.d}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+      
+                <div className="flex justify-between gap-space-12">
+                  <a href="/orders/new/step-2" className="px-space-24 py-space-12 rounded-2xl text-text-primary border border-border-default bg-bg-elevated shadow-clay-sm hover:shadow-clay font-medium text-[13px] transition inline-flex items-center gap-space-8">
+                    <span className="material-symbols-rounded !text-[16px]">arrow_back</span> Quay lại
+                  </a>
+                  <a href="/orders/new/step-4" className="px-space-32 py-[14px] rounded-2xl bg-lime text-text-on-lime font-semibold text-[14px] shadow-clay-lime hover:-translate-y-[2px] transition inline-flex items-center gap-space-8">
+                    Tiếp tục → Bước 4 · Địa chỉ
+                    <span className="material-symbols-rounded !text-[18px]">arrow_forward</span>
+                  </a>
+                </div>
+              </div>
+      
+              {/* Sidebar */}
+              <div className="flex flex-col gap-space-16">
+                <div className="bg-clay-mint rounded-[24px] shadow-clay border-2 border-tier-s/30 p-space-24">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold flex items-center gap-space-8 mb-space-12">
+                    <span className="material-symbols-rounded fill !text-[14px]">eco</span>
+                    TÁC ĐỘNG ĐƠN NÀY
+                  </span>
+                  <div className="grid grid-cols-2 gap-space-8">
+                    <div className="bg-bg-elevated/70 rounded-2xl p-space-16 text-col">
+                      <span className="material-symbols-rounded fill !text-[20px] text-tier-s">redeem</span>
+                      <span className="font-display font-extrabold text-[20px] text-text-primary tabular-nums block mt-space-4">+16 GP</span>
+                      <span className="font-mono-md text-[10px] text-text-tertiary block">Cộng khi hoàn tất</span>
+                    </div>
+                    <div className="bg-bg-elevated/70 rounded-2xl p-space-16 text-col">
+                      <span className="material-symbols-rounded fill !text-[20px] text-amber-deep">co2</span>
+                      <span className="font-display font-extrabold text-[20px] text-text-primary tabular-nums block mt-space-4">−5 kg</span>
+                      <span className="font-mono-md text-[10px] text-text-tertiary block">CO₂ tránh phát thải</span>
+                    </div>
+                  </div>
+                </div>
+      
+                <div className="bg-bg-elevated rounded-[24px] shadow-clay-sm border border-border-subtle p-space-24">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-text-tertiary font-bold block mb-space-12">DÒNG TIỀN</span>
+                  <ol className="flex flex-col gap-space-12">
+                    {[
+                      { n: 1, icon: 'scale', t: 'Collector cân tại nhà', d: 'Smart Scale QTĐLVN 252' },
+                      { n: 2, icon: 'check_circle', t: 'Bạn xác nhận khối lượng', d: 'Đồng ý hoặc báo sai' },
+                      { n: 3, icon: 'bolt', t: 'ZaloPay trong 60 giây', d: 'Tự động, RE-LOOP chịu phí' },
+                    ].map((x) => (
+                      <li className="flex items-start gap-space-12">
+                        <div className="w-8 h-8 rounded-xl bg-clay-mint flex items-center justify-center shadow-clay-sm shrink-0 font-mono-md text-[12px] text-tier-s font-bold">{x.n}</div>
+                        <div className="flex-1 text-col">
+                          <span className="font-display font-bold text-[12px] text-text-primary block flex items-center gap-space-4"><span className="material-symbols-rounded fill !text-[14px] text-tier-s">{x.icon}</span>{x.t}</span>
+                          <span className="font-mono-md text-[10px] text-text-tertiary block mt-[2px]">{x.d}</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+    </>
+  );
+}

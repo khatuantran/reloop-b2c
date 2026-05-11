@@ -1,0 +1,52 @@
+export default function Button({ variant = 'primary',
+  href,
+  type = 'button',
+  disabled = false,
+  size = 'md',
+  className = '',
+  id, children }) {
+  const base =
+    'inline-flex items-center justify-center gap-space-8 font-semibold transition-all duration-200 rounded-2xl active:scale-[0.98] hover:-translate-y-[2px]';
+  
+  const sizes = {
+    md: 'px-space-24 py-space-12 text-[14px]',
+    lg: 'px-space-32 py-[14px] text-[16px]',
+  };
+  
+  const variants = {
+    primary: disabled
+      ? 'bg-border-default text-text-tertiary cursor-not-allowed'
+      : 'bg-lime text-text-on-lime shadow-clay-lime hover:bg-lime-deep',
+    dark: disabled
+      ? 'bg-border-default text-text-tertiary cursor-not-allowed'
+      : 'bg-text-primary text-white shadow-clay hover:bg-forest',
+    ghost: disabled
+      ? 'border border-border-subtle text-text-tertiary cursor-not-allowed'
+      : 'bg-bg-elevated border border-border-default text-text-primary shadow-clay-sm hover:shadow-clay',
+    secondary: disabled
+      ? 'border border-border-subtle text-text-tertiary cursor-not-allowed'
+      : 'bg-bg-elevated border border-border-default text-text-primary shadow-clay-sm hover:shadow-clay',
+    'tier-c': disabled
+      ? 'bg-border-default text-text-tertiary cursor-not-allowed'
+      : 'bg-tier-c text-white shadow-clay hover:bg-tier-c/90',
+    cash: disabled
+      ? 'bg-border-default text-text-tertiary cursor-not-allowed'
+      : 'bg-clay-butter text-amber-deep border-2 border-amber-deep/30 shadow-clay-sm',
+  };
+  
+  const classes = `${base} ${sizes[size]} ${variants[variant]} ${className}`;
+  const Tag = href ? 'a' : 'button';
+  return (
+    <>
+      <Tag
+        className={classes}
+        href={href}
+        type={!href ? type : undefined}
+        disabled={!href ? disabled : undefined}
+        id={id}
+      >
+        {children}
+      </Tag>
+    </>
+  );
+}

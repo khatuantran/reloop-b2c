@@ -1,0 +1,125 @@
+import { cx } from '@/lib/cx';
+import StepHero from '../../../../components/order/StepHero';
+import TxnSidebar from '../../../../components/order/TxnSidebar';
+
+export default function Weighing() {
+  const stepsTS = (active) => ['Cân tại nhà', 'Hiện khối lượng', 'Báo giá cuối', 'OTP xác nhận', 'Hoàn tất'].map((label, i) => ({ label, state: (i + 1 < active ? 'done' : i + 1 === active ? 'active' : 'pending') }));
+  const recording = [
+    { icon: 'monitor_weight', t: 'Khối lượng thực', d: 'Đọc từ cân điện tử', done: true },
+    { icon: 'photo_camera', t: 'Ảnh evidence', d: '3 góc + cận mặt cân', done: true },
+    { icon: 'schedule', t: 'Mốc thời gian', d: 'Đóng dấu vào log đơn', done: true },
+    { icon: 'qr_code_2', t: 'Tem niêm phong', d: 'QR gắn mã đơn RL-…1234', done: false },
+  ];
+  const collectorSteps = [
+    { icon: 'inventory_2', t: 'Đặt bao chai lên cân', done: true },
+    { icon: 'pending', t: 'Chờ số ổn định', done: false },
+    { icon: 'photo_camera', t: 'Chụp ảnh tự động', done: false },
+    { icon: 'cloud_upload', t: 'Đồng bộ lên app', done: false },
+  ];
+  return (
+    <>
+      <main className="pt-[100px] pb-space-96 min-h-screen">
+          <div className="max-w-[1280px] mx-auto px-[80px]">
+            <a href="/orders/RL-2026-001234" className="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-s font-semibold mb-space-16">
+              <span className="material-symbols-rounded !text-[16px]">arrow_back</span>
+              Về chi tiết đơn
+            </a>
+      
+            <StepHero
+              eyebrow="Tier S · Giao dịch 1/5 · Đang cân"
+              title="Collector đang cân tại nhà"
+              subtitle="Cân điện tử QTĐLVN 252 dán tem niêm phong · ghi khối lượng + chụp ảnh tự động"
+              accent="tier-s"
+              illustration="recycle"
+              chips={[
+                { icon: 'scale', label: 'Cân chuẩn', value: 'QTĐLVN 252', tone: 'mint' },
+                { icon: 'photo_camera', label: 'Ghi nhận', value: 'Tự động', tone: 'sky' },
+                { icon: 'verified', label: 'Tem niêm phong', value: 'OK', tone: 'mint' },
+              ]}
+            />
+      
+            <div className="grid grid-cols-[2fr_1fr] gap-space-32">
+              <section className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-40 flex flex-col gap-space-24 relative overflow-hidden">
+                <svg className="absolute top-space-24 left-space-32 w-7 h-7" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="4" fill="#52E08D" opacity="0.4" /></svg>
+                <svg className="absolute bottom-space-24 right-space-32 w-9 h-9" viewBox="0 0 36 36" fill="none"><path d="M18 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#2BB36A" opacity="0.32" /></svg>
+      
+                <div className="flex items-center gap-space-12 relative">
+                  <div className="relative w-14 h-14 shrink-0">
+                    <div className="absolute inset-0 rounded-2xl bg-tier-s/15 animate-ping"></div>
+                    <div className="relative w-full h-full rounded-2xl bg-clay-mint flex items-center justify-center shadow-clay-sm"><span className="material-symbols-rounded fill text-tier-s animate-spin !text-[28px]" style={{ 'animationDuration': '1.6s' }}>scale</span></div>
+                  </div>
+                  <div className="flex-1 text-col">
+                    <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold">ĐANG CÂN TẠI NHÀ</span>
+                    <h2 className="font-h2 text-h2 text-text-primary">Anh Tuấn đang cân vật phẩm</h2>
+                  </div>
+                  <span className="px-space-12 py-[5px] rounded-full bg-clay-mint border border-tier-s/30 font-mono-md text-[10px] text-tier-s font-bold uppercase tracking-wider flex items-center gap-space-4 shrink-0"><span className="w-[6px] h-[6px] rounded-full bg-tier-s animate-pulse"></span>Live</span>
+                </div>
+      
+                {/* Digital scale display */}
+                <div className="bg-forest rounded-[24px] p-space-32 shadow-clay relative overflow-hidden">
+                  <div className="absolute inset-0 opacity-[0.08]" style={{ 'backgroundImage': 'radial-gradient(circle,#52E08D 1px,transparent 1px)', 'backgroundSize': '14px 14px' }}></div>
+                  <div className="relative flex items-end justify-between gap-space-16">
+                    <div className="flex flex-col gap-space-4">
+                      <span className="font-mono-md text-[10px] uppercase tracking-[0.2em] text-lime font-bold">SMART SCALE · QTĐLVN 252</span>
+                      <span className="font-mono-md text-[11px] text-white/50">Cân điện tử dán tem niêm phong</span>
+                    </div>
+                    <span className="font-mono-md text-[11px] text-lime/70 font-semibold flex items-center gap-space-4"><span className="material-symbols-rounded !text-[14px]">bluetooth_connected</span>Đồng bộ…</span>
+                  </div>
+                  <div className="relative mt-space-20 flex items-baseline justify-center gap-space-8">
+                    <span className="font-display font-extrabold text-[76px] text-lime tabular-nums leading-none" style={{ 'textShadow': '0 0 26px rgba(82,224,141,0.55)' }}>~3.2</span>
+                    <span className="font-mono-md text-[22px] text-lime/60 font-bold">kg</span>
+                  </div>
+                  <div className="relative mt-space-20 h-[6px] rounded-full bg-white/10 overflow-hidden"><div className="h-full rounded-full bg-lime animate-pulse" style={{ 'width': '64%' }}></div></div>
+                  <p className="relative mt-space-12 font-mono-md text-[11px] text-white/50 text-center">Chờ số ổn định… 18 chai PET 500ml · ước tính khớp</p>
+                </div>
+      
+                {/* Collector mini-steps */}
+                <div className="flex items-center gap-space-8">
+                  {collectorSteps.map((s, i) => (
+                    <>
+                      <div className={cx(['flex-1 flex flex-col items-center gap-space-8 text-center', s.done ? '' : 'opacity-55'])}>
+                        <div className={cx(['w-9 h-9 rounded-xl flex items-center justify-center shadow-clay-sm', s.done ? 'bg-tier-s text-white' : (i === 1 ? 'bg-clay-mint text-tier-s animate-pulse' : 'bg-bg-base text-text-tertiary')])}><span className="material-symbols-rounded fill !text-[16px]">{s.done ? 'check' : s.icon}</span></div>
+                        <span className="font-mono-md text-[10px] text-text-secondary leading-tight">{s.t}</span>
+                      </div>
+                      {i < collectorSteps.length - 1 && <span className={cx(['material-symbols-rounded !text-[14px] -mt-space-16', s.done ? 'text-tier-s' : 'text-border-default'])}>arrow_forward</span>}
+                    </>
+                  ))}
+                </div>
+      
+                {/* Recording checklist */}
+                <div>
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-text-tertiary font-bold flex items-center gap-space-8 mb-space-12"><span className="material-symbols-rounded fill !text-[14px] text-tier-s">checklist</span>ĐANG GHI NHẬN VÀO LOG ĐƠN</span>
+                  <div className="grid grid-cols-2 gap-space-12">
+                    {recording.map((r) => (
+                      <div className={cx(['flex items-start gap-space-12 p-space-12 rounded-2xl border-2 shadow-clay-sm', r.done ? 'bg-clay-mint border-tier-s/30' : 'bg-bg-base/50 border-border-subtle'])}>
+                        <div className={cx(['w-8 h-8 rounded-xl flex items-center justify-center shadow-clay-sm shrink-0', r.done ? 'bg-tier-s text-white' : 'bg-bg-elevated text-text-tertiary'])}><span className="material-symbols-rounded fill !text-[16px]">{r.done ? 'check' : r.icon}</span></div>
+                        <div className="flex-1 text-col"><span className="font-display font-bold text-[12px] text-text-primary block">{r.t}</span><span className="font-mono-md text-[10px] text-text-tertiary block mt-[2px]">{r.d}</span></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+      
+                <a href="/orders/transaction-flow/tier-s/weight-reveal" className="self-center px-space-32 py-[14px] rounded-2xl bg-lime text-text-on-lime font-semibold text-[14px] shadow-clay-lime hover:-translate-y-[2px] transition inline-flex items-center gap-space-8">Xem khối lượng thực<span className="material-symbols-rounded !text-[18px]">arrow_forward</span></a>
+              </section>
+      
+              <TxnSidebar
+                collectorName="Anh Tuấn" collectorAvatar="T" collectorTierLabel="Tier 1 · Hub Q.7" collectorRating={4.8} collectorVehicle="Xe máy Honda Wave · 51A-12345"
+                itemName="Chai PET 500ml" itemHint="18 chai · ~3.2 kg" itemIcon="water_bottle"
+                accent="tier-s" avatarGradient="from-clay-mint to-tier-s" itemClay="bg-clay-mint"
+                subSteps={stepsTS(1)}
+              >
+                <div className="bg-clay-mint rounded-[24px] shadow-clay-sm border-2 border-tier-s/30 p-space-20">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold flex items-center gap-space-8 mb-space-12"><span className="material-symbols-rounded fill !text-[14px]">gavel</span>CÂN MINH BẠCH</span>
+                  <div className="flex flex-col gap-space-8">
+                    <div className="flex items-center gap-space-12 p-space-12 bg-bg-elevated/70 rounded-xl"><div className="w-8 h-8 rounded-xl bg-clay-mint flex items-center justify-center shadow-clay-sm shrink-0"><span className="material-symbols-rounded fill !text-[16px] text-tier-s">verified</span></div><div className="flex-1 text-col"><span className="font-display font-bold text-[12px] text-text-primary block">Cân kiểm định</span><span className="font-mono-md text-[10px] text-text-tertiary">QTĐLVN 252 · tem niêm phong còn nguyên</span></div></div>
+                    <div className="flex items-center gap-space-12 p-space-12 bg-bg-elevated/70 rounded-xl"><div className="w-8 h-8 rounded-xl bg-clay-mint flex items-center justify-center shadow-clay-sm shrink-0"><span className="material-symbols-rounded fill !text-[16px] text-tier-s">photo_library</span></div><div className="flex-1 text-col"><span className="font-display font-bold text-[12px] text-text-primary block">Ảnh + log công khai</span><span className="font-mono-md text-[10px] text-text-tertiary">Bạn xem lại trong chi tiết đơn</span></div></div>
+                    <div className="flex items-center gap-space-12 p-space-12 bg-bg-elevated/70 rounded-xl"><div className="w-8 h-8 rounded-xl bg-clay-mint flex items-center justify-center shadow-clay-sm shrink-0"><span className="material-symbols-rounded fill !text-[16px] text-tier-s">report</span></div><div className="flex-1 text-col"><span className="font-display font-bold text-[12px] text-text-primary block">Báo sai được</span><span className="font-mono-md text-[10px] text-text-tertiary">Lệch &gt; 5% → mở tranh chấp 48h</span></div></div>
+                  </div>
+                </div>
+              </TxnSidebar>
+            </div>
+          </div>
+        </main>
+    </>
+  );
+}

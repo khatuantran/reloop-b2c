@@ -1,0 +1,62 @@
+import { cx } from '@/lib/cx';
+
+export default function TrustScoreGauge({ score }) {
+  const startAngle = -210;
+  const endAngle = 30;
+  const totalAngle = endAngle - startAngle;
+  const scoreAngle = startAngle + (score / 100) * totalAngle;
+  
+  const center = 100;
+  const radius = 80;
+  
+  const markerRad = (scoreAngle * Math.PI) / 180;
+  const markerX = center + Math.cos(markerRad) * radius;
+  const markerY = center + Math.sin(markerRad) * radius;
+  
+  function arc(from, to) {
+    const fromRad = (from * Math.PI) / 180;
+    const toRad = (to * Math.PI) / 180;
+    const x1 = center + Math.cos(fromRad) * radius;
+    const y1 = center + Math.sin(fromRad) * radius;
+    const x2 = center + Math.cos(toRad) * radius;
+    const y2 = center + Math.sin(toRad) * radius;
+    const large = to - from > 180 ? 1 : 0;
+    return `M ${x1} ${y1} A ${radius} ${radius} 0 ${large} 1 ${x2} ${y2}`;
+  }
+  
+  const zone1End = startAngle + (30 / 100) * totalAngle;
+  const zone2End = startAngle + (70 / 100) * totalAngle;
+  
+  const zoneColor = score < 30 ? '#D14B3B' : score < 70 ? '#E8B340' : '#2BB36A';
+  const zone =
+    score < 30 ? { label: 'User mới', advance: '30%', textClass: 'text-tier-h', bgClass: 'bg-clay-blush border-tier-h/40' } :
+    score < 70 ? { label: 'Đang tích lũy', advance: '50%', textClass: 'text-amber-deep', bgClass: 'bg-clay-butter border-amber-deep/40' } :
+    { label: 'Đáng tin', advance: '70%', textClass: 'text-tier-s', bgClass: 'bg-clay-mint border-tier-s/40' };
+  return (
+    <>
+      <div className="flex flex-col items-center gap-space-16 max-w-full">
+        <svg viewBox="-10 -10 220 220" className="w-[280px] h-[280px] max-w-full overflow-visible" style={{ 'filter': 'drop-shadow(0 12px 24px rgba(15,31,24,.12))' }}>
+          {/* Track */}
+          <path d={arc(startAngle, endAngle)} stroke="#C8D6BE" strokeWidth="16" fill="none" strokeLinecap="round" />
+          {/* Zone 1: red (0-30) */}
+          <path d={arc(startAngle, zone1End)} stroke="#D14B3B" strokeWidth="16" fill="none" strokeLinecap="round" opacity="0.85" />
+          {/* Zone 2: amber (30-70) */}
+          <path d={arc(zone1End, zone2End)} stroke="#E8B340" strokeWidth="16" fill="none" opacity="0.85" />
+          {/* Zone 3: green (70-100) */}
+          <path d={arc(zone2End, endAngle)} stroke="#2BB36A" strokeWidth="16" fill="none" strokeLinecap="round" opacity="0.85" />
+          {/* Marker (small dot indicator — center số to nhỏ tránh trùng) */}
+          <circle cx={markerX} cy={markerY} r="10" fill="#FFFFFF" stroke={zoneColor} strokeWidth="4" />
+          <circle cx={markerX} cy={markerY} r="3" fill={zoneColor} />
+          {/* Center label */}
+          <text x={center} y={center - 4} textAnchor="middle" fontSize="10" fill="#7C8A82" fontFamily="JetBrains Mono" fontWeight="600" letterSpacing="1">TRUST SCORE</text>
+          <text x={center} y={center + 38} textAnchor="middle" fontSize="48" fontWeight="800" fill="#0F1F18" fontFamily="Plus Jakarta Sans">{score}</text>
+          <text x={center} y={center + 56} textAnchor="middle" fontSize="10" fill="#7C8A82" fontFamily="Inter">trên 100</text>
+        </svg>
+      
+        <div className={cx(['px-space-24 py-space-8 rounded-full border-2 shadow-clay-sm', zone.bgClass])}>
+          <span className={cx(['font-mono-md text-[14px] font-bold', zone.textClass])}>{zone.label} · tạm ứng {zone.advance}</span>
+        </div>
+      </div>
+    </>
+  );
+}

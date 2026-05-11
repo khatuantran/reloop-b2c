@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RE-LOOP B2C — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="prototype/shell.css" />
+</head>
+<body>
+
+<!-- Stage holds the iframe(s) — full bleed, the screens fill the viewport. -->
+<div class="stage" id="stage"></div>
+
+<div class="loader" id="loader"><div class="loader-spin"></div><span>Đang tải màn…</span></div>
+
+<!-- Welcome card — shown on first load before any screen is picked. -->
+<div class="welcome" id="welcome">
+  <div class="welcome-card">
+    <div class="welcome-logo">R</div>
+    <h1>RE-LOOP B2C — Prototype</h1>
+    <p>Click-through 87 màn theo 5 luồng end-to-end. Bắt đầu một journey hoặc duyệt toàn bộ frame.</p>
+    <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+      <button class="dock-btn primary" id="start-journey" style="height:42px; padding:0 18px;">Chọn journey</button>
+      <button class="dock-btn" id="browse-all" style="height:42px; padding:0 18px; background:white; border:1px solid var(--border-default);">Xem tất cả màn</button>
+    </div>
+  </div>
+</div>
+
+<!-- Floating dock (bottom) -->
+<div class="dock" id="dock">
+  <button class="dock-btn" id="btn-restart" title="Khởi động lại journey">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+  </button>
+  <button class="dock-btn" id="btn-back" title="Quay lại (←)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  </button>
+  <button class="dock-btn" id="btn-home" title="Dashboard (H)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2z"/></svg>
+  </button>
+
+  <div class="dock-divider"></div>
+
+  <button class="dock-step" id="step-btn" title="Mở Frames (K)">
+    <span class="dock-step-name" id="step-name">Chưa chọn màn</span>
+    <span class="dock-step-meta" id="step-meta">Chọn journey hoặc browse tất cả màn</span>
+  </button>
+
+  <div class="dots" id="dots"></div>
+  <div class="dock-edge" id="dock-edge"><strong>—</strong>/—</div>
+
+  <div class="dock-divider"></div>
+
+  <button class="dock-btn" id="btn-journey" title="Chọn journey (J)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m6 8 6-6 6 6"/><path d="M5 22h14"/></svg>
+    <span class="label-hide-mobile">Journey</span>
+  </button>
+  <button class="dock-btn" id="btn-frames" title="Tất cả màn (K)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span class="label-hide-mobile">Frames</span>
+  </button>
+  <button class="dock-btn primary" id="btn-next" title="Tiếp (→)">
+    <span>Tiếp</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 5 7 7-7 7"/></svg>
+  </button>
+
+  <div class="dock-divider"></div>
+
+  <button class="dock-btn" id="btn-hide" title="Ẩn dock">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9 12 15 18 9"/></svg>
+  </button>
+</div>
+
+<button class="reveal" id="reveal">Hiện điều khiển</button>
+
+<!-- Modal overlay (Frames / Journey picker) -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <header class="modal-head">
+      <h2 class="modal-title" id="modal-title">Title</h2>
+      <span class="modal-sub" id="modal-sub"></span>
+      <button class="modal-close" id="modal-close" title="Đóng (Esc)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </header>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="prototype/flow.js"></script>
+<script src="prototype/journeys.js"></script>
+<script src="prototype/shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+export default function CoinStack({ size = 240, className = '' }) {
+  return (
+    <>
+      <svg viewBox="0 0 240 240" width={size} height={size} className={className}>
+        <ellipse cx="120" cy="225" rx="75" ry="8" fill="#0F1F18" opacity="0.10" />
+        <ellipse cx="120" cy="180" rx="70" ry="20" fill="#C99820" />
+        <ellipse cx="120" cy="173" rx="70" ry="20" fill="#E8B340" />
+        <ellipse cx="120" cy="167" rx="64" ry="14" fill="#FFE9B3" />
+        <ellipse cx="120" cy="135" rx="70" ry="20" fill="#C99820" />
+        <ellipse cx="120" cy="128" rx="70" ry="20" fill="#E8B340" />
+        <ellipse cx="120" cy="122" rx="64" ry="14" fill="#FFE9B3" />
+        <ellipse cx="120" cy="90" rx="70" ry="20" fill="#C99820" />
+        <ellipse cx="120" cy="83" rx="70" ry="20" fill="#E8B340" />
+        <ellipse cx="120" cy="77" rx="64" ry="14" fill="#FFE9B3" />
+        <text x="120" y="88" textAnchor="middle" fontSize="32" fontWeight="800" fill="#8B6D14" fontFamily="JetBrains Mono">đ</text>
+      </svg>
+    </>
+  );
+}

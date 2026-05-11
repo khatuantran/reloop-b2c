@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: #E5EDDD;
+    color: #0F1F18;
+    font-family: 'Inter', sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #E5EDDD;
+    color: #0F1F18;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: rgba(82, 224, 141, 0.35);
+    color: #0F1F18;
+  }
+
+  /* === Overflow safety net (Round 14) ===
+     Prevent text from overflowing card containers. Apply global cho text content.
+     KHÔNG dùng `hyphens: auto` vì tiếng Việt không có rule hyphenation chuẩn,
+     dễ gây cut-off khi mix Việt-Anh. Chỉ dùng break-word.
+  */
+  p, h1, h2, h3, h4, h5, h6, span, dt, dd, label, blockquote, li, a, button {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+  /* Long strong/em (bold/italic) trong văn bản dài cũng phải break được */
+  strong, em, b, i {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+}
+
+@layer components {
+  /* === Card padding scale (Round 15) ===
+     Mọi card có background + rounded bắt buộc dùng 1 trong 3 tier dưới đây.
+     KHÔNG dùng p-space-8/p-space-12 cho card có text dài (gây cramped).
+     KHÔNG dùng overflow-hidden để floating badge/chip không bị cắt.
+
+     Tier        | Padding | Use case
+     ------------|---------|--------------------------------------------
+     card-tight  | 16px    | Nano stat (icon + 1 số), pill list item
+     card-cozy   | 24px    | Sub-card có 2-3 line text, sidebar widget
+     card-spacious | 32px  | Section, hero card, picker, breakdown table
+
+     Tất cả có sẵn min-width: 0 + cascade cho flex/grid children.
+  */
+  .card-tight {
+    padding: 1rem; /* 16px */
+    min-width: 0;
+  }
+  .card-tight > * { min-width: 0; }
+
+  .card-cozy {
+    padding: 1.5rem; /* 24px */
+    min-width: 0;
+  }
+  .card-cozy > * { min-width: 0; }
+
+  .card-spacious {
+    padding: 2rem; /* 32px */
+    min-width: 0;
+  }
+  .card-spacious > * { min-width: 0; }
+
+  /* Alias giữ tương thích Round 14 — same as .card-cozy */
+  .card-safe {
+    padding: 1.5rem;
+    min-width: 0;
+  }
+  .card-safe > * { min-width: 0; }
+
+  /* For inner text columns inside flex/grid — đảm bảo break-word + min-w-0 */
+  .text-col {
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  /* === Pickable tile (Round 16) — radio/checkbox absolute top-right ===
+     Tile chọn (slot, address, payment method) có radio absolute thường cần
+     padding right MỞ RỘNG để text không bumps vào radio.
+     Nếu có recommendation chip absolute -top → cần padding-top mở rộng nữa.
+
+     Use:
+       .tile-pickable        → padding: 16px, padding-right: 40px (chừa radio)
+       .tile-pickable-chip   → thêm padding-top: 20px (chừa chip nhô lên)
+  */
+  .tile-pickable {
+    padding: 1rem 2.5rem 1rem 1rem; /* top right bottom left */
+    min-width: 0;
+    position: relative;
+  }
+  .tile-pickable > * { min-width: 0; }
+
+  .tile-pickable-chip {
+    padding-top: 1.25rem; /* 20px — chừa chip absolute -top */
+  }
+
+  /* === Section header chip safety ===
+     Chip "ĐỊA CHỈ THU GOM" ở top-left section thường có line-height ngắn
+     nên cảm giác sát viền. Thêm display:inline-flex + min-height để cân.
+  */
+  .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5rem;
+    line-height: 1.2;
+  }
+}
+
+@layer utilities {
+  .material-symbols-rounded {
+    font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+  }
+  .material-symbols-rounded.fill {
+    font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+  }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .material-symbols-outlined.fill {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* Hero gradient backdrop */
+  .grad-hero {
+    background:
+      radial-gradient(ellipse 60% 80% at 80% 0%, #BFE8CE 0%, transparent 55%),
+      radial-gradient(ellipse 50% 60% at 0% 100%, #F2D58F 0%, transparent 60%),
+      #E5EDDD;
+  }
+
+  /* Clay highlight bubble */
+  .clay-bubble {
+    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.9), rgba(255,255,255,.2) 60%, transparent 70%);
+  }
+}
+
+/* Custom scrollbar — light tone */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #DCEDDF;
+}
+::-webkit-scrollbar-thumb {
+  background: #A0B496;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2BB36A;
+}

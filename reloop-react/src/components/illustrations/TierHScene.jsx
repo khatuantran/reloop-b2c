@@ -1,0 +1,167 @@
+export default function TierHScene({ className = '' }) {
+  return (
+    <>
+      <svg viewBox="0 0 400 300" className={className} xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="th-bg" cx="50%" cy="40%">
+            <stop offset="0%" stopColor="#FFD9C2"/>
+            <stop offset="100%" stopColor="#E8B0AB"/>
+          </radialGradient>
+          <linearGradient id="th-batt-aa" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#D14B3B"/>
+            <stop offset="50%" stopColor="#A03020"/>
+            <stop offset="100%" stopColor="#5A1A12"/>
+          </linearGradient>
+          <linearGradient id="th-batt-blue" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#3B8DD1"/>
+            <stop offset="100%" stopColor="#1F5077"/>
+          </linearGradient>
+          <linearGradient id="th-batt-green" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#52E08D"/>
+            <stop offset="100%" stopColor="#1F9956"/>
+          </linearGradient>
+          <linearGradient id="th-carbatt" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#1F2A28"/>
+            <stop offset="100%" stopColor="#0F1F18"/>
+          </linearGradient>
+          <radialGradient id="th-bulb" cx="50%" cy="40%">
+            <stop offset="0%" stopColor="#FFFFFF"/>
+            <stop offset="60%" stopColor="#FFE9B3"/>
+            <stop offset="100%" stopColor="#C99820"/>
+          </radialGradient>
+        </defs>
+        {/* Background */}
+        <rect width="400" height="300" fill="url(#th-bg)"/>
+        <ellipse cx="200" cy="285" rx="180" ry="15" fill="#0F1F18" opacity="0.18"/>
+      
+        {/* Hazard radiating bg circle */}
+        <circle cx="200" cy="150" r="120" fill="#D14B3B" opacity="0.10"/>
+      
+        {/* Big car battery (left) */}
+        <g transform="translate(95,170)">
+          <ellipse cx="0" cy="65" rx="60" ry="8" fill="#0F1F18" opacity="0.25"/>
+          <rect x="-58" y="-50" width="116" height="115" rx="8" fill="url(#th-carbatt)"/>
+          <rect x="-58" y="-50" width="116" height="14" rx="6" fill="#3F4540"/>
+          <rect x="-54" y="-46" width="108" height="6" rx="2" fill="#52E08D" opacity="0.7"/>
+          {/* Terminals */}
+          <g transform="translate(-32,-58)">
+            <rect x="-9" y="0" width="18" height="14" rx="2" fill="#7C8A82"/>
+            <rect x="-7" y="2" width="14" height="10" rx="1" fill="#A0B496"/>
+            <text y="-2" textAnchor="middle" fontSize="10" fontWeight="800" fill="#D14B3B" fontFamily="Inter">+</text>
+          </g>
+          <g transform="translate(32,-58)">
+            <rect x="-9" y="0" width="18" height="14" rx="2" fill="#7C8A82"/>
+            <rect x="-7" y="2" width="14" height="10" rx="1" fill="#A0B496"/>
+            <text y="-2" textAnchor="middle" fontSize="11" fontWeight="800" fill="#3B8DD1" fontFamily="Inter">−</text>
+          </g>
+          {/* Caps row */}
+          <g fill="#3F4540">
+            <circle cx="-32" cy="-22" r="6"/>
+            <circle cx="-10" cy="-22" r="6"/>
+            <circle cx="10" cy="-22" r="6"/>
+            <circle cx="32" cy="-22" r="6"/>
+          </g>
+          <g fill="#1F2A28">
+            <circle cx="-32" cy="-22" r="3"/>
+            <circle cx="-10" cy="-22" r="3"/>
+            <circle cx="10" cy="-22" r="3"/>
+            <circle cx="32" cy="-22" r="3"/>
+          </g>
+          {/* Hazard label */}
+          <rect x="-40" y="10" width="80" height="36" rx="4" fill="#FFE9B3"/>
+          <rect x="-38" y="12" width="76" height="32" rx="3" fill="#0F1F18"/>
+          <text y="24" textAnchor="middle" fontSize="8" fontWeight="800" fill="#E8B340" fontFamily="Inter">12V · 65Ah</text>
+          <text y="38" textAnchor="middle" fontSize="7" fontWeight="700" fill="#D14B3B" fontFamily="Inter">⚠ HAZARDOUS</text>
+          {/* Highlight strip */}
+          <rect x="-58" y="-50" width="8" height="115" rx="3" fill="white" opacity="0.18"/>
+        </g>
+      
+        {/* AA batteries cluster (top right) */}
+        <g transform="translate(280,75)">
+          {/* Battery 1 (red) */}
+          <g transform="translate(-30,0) rotate(-15)">
+            <ellipse cx="0" cy="60" rx="14" ry="3" fill="#0F1F18" opacity="0.18"/>
+            <rect x="-12" y="-50" width="24" height="105" rx="4" fill="url(#th-batt-aa)"/>
+            <rect x="-12" y="-55" width="24" height="8" rx="3" fill="#1F2A28"/>
+            <rect x="-5" y="-60" width="10" height="6" rx="2" fill="#7C8A82"/>
+            <rect x="-12" y="-30" width="24" height="14" fill="#FFE9B3"/>
+            <text y="-19" textAnchor="middle" fontSize="7" fontWeight="800" fill="#D14B3B" fontFamily="Inter">AA</text>
+            <rect x="-10" y="-15" width="20" height="3" fill="#0F1F18"/>
+            <rect x="-10" y="-8" width="20" height="3" fill="#0F1F18"/>
+            <rect x="-12" y="-50" width="3" height="100" rx="1" fill="white" opacity="0.35"/>
+          </g>
+          {/* Battery 2 (blue) */}
+          <g transform="translate(0,8) rotate(5)">
+            <ellipse cx="0" cy="60" rx="14" ry="3" fill="#0F1F18" opacity="0.18"/>
+            <rect x="-12" y="-50" width="24" height="105" rx="4" fill="url(#th-batt-blue)"/>
+            <rect x="-12" y="-55" width="24" height="8" rx="3" fill="#1F2A28"/>
+            <rect x="-5" y="-60" width="10" height="6" rx="2" fill="#7C8A82"/>
+            <rect x="-12" y="-30" width="24" height="14" fill="white"/>
+            <text y="-19" textAnchor="middle" fontSize="7" fontWeight="800" fill="#3B8DD1" fontFamily="Inter">AA</text>
+            <rect x="-12" y="-50" width="3" height="100" rx="1" fill="white" opacity="0.35"/>
+          </g>
+          {/* Battery 3 (green/used) */}
+          <g transform="translate(28,2) rotate(20)">
+            <ellipse cx="0" cy="60" rx="14" ry="3" fill="#0F1F18" opacity="0.18"/>
+            <rect x="-12" y="-50" width="24" height="105" rx="4" fill="url(#th-batt-green)"/>
+            <rect x="-12" y="-55" width="24" height="8" rx="3" fill="#1F2A28"/>
+            <rect x="-5" y="-60" width="10" height="6" rx="2" fill="#7C8A82"/>
+            <rect x="-12" y="-30" width="24" height="14" fill="white" opacity="0.85"/>
+            <text y="-19" textAnchor="middle" fontSize="7" fontWeight="800" fill="#1F9956" fontFamily="Inter">AA</text>
+            <rect x="-12" y="-50" width="3" height="100" rx="1" fill="white" opacity="0.35"/>
+            {/* Used/leak stain */}
+            <ellipse cx="0" cy="35" rx="8" ry="3" fill="#5A3F1A" opacity="0.4"/>
+          </g>
+        </g>
+      
+        {/* Old fluorescent bulb (bottom right) */}
+        <g transform="translate(295,225) rotate(-15)">
+          <ellipse cx="0" cy="20" rx="50" ry="5" fill="#0F1F18" opacity="0.18"/>
+          <rect x="-50" y="-10" width="100" height="14" rx="7" fill="url(#th-bulb)"/>
+          <rect x="-50" y="-10" width="100" height="4" rx="2" fill="white" opacity="0.6"/>
+          {/* Caps */}
+          <rect x="-58" y="-12" width="10" height="18" rx="2" fill="#7C8A82"/>
+          <rect x="48" y="-12" width="10" height="18" rx="2" fill="#7C8A82"/>
+          {/* Pins */}
+          <line x1="-62" y1="-6" x2="-66" y2="-6" stroke="#41524A" strokeWidth="2"/>
+          <line x1="-62" y1="0" x2="-66" y2="0" stroke="#41524A" strokeWidth="2"/>
+          <line x1="62" y1="-6" x2="66" y2="-6" stroke="#41524A" strokeWidth="2"/>
+          <line x1="62" y1="0" x2="66" y2="0" stroke="#41524A" strokeWidth="2"/>
+          {/* Crack/broken */}
+          <path d="M5 -10 L0 -3 L8 -3 L3 4" stroke="#0F1F18" strokeWidth="0.8" fill="none" opacity="0.7"/>
+        </g>
+      
+        {/* HAZARD WARNING TRIANGLE (center top) */}
+        <g transform="translate(200,80)">
+          {/* Drop shadow */}
+          <path d="M0 -36 L36 28 L-36 28 Z" fill="#0F1F18" opacity="0.18" transform="translate(0,4)"/>
+          {/* Triangle */}
+          <path d="M0 -36 L36 28 L-36 28 Z" fill="#FFE9B3" stroke="#0F1F18" strokeWidth="3" strokeLinejoin="round"/>
+          {/* Skull/exclamation */}
+          <text y="14" textAnchor="middle" fontSize="36" fontWeight="900" fill="#0F1F18" fontFamily="Inter">!</text>
+        </g>
+      
+        {/* "FREE PICKUP" pill */}
+        <g transform="translate(75,55)">
+          <rect x="-50" y="-14" width="100" height="28" rx="14" fill="#52E08D"/>
+          <text y="5" textAnchor="middle" fontSize="11" fontWeight="800" fill="#0F1F18" fontFamily="Inter">+50 GP · FREE</text>
+        </g>
+      
+        {/* Recycling certificate badge */}
+        <g transform="translate(335,160)">
+          <circle r="22" fill="white"/>
+          <circle r="22" fill="#52E08D" opacity="0.15"/>
+          <text y="-4" textAnchor="middle" fontSize="9" fontWeight="800" fill="#2BB36A" fontFamily="Inter">ENV</text>
+          <text y="8" textAnchor="middle" fontSize="8" fontWeight="700" fill="#2BB36A" fontFamily="JetBrains Mono">CERT</text>
+        </g>
+      
+        {/* Sparkle warning */}
+        <circle cx="50" cy="240" r="3" fill="#D14B3B"/>
+        <circle cx="370" cy="55" r="3" fill="#E8B340"/>
+        <g transform="translate(150,40)">
+          <path d="M0 -8 L1.5 -1.5 L8 0 L1.5 1.5 L0 8 L-1.5 1.5 L-8 0 L-1.5 -1.5 Z" fill="#D14B3B"/>
+        </g>
+      </svg>
+    </>
+  );
+}

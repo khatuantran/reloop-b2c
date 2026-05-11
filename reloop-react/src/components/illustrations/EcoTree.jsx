@@ -1,0 +1,209 @@
+export default function EcoTree({ className = '' }) {
+  return (
+    <>
+      <svg viewBox="0 0 400 400" className={className} xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="et2-foliage" cx="35%" cy="25%">
+            <stop offset="0%" stopColor="#C8FAD9"/>
+            <stop offset="50%" stopColor="#7AEFA8"/>
+            <stop offset="100%" stopColor="#1F9956"/>
+          </radialGradient>
+          <radialGradient id="et2-foliage-dark" cx="35%" cy="25%">
+            <stop offset="0%" stopColor="#7AEFA8"/>
+            <stop offset="100%" stopColor="#0F6635"/>
+          </radialGradient>
+          <linearGradient id="et2-trunk" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#5A3F1A"/>
+            <stop offset="40%" stopColor="#A07033"/>
+            <stop offset="60%" stopColor="#A07033"/>
+            <stop offset="100%" stopColor="#5A3F1A"/>
+          </linearGradient>
+          <linearGradient id="et2-sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFE9B3" stopOpacity="0.5"/>
+            <stop offset="100%" stopColor="#C8FAD9" stopOpacity="0"/>
+          </linearGradient>
+          <linearGradient id="et2-ground" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#9CB87A"/>
+            <stop offset="100%" stopColor="#5C8044"/>
+          </linearGradient>
+          <radialGradient id="et2-sun" cx="50%" cy="50%">
+            <stop offset="0%" stopColor="#FFE066"/>
+            <stop offset="80%" stopColor="#FFD960"/>
+            <stop offset="100%" stopColor="#E8B340"/>
+          </radialGradient>
+        </defs>
+      
+        {/* Sky gradient overlay */}
+        <rect width="400" height="280" fill="url(#et2-sky)"/>
+      
+        {/* Sun with rays */}
+        <g transform="translate(320,82)">
+          {/* Sun rays (cleaner star pattern) */}
+          <g stroke="#FFD960" strokeWidth="3" strokeLinecap="round" opacity="0.65">
+            <line x1="0" y1="-50" x2="0" y2="-38"/>
+            <line x1="0" y1="50" x2="0" y2="38"/>
+            <line x1="-50" y1="0" x2="-38" y2="0"/>
+            <line x1="50" y1="0" x2="38" y2="0"/>
+            <line x1="-35" y1="-35" x2="-27" y2="-27"/>
+            <line x1="35" y1="35" x2="27" y2="27"/>
+            <line x1="-35" y1="35" x2="-27" y2="27"/>
+            <line x1="35" y1="-35" x2="27" y2="-27"/>
+          </g>
+          <circle r="32" fill="url(#et2-sun)"/>
+          <ellipse cx="-8" cy="-10" rx="12" ry="8" fill="#FFFAE5" opacity="0.5"/>
+        </g>
+      
+        {/* Cloud 1 */}
+        <g transform="translate(70,95)" fill="white" opacity="0.9">
+          <ellipse cx="0" cy="0" rx="32" ry="14"/>
+          <ellipse cx="-22" cy="6" rx="20" ry="11"/>
+          <ellipse cx="20" cy="6" rx="22" ry="12"/>
+          <ellipse cx="-8" cy="-6" rx="14" ry="9"/>
+        </g>
+        {/* Cloud 2 small */}
+        <g transform="translate(225,55)" fill="white" opacity="0.75">
+          <ellipse cx="0" cy="0" rx="22" ry="10"/>
+          <ellipse cx="-15" cy="3" rx="13" ry="7"/>
+          <ellipse cx="15" cy="3" rx="14" ry="8"/>
+        </g>
+      
+        {/* Far hills */}
+        <path d="M0 295 Q80 250 180 280 Q260 305 360 270 Q400 260 400 295 L400 320 L0 320 Z" fill="#A8C29A" opacity="0.55"/>
+        <path d="M0 305 Q120 275 240 295 Q340 310 400 290 L400 320 L0 320 Z" fill="#88AA77" opacity="0.65"/>
+      
+        {/* Ground */}
+        <path d="M0 310 Q200 290 400 315 L400 400 L0 400 Z" fill="url(#et2-ground)"/>
+        {/* Ground texture dots */}
+        <g fill="#3F5C2A" opacity="0.5">
+          <circle cx="50" cy="345" r="2"/>
+          <circle cx="90" cy="360" r="2.5"/>
+          <circle cx="160" cy="350" r="2"/>
+          <circle cx="290" cy="358" r="2.5"/>
+          <circle cx="340" cy="345" r="2"/>
+        </g>
+        <g stroke="#3F5C2A" strokeWidth="1.5" strokeLinecap="round" opacity="0.5">
+          <path d="M30 350 L33 343 M37 352 L37 344"/>
+          <path d="M125 365 L128 358 M132 367 L132 360"/>
+          <path d="M225 358 L228 350 M232 360 L232 352"/>
+          <path d="M365 360 L368 352 M372 362 L372 354"/>
+        </g>
+      
+        {/* Tree shadow */}
+        <ellipse cx="200" cy="335" rx="80" ry="11" fill="#0F1F18" opacity="0.22"/>
+      
+        {/* Trunk (with bark texture) */}
+        <path d="M184 240 Q182 285 180 335 L220 335 Q218 285 216 240 Z" fill="url(#et2-trunk)"/>
+        {/* Bark lines */}
+        <g stroke="#3F2A0F" strokeWidth="1.2" fill="none" opacity="0.55">
+          <path d="M192 248 Q190 270 192 295"/>
+          <path d="M200 245 Q201 280 200 320"/>
+          <path d="M208 248 Q210 270 208 295"/>
+          <path d="M195 252 Q197 257 195 263"/>
+          <path d="M205 270 Q207 275 205 281"/>
+        </g>
+        {/* Trunk hollow knot */}
+        <ellipse cx="195" cy="270" rx="3" ry="4" fill="#3F2A0F" opacity="0.6"/>
+      
+        {/* Roots */}
+        <g fill="url(#et2-trunk)">
+          <path d="M180 320 Q160 332 140 335 Q160 340 185 335 Z"/>
+          <path d="M220 320 Q240 332 260 335 Q240 340 215 335 Z"/>
+        </g>
+      
+        {/* FOLIAGE — natural cloud-like shape (organic, multi-lobe) */}
+        {/* Back/dark layer for depth */}
+        <path d="M200 95 Q260 85 285 130 Q310 145 295 185 Q300 225 255 235 Q220 250 195 235 Q165 250 140 230 Q100 220 105 180 Q90 145 120 125 Q140 90 200 95 Z"
+              fill="url(#et2-foliage-dark)"/>
+        {/* Mid/light layer (offset slightly up-left for highlight) */}
+        <path d="M198 90 Q255 80 282 125 Q307 142 290 180 Q295 220 250 230 Q215 245 192 230 Q160 245 138 226 Q98 215 105 175 Q88 140 118 122 Q138 86 198 90 Z"
+              fill="url(#et2-foliage)"/>
+        {/* Highlight bumps */}
+        <ellipse cx="170" cy="115" rx="32" ry="22" fill="#A0F2BD" opacity="0.5"/>
+        <ellipse cx="225" cy="135" rx="28" ry="20" fill="#A0F2BD" opacity="0.45"/>
+        <ellipse cx="135" cy="160" rx="22" ry="18" fill="#A0F2BD" opacity="0.4"/>
+        <ellipse cx="265" cy="175" rx="22" ry="18" fill="#A0F2BD" opacity="0.4"/>
+        {/* Small leaf accents on canopy edge */}
+        <g fill="#1F9956" opacity="0.5">
+          <ellipse cx="160" cy="98" rx="4" ry="7" transform="rotate(-25 160 98)"/>
+          <ellipse cx="220" cy="92" rx="4" ry="7" transform="rotate(15 220 92)"/>
+          <ellipse cx="280" cy="125" rx="4" ry="7" transform="rotate(45 280 125)"/>
+          <ellipse cx="100" cy="170" rx="4" ry="7" transform="rotate(-50 100 170)"/>
+        </g>
+      
+        {/* Birds (cleaner V shape) */}
+        <g stroke="#0F3D26" strokeWidth="2.5" fill="none" strokeLinecap="round">
+          <path d="M55 145 Q63 138 71 145 Q79 138 87 145"/>
+          <path d="M295 105 Q302 99 309 105 Q316 99 323 105"/>
+        </g>
+      
+        {/* Flowers ground */}
+        <g>
+          <g transform="translate(110,360)">
+            <line x1="0" y1="0" x2="0" y2="-15" stroke="#1F9956" strokeWidth="1.5"/>
+            <ellipse cx="-4" cy="-7" rx="3" ry="5" fill="#2BB36A" transform="rotate(-30 -4 -7)"/>
+            <g transform="translate(0,-18)">
+              <circle r="6" fill="#FFD960"/>
+              <circle r="2.5" fill="#E8B340"/>
+              <g fill="#FFE9B3" opacity="0.85">
+                <ellipse cx="-5" cy="-3" rx="2.5" ry="3"/>
+                <ellipse cx="5" cy="-3" rx="2.5" ry="3"/>
+                <ellipse cx="-5" cy="3" rx="2.5" ry="3"/>
+                <ellipse cx="5" cy="3" rx="2.5" ry="3"/>
+              </g>
+            </g>
+          </g>
+          <g transform="translate(290,365)">
+            <line x1="0" y1="0" x2="0" y2="-18" stroke="#1F9956" strokeWidth="1.5"/>
+            <g transform="translate(0,-21)">
+              <circle r="7" fill="#FFB8A8"/>
+              <circle r="3" fill="#E8758F"/>
+              <g fill="#FFD9C2" opacity="0.9">
+                <ellipse cx="-5" cy="-4" rx="3" ry="3.5"/>
+                <ellipse cx="5" cy="-4" rx="3" ry="3.5"/>
+                <ellipse cx="-5" cy="4" rx="3" ry="3.5"/>
+                <ellipse cx="5" cy="4" rx="3" ry="3.5"/>
+              </g>
+            </g>
+          </g>
+          <g transform="translate(60,372)">
+            <line x1="0" y1="0" x2="0" y2="-12" stroke="#1F9956" strokeWidth="1.2"/>
+            <g transform="translate(0,-14)">
+              <circle r="5" fill="#FFD960"/>
+              <circle r="2" fill="#E8B340"/>
+            </g>
+          </g>
+          <g transform="translate(345,370)">
+            <line x1="0" y1="0" x2="0" y2="-12" stroke="#1F9956" strokeWidth="1.2"/>
+            <g transform="translate(0,-14)">
+              <circle r="5" fill="#FFB8A8"/>
+              <circle r="2" fill="#E8758F"/>
+            </g>
+          </g>
+        </g>
+      
+        {/* Falling leaves */}
+        <g>
+          <ellipse cx="80" cy="220" rx="4" ry="7" fill="#52E08D" transform="rotate(20 80 220)" opacity="0.85"/>
+          <ellipse cx="125" cy="275" rx="3" ry="5" fill="#7AEFA8" transform="rotate(-10 125 275)" opacity="0.7"/>
+          <ellipse cx="320" cy="240" rx="4" ry="7" fill="#52E08D" transform="rotate(-30 320 240)" opacity="0.85"/>
+          <ellipse cx="350" cy="290" rx="3" ry="5" fill="#7AEFA8" transform="rotate(15 350 290)" opacity="0.7"/>
+          <ellipse cx="155" cy="295" rx="3" ry="5" fill="#52E08D" transform="rotate(40 155 295)" opacity="0.7"/>
+        </g>
+      
+        {/* Sparkles */}
+        <g>
+          <circle cx="100" cy="200" r="3" fill="white" opacity="0.9"/>
+          <circle cx="300" cy="220" r="3" fill="white" opacity="0.9"/>
+          <circle cx="200" cy="60" r="2.5" fill="white" opacity="0.85"/>
+        </g>
+      
+        {/* "−5.2 kg CO₂" floating badge */}
+        <g transform="translate(330,205)">
+          <rect x="-34" y="-14" width="68" height="28" rx="14" fill="#0F1F18" opacity="0.18" transform="translate(0,3)"/>
+          <rect x="-34" y="-14" width="68" height="28" rx="14" fill="white" stroke="#2BB36A" strokeWidth="2"/>
+          <text y="5" textAnchor="middle" fontSize="11" fontWeight="800" fill="#2BB36A" fontFamily="Inter">−5.2 kg</text>
+        </g>
+      </svg>
+    </>
+  );
+}

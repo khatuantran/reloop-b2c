@@ -1,0 +1,18 @@
+export default function GrowingTree({ size = 240, className = '' }) {
+  return (
+    <>
+      <svg viewBox="0 0 240 240" width={size} height={size} className={className}>
+        <ellipse cx="120" cy="215" rx="60" ry="6" fill="#0F1F18" opacity="0.10" />
+        <rect x="113" y="160" width="14" height="55" rx="4" fill="#8B6D14" />
+        <circle cx="80" cy="130" r="38" fill="#52E08D" />
+        <circle cx="160" cy="130" r="38" fill="#52E08D" />
+        <circle cx="120" cy="100" r="48" fill="#7AEFA8" />
+        <circle cx="105" cy="115" r="32" fill="#A0F2BD" opacity="0.7" />
+        <circle cx="138" cy="135" r="28" fill="#A0F2BD" opacity="0.7" />
+        <circle cx="50" cy="80" r="3" fill="#E8B340" />
+        <circle cx="190" cy="100" r="4" fill="#E8B340" />
+        <circle cx="200" cy="160" r="3" fill="#52E08D" />
+      </svg>
+    </>
+  );
+}

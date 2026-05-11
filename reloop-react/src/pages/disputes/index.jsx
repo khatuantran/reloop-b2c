@@ -1,0 +1,170 @@
+import { cx } from '@/lib/cx';
+import DisputeScene from '../../components/illustrations/DisputeScene';
+
+export default function Index() {
+  const disputes = [
+    {
+      id: 'D-2026-0042',
+      orderId: 'RL-2026-001239',
+      item: 'Dây điện 1.5mm² đồng',
+      type: 'BOM_DISPUTE',
+      typeLabel: 'BOM thực < kỳ vọng',
+      status: 'WON',
+      statusLabel: 'Thắng',
+      amount: 28_300,
+      submittedAt: '03/05/2026',
+      resolvedAt: '04/05/2026',
+      summary: 'Đồng thực 1.85kg vs kỳ vọng 2.20kg — cung cấp 7 ảnh evidence trước niêm phong, RE-LOOP audit lại đoạn rã xác và đồng ý hoàn 100% chênh.',
+    },
+    {
+      id: 'D-2026-0038',
+      orderId: 'RL-2026-001236',
+      item: 'Mô tơ máy giặt 1HP',
+      type: 'COLLECTOR_BEHAVIOR',
+      typeLabel: 'Hành vi Collector',
+      status: 'PROCESSING',
+      statusLabel: 'Đang xử lý',
+      amount: 0,
+      submittedAt: '08/05/2026',
+      resolvedAt: null,
+      summary: 'Collector đến trễ 45 phút không thông báo, thái độ thiếu hợp tác khi cân lại sau khiếu nại — có ghi âm 2 phút làm evidence.',
+    },
+    {
+      id: 'D-2026-0030',
+      orderId: 'RL-2026-001234',
+      item: 'Chai PET 500ml',
+      type: 'BOM_DISPUTE',
+      typeLabel: 'Cân sai số',
+      status: 'LOST',
+      statusLabel: 'Không thắng',
+      amount: 0,
+      submittedAt: '20/04/2026',
+      resolvedAt: '21/04/2026',
+      summary: 'Cân tại nhà 3.2kg vs cân Hub 3.18kg — sai số 0.6% trong giới hạn QTĐLVN 252 (±2%), không đủ căn cứ dispute.',
+    },
+  ];
+  
+  const statusMeta = {
+    WON: { clay: 'bg-clay-mint', accent: 'text-tier-s', icon: 'check_circle' },
+    PROCESSING: { clay: 'bg-clay-butter', accent: 'text-amber-deep', icon: 'hourglass_top' },
+    LOST: { clay: 'bg-clay-blush', accent: 'text-tier-h', icon: 'cancel' },
+  };
+  
+  const wonCount = disputes.filter((d) => d.status === 'WON').length;
+  const processingCount = disputes.filter((d) => d.status === 'PROCESSING').length;
+  const winRate = Math.round((wonCount / disputes.filter((d) => d.status !== 'PROCESSING').length) * 100);
+  return (
+    <>
+      <main className="pt-[100px] pb-space-96 min-h-screen">
+          <div className="max-w-[1280px] mx-auto px-[80px]">
+            <a href="/orders" className="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-s font-semibold mb-space-16">
+              <span className="material-symbols-rounded !text-[16px]">arrow_back</span>
+              Đơn của tôi
+            </a>
+      
+            {/* Hero */}
+            <section className="grad-hero rounded-[40px] px-space-48 py-space-32 border border-border-subtle mb-space-32 relative overflow-hidden">
+              <div className="grid grid-cols-[1.4fr_1fr] gap-space-32 items-center">
+                <div className="relative z-10">
+                  <span className="font-mono-md text-[11px] uppercase tracking-[0.2em] text-amber-deep font-bold bg-clay-butter border-2 border-amber-deep/30 rounded-full px-space-12 py-[4px] inline-flex items-center gap-space-8 shadow-clay-sm mb-space-12">
+                    <span className="material-symbols-rounded fill !text-[14px]">gavel</span>
+                    TRANH CHẤP & KHIẾU NẠI
+                  </span>
+                  <h1 className="font-display-l text-[56px] font-extrabold leading-[1.05] tracking-tight text-text-primary mb-space-12">Quyền lợi của bạn</h1>
+                  <p className="font-body-lg text-body-lg text-text-secondary mb-space-16">
+                    <strong className="text-tier-s">{wonCount} thắng</strong> · <strong className="text-amber-deep">{processingCount} đang xử lý</strong> · Win rate {winRate}% · CS phản hồi 24h
+                  </p>
+                  <div className="flex flex-wrap gap-space-12">
+                    <a href="/disputes/new" className="bg-lime text-text-on-lime px-space-24 py-space-12 rounded-2xl font-semibold shadow-clay-lime text-[14px] inline-flex items-center gap-space-8 hover:-translate-y-[2px] transition">
+                      <span className="material-symbols-rounded fill !text-[18px]">add_circle</span>
+                      Tạo tranh chấp mới
+                    </a>
+                    <a href="/help" className="bg-bg-elevated text-text-primary border border-border-subtle px-space-24 py-space-12 rounded-2xl font-semibold shadow-clay-sm text-[14px] inline-flex items-center gap-space-8 hover:shadow-clay transition">
+                      <span className="material-symbols-rounded fill !text-[18px]">help</span>
+                      Quy trình & FAQ
+                    </a>
+                  </div>
+                </div>
+                <div className="relative h-[280px]">
+                  <DisputeScene className="absolute inset-0 w-full h-full" />
+                </div>
+              </div>
+            </section>
+      
+            {/* Stats row */}
+            <section className="grid grid-cols-4 gap-space-16 mb-space-32">
+              <div className="bg-bg-elevated rounded-[24px] shadow-clay border border-border-subtle p-space-24">
+                <div className="w-12 h-12 rounded-2xl bg-clay-mint flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span className="material-symbols-rounded fill !text-[22px] text-tier-s">verified</span>
+                </div>
+                <span className="font-mono-md text-[10px] text-tier-s uppercase tracking-wider font-semibold block">Đã thắng</span>
+                <span className="font-display font-extrabold text-[32px] text-text-primary tabular-nums leading-none mt-space-4 block">{wonCount}</span>
+                <span className="font-body-md text-[11px] text-text-secondary mt-space-4 block">Hoàn 28.300đ + 100 GP</span>
+              </div>
+              <div className="bg-bg-elevated rounded-[24px] shadow-clay border border-border-subtle p-space-24">
+                <div className="w-12 h-12 rounded-2xl bg-clay-butter flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span className="material-symbols-rounded fill !text-[22px] text-amber-deep">hourglass_top</span>
+                </div>
+                <span className="font-mono-md text-[10px] text-amber-deep uppercase tracking-wider font-semibold block">Đang xử lý</span>
+                <span className="font-display font-extrabold text-[32px] text-text-primary tabular-nums leading-none mt-space-4 block">{processingCount}</span>
+                <span className="font-body-md text-[11px] text-text-secondary mt-space-4 block">CS sẽ phản hồi {`<24h`}</span>
+              </div>
+              <div className="bg-bg-elevated rounded-[24px] shadow-clay border border-border-subtle p-space-24">
+                <div className="w-12 h-12 rounded-2xl bg-clay-sky flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span className="material-symbols-rounded fill !text-[22px] text-info">trending_up</span>
+                </div>
+                <span className="font-mono-md text-[10px] text-info uppercase tracking-wider font-semibold block">Win rate</span>
+                <span className="font-display font-extrabold text-[32px] text-text-primary tabular-nums leading-none mt-space-4 block">{winRate}%</span>
+                <span className="font-body-md text-[11px] text-text-secondary mt-space-4 block">TB platform: 23%</span>
+              </div>
+              <div className="bg-clay-mint rounded-[24px] shadow-clay border-2 border-tier-s/30 p-space-24">
+                <div className="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span className="material-symbols-rounded fill !text-[22px] text-tier-s">photo_library</span>
+                </div>
+                <span className="font-mono-md text-[10px] text-tier-s uppercase tracking-wider font-semibold block">Mẹo thắng dispute</span>
+                <span className="font-display font-bold text-[16px] text-text-primary leading-tight mt-space-4 block">Chụp 5+ ảnh trước khi niêm phong</span>
+                <span className="font-body-md text-[11px] text-text-secondary mt-space-4 block">Evidence quyết định 78% case</span>
+              </div>
+            </section>
+      
+            {/* Dispute list */}
+            <section className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle overflow-hidden">
+              <div className="px-space-32 pt-space-32 pb-space-16 flex items-center justify-between">
+                <div>
+                  <span className="font-mono-md text-[12px] uppercase tracking-wider text-tier-s font-semibold">LỊCH SỬ</span>
+                  <h2 className="font-h2 text-h2 text-text-primary mt-space-8">{disputes.length} tranh chấp đã gửi</h2>
+                </div>
+              </div>
+              <div className="divide-y divide-border-subtle">
+                {disputes.map((d) => {
+                  const meta = statusMeta[d.status];
+                  return (
+                    <a href={`/disputes/${d.id}`} className="flex items-start gap-space-16 px-space-32 py-space-24 hover:bg-bg-surface/50 transition">
+                      <div className={cx(['w-12 h-12 rounded-2xl flex items-center justify-center shadow-clay-sm shrink-0', meta.clay])}>
+                        <span className={cx(['material-symbols-rounded fill !text-[22px]', meta.accent])}>{meta.icon}</span>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-space-8 mb-space-4 flex-wrap">
+                          <h3 className="font-display font-bold text-[15px] text-text-primary">{d.item}</h3>
+                          <span className={cx(['font-mono-md text-[10px] uppercase tracking-wider font-bold px-space-8 py-[2px] rounded-full border-2', meta.accent, `border-${meta.accent.replace('text-', '')}/40`, meta.clay])}>{d.statusLabel}</span>
+                          <span className="font-mono-md text-[10px] uppercase tracking-wider text-text-tertiary font-semibold">{d.typeLabel}</span>
+                        </div>
+                        <p className="font-body-md text-[13px] text-text-secondary mb-space-8 line-clamp-2">{d.summary}</p>
+                        <div className="flex items-center gap-space-16">
+                          <span className="font-mono-md text-[11px] text-text-tertiary">{d.id} · Đơn {d.orderId}</span>
+                          <span className="font-mono-md text-[11px] text-text-tertiary">Gửi {d.submittedAt}</span>
+                          {d.resolvedAt && <span className="font-mono-md text-[11px] text-text-tertiary">Xử lý {d.resolvedAt}</span>}
+                          {d.amount > 0 && <span className="font-mono-md text-[11px] text-tier-s font-bold tabular-nums">+{d.amount.toLocaleString('vi-VN')}đ hoàn</span>}
+                        </div>
+                      </div>
+                      <span className="material-symbols-rounded !text-[20px] text-text-tertiary shrink-0 mt-space-8">arrow_forward</span>
+                    </a>
+                  );
+                })}
+              </div>
+            </section>
+          </div>
+        </main>
+    </>
+  );
+}

@@ -1,0 +1,111 @@
+import StepHero from '../../../../components/order/StepHero';
+import TxnSidebar from '../../../../components/order/TxnSidebar';
+
+export default function WeightReveal() {
+  const stepsTC = (active) => ['Cân tại nhà', 'Hiện khối lượng', 'Peek-check', 'HOLD ví ảo', 'OTP bàn giao', 'Hoàn tất'].map((label, i) => ({ label, state: (i + 1 < active ? 'done' : i + 1 === active ? 'active' : 'pending') }));
+  const evidence = [
+    { icon: 'photo_camera', t: 'Toàn cảnh', d: 'Vật phẩm trên cân' },
+    { icon: 'center_focus_strong', t: 'Cận mặt cân', d: 'Số 1.0 kg rõ nét' },
+    { icon: 'videocam', t: 'Video 12s', d: 'Đặt lên + ổn định' },
+  ];
+  // dải BOM kỳ vọng theo composition ước (chốt thật sau Hub rã xác)
+  const bomLow = 25_000;
+  const bomHigh = 60_000;
+  const advance = 60_000;
+  return (
+    <>
+      <main className="pt-[100px] pb-space-96 min-h-screen">
+          <div className="max-w-[1280px] mx-auto px-[80px]">
+            <a href="/orders/transaction-flow/tier-c/weighing" className="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-c font-semibold mb-space-16">
+              <span className="material-symbols-rounded !text-[16px]">arrow_back</span>
+              Quay lại · Đang cân
+            </a>
+      
+            <StepHero
+              eyebrow="Tier C · Giao dịch 2/6 · Khối lượng thực"
+              title="Đã cân — tiếp theo là Peek-check"
+              subtitle="Khối lượng vỏ ngoài đã ghi nhận · Tier C cần kiểm tra mẫu chống tráo ruột trước khi tạm ứng HOLD"
+              accent="tier-c"
+              illustration="recycle"
+              chips={[
+                { icon: 'monitor_weight', label: 'Khối lượng', value: '1.0 kg', tone: 'peach' },
+                { icon: 'photo_camera', label: 'Ảnh evidence', value: 'Đã lưu', tone: 'butter' },
+                { icon: 'fact_check', label: 'Tiếp theo', value: 'Peek-check', tone: 'peach' },
+              ]}
+            />
+      
+            <div className="grid grid-cols-[2fr_1fr] gap-space-32">
+              <section className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-40 flex flex-col gap-space-24 relative overflow-hidden">
+                <svg className="absolute top-space-24 left-space-32 w-8 h-8" viewBox="0 0 32 32" fill="none"><path d="M16 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#E68A3F" opacity="0.45" /></svg>
+                <svg className="absolute bottom-space-24 right-space-32 w-7 h-7" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="4" fill="#E68A3F" opacity="0.35" /></svg>
+      
+                {/* Big number + verdict */}
+                <div className="flex items-center gap-space-32 flex-wrap justify-center text-center">
+                  <div className="bg-clay-peach border-2 border-tier-c/30 rounded-[28px] px-space-48 py-space-32 shadow-clay">
+                    <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-c font-bold block mb-space-8">KHỐI LƯỢNG THỰC</span>
+                    <div className="font-display font-extrabold text-[80px] text-text-primary tabular-nums leading-none">1.0<span className="text-[28px] text-text-tertiary ml-space-4">kg</span></div>
+                  </div>
+                  <div className="flex flex-col gap-space-12 items-start text-left">
+                    <span className="px-space-16 py-space-8 rounded-full bg-clay-peach border-2 border-tier-c/30 font-mono-md text-[12px] text-tier-c font-bold uppercase tracking-wider inline-flex items-center gap-space-8 shadow-clay-sm"><span className="material-symbols-rounded fill !text-[16px]">verified</span>Khớp ước tính ✓</span>
+                    <p className="font-body-md text-[13px] text-text-secondary text-col max-w-[260px]">Đây mới là <strong className="text-text-primary">khối lượng vỏ ngoài</strong>. BOM thực (đồng/sắt/nhôm/nhựa) chỉ chốt sau khi Hub Q.7 rã xác.</p>
+                  </div>
+                </div>
+      
+                {/* Estimate vs actual + BOM range */}
+                <div className="bg-bg-base/50 rounded-2xl p-space-20">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-text-tertiary font-bold flex items-center gap-space-8 mb-space-16"><span className="material-symbols-rounded fill !text-[14px] text-tier-c">compare_arrows</span>ĐỐI CHIẾU ƯỚC TÍNH ↔ THỰC TẾ</span>
+                  <div className="flex flex-col gap-space-12">
+                    <div>
+                      <div className="flex justify-between mb-space-4"><span className="font-body-md text-[12px] text-text-secondary">Ước tính khi đặt đơn</span><span className="font-mono-md text-[12px] text-text-primary font-bold tabular-nums">~1.0 kg</span></div>
+                      <div className="h-3 rounded-full bg-bg-base overflow-hidden"><div className="h-full rounded-full bg-tier-c/40" style={{ 'width': '96%' }}></div></div>
+                    </div>
+                    <div>
+                      <div className="flex justify-between mb-space-4"><span className="font-body-md text-[12px] text-text-secondary">Cân thực tế tại nhà</span><span className="font-mono-md text-[12px] text-tier-c font-bold tabular-nums">1.0 kg</span></div>
+                      <div className="h-3 rounded-full bg-bg-base overflow-hidden"><div className="h-full rounded-full bg-tier-c" style={{ 'width': '100%' }}></div></div>
+                    </div>
+                  </div>
+                  <div className="mt-space-16 flex items-center gap-space-12 p-space-12 bg-clay-butter rounded-xl border border-amber-deep/20">
+                    <span className="material-symbols-rounded fill !text-[18px] text-amber-deep shrink-0">analytics</span>
+                    <p className="font-body-md text-[12px] text-text-secondary text-col">Dải BOM kỳ vọng: <strong className="text-text-primary tabular-nums">{bomLow.toLocaleString('vi-VN')}–{bomHigh.toLocaleString('vi-VN')}đ</strong> · tạm ứng HOLD ví ảo <strong className="text-amber-deep tabular-nums">~{advance.toLocaleString('vi-VN')}đ</strong> ở bước sau (theo Trust Score).</p>
+                  </div>
+                </div>
+      
+                {/* Evidence thumbnails */}
+                <div>
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-text-tertiary font-bold flex items-center gap-space-8 mb-space-12"><span className="material-symbols-rounded fill !text-[14px] text-tier-c">photo_library</span>ẢNH EVIDENCE ĐÃ LƯU VÀO LOG</span>
+                  <div className="grid grid-cols-3 gap-space-12">
+                    {evidence.map((e) => (
+                      <div className="h-[120px] rounded-2xl bg-clay-peach border-2 border-tier-c/20 shadow-clay-sm flex flex-col items-center justify-center gap-space-8 relative overflow-hidden">
+                        <svg className="absolute top-space-8 right-space-8 w-4 h-4" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" fill="#E68A3F" opacity="0.5" /></svg>
+                        <div className="w-9 h-9 rounded-xl bg-bg-elevated flex items-center justify-center shadow-clay-sm"><span className="material-symbols-rounded fill !text-[18px] text-tier-c">{e.icon}</span></div>
+                        <span className="font-display font-bold text-[12px] text-text-primary">{e.t}</span>
+                        <span className="font-mono-md text-[9px] text-text-tertiary">{e.d}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+      
+                {/* Actions */}
+                <div className="flex gap-space-12 flex-wrap justify-center">
+                  <button className="px-space-24 py-space-12 rounded-2xl text-tier-h border-2 border-tier-h/30 bg-clay-blush hover:shadow-clay-sm font-medium text-[13px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded !text-[16px]">report</span>Báo sai (−5 Trust)</button>
+                  <a href="/orders/transaction-flow/tier-c/peek-check" className="px-space-32 py-[14px] rounded-2xl bg-tier-c text-white font-semibold text-[14px] shadow-clay hover:-translate-y-[2px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded !text-[18px]">check</span>Khớp ✓ → Peek-check</a>
+                </div>
+              </section>
+      
+              <TxnSidebar
+                collectorName="Chị Hoa" collectorAvatar="H" collectorTierLabel="Tier 2 · Hub Q.7 · Verified Tier C" collectorRating={4.9} collectorVehicle="Xe ba gác · 51B-67890"
+                itemName="Mainboard PC ATX" itemHint="1.0 kg (đã cân) · chờ peek-check" itemIcon="developer_board"
+                accent="tier-c" avatarGradient="from-clay-peach to-tier-c" itemClay="bg-clay-peach"
+                subSteps={stepsTC(2)}
+              >
+                <div className="bg-clay-butter rounded-[24px] shadow-clay-sm border-2 border-amber-deep/30 p-space-20">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-amber-deep font-bold flex items-center gap-space-8 mb-space-12"><span className="material-symbols-rounded fill !text-[14px]">policy</span>VÌ SAO CHƯA ĐỊNH GIÁ NGAY?</span>
+                  <p className="font-body-md text-[12px] text-text-secondary text-col">Mainboard là <strong className="text-text-primary">hỗn hợp vật liệu</strong> — đồng/sắt/nhôm/nhựa+FR4 tỉ lệ khác nhau, giá chênh nhau nhiều lần. Phải rã xác và cân từng loại (BOM thực) mới chốt được. Phần chênh tự động về ZaloPay sau verify mass-balance ≥ 90%.</p>
+                </div>
+              </TxnSidebar>
+            </div>
+          </div>
+        </main>
+    </>
+  );
+}

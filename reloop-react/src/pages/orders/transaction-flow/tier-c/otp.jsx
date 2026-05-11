@@ -1,0 +1,129 @@
+import { cx } from '@/lib/cx';
+import StepHero from '../../../../components/order/StepHero';
+import TxnSidebar from '../../../../components/order/TxnSidebar';
+
+export default function Otp() {
+  const stepsTC = (active) => ['Cân tại nhà', 'Hiện khối lượng', 'Peek-check', 'HOLD ví ảo', 'OTP bàn giao', 'Hoàn tất'].map((label, i) => ({ label, state: (i + 1 < active ? 'done' : i + 1 === active ? 'active' : 'pending') }));
+  const otp = ['1', '2', '3', '4', '5', '6'];
+  const seal = [
+    { icon: 'qr_code_2', t: 'Niêm phong túi mã QR', d: 'Mã QR gắn với mã đơn RL-2026-001240' },
+    { icon: 'route', t: 'Vào chuỗi hành trình mẫu', d: 'Mọi lần quét QR ghi log: nhà → xe → Hub → rã xác' },
+    { icon: 'visibility', t: 'Bạn theo dõi được', d: 'Xem chuỗi hành trình trên app, đối chiếu thời gian' },
+  ];
+  return (
+    <>
+      <main className="pt-[100px] pb-space-96 min-h-screen">
+          <div className="max-w-[1280px] mx-auto px-[80px]">
+            <a href="/orders/transaction-flow/tier-c/hold" className="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-c font-semibold mb-space-16">
+              <span className="material-symbols-rounded !text-[16px]">arrow_back</span>
+              Quay lại · HOLD ví ảo
+            </a>
+      
+            <StepHero
+              eyebrow="Tier C · Giao dịch 5/6 · OTP bàn giao"
+              title="Nhập OTP — xác nhận bàn giao Hub"
+              subtitle="Bạn xác nhận bằng OTP · collector niêm phong túi mã QR + chuyển vật phẩm về Hub rã xác"
+              accent="tier-c"
+              illustration="otp"
+              chips={[
+                { icon: 'sms', label: 'OTP qua', value: 'SMS', tone: 'peach' },
+                { icon: 'qr_code_2', label: 'Niêm phong', value: 'QR mã đơn', tone: 'mint' },
+                { icon: 'shield', label: 'Sign-off', value: 'Bàn giao', tone: 'peach' },
+              ]}
+            />
+      
+            <div className="grid grid-cols-[2fr_1fr] gap-space-32">
+              <section className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-40 flex flex-col gap-space-24 relative overflow-hidden">
+                <svg className="absolute top-space-24 right-space-32 w-9 h-9" viewBox="0 0 36 36" fill="none"><path d="M18 9a5 5 0 0 1 5 5v3h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H12a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1v-3a5 5 0 0 1 5-5z" fill="#E68A3F" opacity="0.16" /></svg>
+                <svg className="absolute bottom-space-24 left-space-32 w-7 h-7" viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="4" fill="#E68A3F" opacity="0.28" /></svg>
+      
+                <div className="flex items-center gap-space-12 relative">
+                  <div className="w-14 h-14 rounded-2xl bg-clay-peach flex items-center justify-center shadow-clay-sm shrink-0"><span className="material-symbols-rounded fill !text-[28px] text-tier-c">lock</span></div>
+                  <div className="flex-1 text-col">
+                    <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-c font-bold">OTP XÁC NHẬN BÀN GIAO HUB</span>
+                    <h2 className="font-h2 text-h2 text-text-primary">Nhập OTP — xác nhận bàn giao về Hub</h2>
+                  </div>
+                  <span className="px-space-12 py-[5px] rounded-full bg-clay-peach border border-tier-c/30 font-mono-md text-[10px] text-tier-c font-bold uppercase tracking-wider flex items-center gap-space-4 shrink-0"><span className="material-symbols-rounded !text-[12px]">timer</span>4:32</span>
+                </div>
+      
+                <div className="grid grid-cols-[1fr_1fr] gap-space-20 items-stretch">
+                  {/* SMS phone mockup */}
+                  <div className="bg-forest rounded-[24px] p-space-20 shadow-clay relative overflow-hidden flex flex-col">
+                    <div className="absolute inset-0 opacity-[0.07]" style={{ 'backgroundImage': 'radial-gradient(circle,#E68A3F 1px,transparent 1px)', 'backgroundSize': '14px 14px' }}></div>
+                    <div className="relative flex items-center justify-between mb-space-12">
+                      <span className="font-mono-md text-[9px] uppercase tracking-wider text-clay-peach font-bold flex items-center gap-space-4"><span className="material-symbols-rounded !text-[12px]">sms</span>TIN NHẮN</span>
+                      <span className="font-mono-md text-[9px] text-white/40">0901-***-456 · vừa xong</span>
+                    </div>
+                    <div className="relative bg-white/10 rounded-2xl rounded-tl-md p-space-12">
+                      <span className="font-mono-md text-[10px] text-clay-peach font-bold block mb-space-4">RE-LOOP</span>
+                      <p className="font-body-md text-[11px] text-white/80 leading-relaxed">Mã OTP xác nhận bàn giao Hub đơn <strong className="text-white">RL-…1240</strong> (HOLD ~60.000đ): <strong className="text-white font-mono-md tracking-[0.2em]">123456</strong>. Hết hạn 5 phút.</p>
+                    </div>
+                  </div>
+                  {/* QR seal mockup */}
+                  <div className="bg-clay-peach rounded-[24px] p-space-20 shadow-clay-sm border-2 border-tier-c/30 flex flex-col items-center justify-center text-center gap-space-12">
+                    <span className="font-mono-md text-[10px] uppercase tracking-wider text-tier-c font-bold flex items-center gap-space-4"><span className="material-symbols-rounded !text-[12px]">qr_code_2</span>TÚI NIÊM PHONG</span>
+                    <div className="w-20 h-20 bg-bg-elevated rounded-2xl shadow-clay-sm flex items-center justify-center"><span className="material-symbols-rounded !text-[64px] text-text-primary">qr_code_2</span></div>
+                    <span className="font-mono-md text-[12px] text-text-primary font-bold tabular-nums">RL-2026-001240</span>
+                    <span className="font-mono-md text-[10px] text-text-tertiary">Quét QR → log chuỗi hành trình</span>
+                  </div>
+                </div>
+      
+                {/* OTP cells */}
+                <div className="flex flex-col items-center gap-space-12">
+                  <span className="font-mono-md text-[11px] text-text-secondary">Đã gửi tới <strong className="text-text-primary">0901-***-456</strong> · mã <code className="font-mono-md text-tier-c font-semibold">123456</code></span>
+                  <div className="flex gap-space-8">
+                    {otp.map((d) => (
+                      <div className="w-12 h-16 flex items-center justify-center rounded-2xl font-mono-md text-[26px] font-bold border-2 bg-clay-peach text-text-primary border-tier-c shadow-clay-sm">{d}</div>
+                    ))}
+                  </div>
+                  <button className="font-mono-md text-[11px] text-tier-c font-bold inline-flex items-center gap-space-4 hover:underline"><span className="material-symbols-rounded !text-[14px]">refresh</span>Gửi lại mã (00:42)</button>
+                </div>
+      
+                {/* Sign-off flow mini */}
+                <div className="bg-bg-base/50 rounded-2xl p-space-20">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-text-tertiary font-bold flex items-center gap-space-8 mb-space-16"><span className="material-symbols-rounded fill !text-[14px] text-tier-c">route</span>SAU KHI BẠN XÁC NHẬN OTP</span>
+                  <div className="flex items-center gap-space-8">
+                    {[
+                      { icon: 'pin', t: 'Bạn nhập 6 số' },
+                      { icon: 'qr_code_2', t: 'Niêm phong túi QR' },
+                      { icon: 'local_shipping', t: 'Chuyển về Hub Q.7' },
+                      { icon: 'precision_manufacturing', t: 'Rã xác → BOM thực' },
+                    ].map((s, i, arr) => (
+                      <>
+                        <div className="flex-1 flex flex-col items-center gap-space-8 text-center">
+                          <div className={cx(['w-9 h-9 rounded-xl flex items-center justify-center shadow-clay-sm', i === 0 ? 'bg-tier-c text-white animate-pulse' : 'bg-clay-peach text-tier-c'])}><span className="material-symbols-rounded fill !text-[16px]">{s.icon}</span></div>
+                          <span className="font-mono-md text-[10px] text-text-secondary leading-tight">{s.t}</span>
+                        </div>
+                        {i < arr.length - 1 && <span className="material-symbols-rounded !text-[14px] text-tier-c/50 -mt-space-16">arrow_forward</span>}
+                      </>
+                    ))}
+                  </div>
+                </div>
+      
+                <a href="/orders/transaction-flow/tier-c/done" className="self-center px-space-32 py-[14px] rounded-2xl bg-tier-c text-white font-semibold text-[14px] shadow-clay hover:-translate-y-[2px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded !text-[18px]">check</span>Xác nhận bàn giao</a>
+              </section>
+      
+              <TxnSidebar
+                collectorName="Chị Hoa" collectorAvatar="H" collectorTierLabel="Tier 2 · Hub Q.7 · Verified Tier C" collectorRating={4.9} collectorVehicle="Xe ba gác · 51B-67890"
+                itemName="Mainboard PC ATX" itemHint="1.0 kg · niêm phong chuyển Hub" itemIcon="developer_board"
+                accent="tier-c" avatarGradient="from-clay-peach to-tier-c" itemClay="bg-clay-peach"
+                subSteps={stepsTC(5)}
+              >
+                <div className="bg-clay-peach/40 rounded-[24px] shadow-clay-sm border border-tier-c/20 p-space-24">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-c font-bold flex items-center gap-space-8 mb-space-12"><span className="material-symbols-rounded fill !text-[14px]">qr_code_2</span>NIÊM PHONG MÃ QR</span>
+                  <div className="flex flex-col gap-space-8">
+                    {seal.map((s) => (
+                      <div className="flex items-start gap-space-12 p-space-12 bg-bg-elevated/70 rounded-xl">
+                        <div className="w-8 h-8 rounded-xl bg-clay-peach flex items-center justify-center shadow-clay-sm shrink-0"><span className="material-symbols-rounded fill !text-[16px] text-tier-c">{s.icon}</span></div>
+                        <div className="flex-1 text-col"><span className="font-display font-bold text-[12px] text-text-primary block">{s.t}</span><span className="font-mono-md text-[10px] text-text-tertiary block mt-[2px]">{s.d}</span></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </TxnSidebar>
+            </div>
+          </div>
+        </main>
+    </>
+  );
+}

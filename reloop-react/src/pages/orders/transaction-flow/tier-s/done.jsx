@@ -1,0 +1,119 @@
+import { cx } from '@/lib/cx';
+import StepHero from '../../../../components/order/StepHero';
+import TxnSidebar from '../../../../components/order/TxnSidebar';
+
+export default function Done() {
+  const stepsTS = ['Cân tại nhà', 'Hiện khối lượng', 'Báo giá cuối', 'OTP xác nhận', 'Hoàn tất'].map((label) => ({ label, state: 'done' }));
+  const pricePerKg = 5_500;
+  const weight = 3.2;
+  const market = Math.round(weight * pricePerKg);
+  const userShare = 13_200;
+  const receipt = [
+    { k: 'Vật phẩm', v: 'Chai PET 500ml · 18 chai' },
+    { k: 'Khối lượng cân', v: `${weight} kg` },
+    { k: 'Đơn giá PET hôm nay', v: `${pricePerKg.toLocaleString('vi-VN')}đ/kg` },
+    { k: 'Giá thị trường', v: `${market.toLocaleString('vi-VN')}đ` },
+    { k: 'Phần Hub thu gom (15%)', v: `${Math.round(market * 0.15).toLocaleString('vi-VN')}đ` },
+    { k: 'Phí RE-LOOP (10%)', v: `${(market - userShare - Math.round(market * 0.15)).toLocaleString('vi-VN')}đ` },
+  ];
+  const impact = [
+    { icon: 'redeem', label: 'Green Points', value: '+16 GP', sub: '≈ 16.000đ giá trị đơn', clay: 'bg-clay-sky', accent: 'text-info' },
+    { icon: 'eco', label: 'CO₂ tránh phát thải', value: '−5 kg', sub: '≈ 1 cây xanh / 6 tháng', clay: 'bg-clay-mint', accent: 'text-tier-s' },
+    { icon: 'trending_up', label: 'Trust Score', value: '+2 → 67', sub: 'Đơn đúng · tăng % tạm ứng', clay: 'bg-clay-butter', accent: 'text-amber-deep' },
+  ];
+  return (
+    <>
+      <main className="pt-[100px] pb-space-96 min-h-screen">
+          <div className="max-w-[1280px] mx-auto px-[80px]">
+            <a href="/orders/transaction-flow/tier-s/otp" className="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-s font-semibold mb-space-16">
+              <span className="material-symbols-rounded !text-[16px]">arrow_back</span>
+              Quay lại · OTP
+            </a>
+      
+            <StepHero
+              eyebrow="Tier S · Giao dịch 5/5 · Hoàn tất"
+              title="Giao dịch hoàn tất 🎉"
+              subtitle="Tiền đã vào ZaloPay · GP đã cộng vào tài khoản · cảm ơn bạn đã tái chế"
+              accent="tier-s"
+              illustration="milestone"
+              chips={[
+                { icon: 'paid', label: 'Đã nhận', value: `${userShare.toLocaleString('vi-VN')}đ`, tone: 'mint' },
+                { icon: 'redeem', label: 'GP cộng', value: '+16 GP', tone: 'sky' },
+                { icon: 'eco', label: 'CO₂ tránh', value: '−5 kg', tone: 'mint' },
+              ]}
+            />
+      
+            <div className="grid grid-cols-[2fr_1fr] gap-space-32">
+              <section className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-40 flex flex-col gap-space-24 relative overflow-hidden">
+                <svg className="absolute top-space-24 left-space-32 w-8 h-8" viewBox="0 0 32 32" fill="none"><path d="M16 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#52E08D" opacity="0.6" /></svg>
+                <svg className="absolute top-space-40 right-[22%] w-6 h-6" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" fill="#E8B340" opacity="0.55" /></svg>
+                <svg className="absolute bottom-space-24 right-space-40 w-10 h-10" viewBox="0 0 40 40" fill="none"><rect x="8" y="8" width="6" height="20" fill="#52E08D" opacity="0.5" transform="rotate(15 11 18)" /><rect x="22" y="6" width="6" height="22" fill="#2BB36A" opacity="0.5" transform="rotate(-20 25 17)" /></svg>
+      
+                {/* Celebration header */}
+                <div className="flex flex-col items-center text-center gap-space-16">
+                  <div className="relative w-20 h-20">
+                    <div className="absolute inset-0 rounded-3xl bg-tier-s/15 animate-ping"></div>
+                    <div className="relative w-full h-full rounded-3xl bg-lime flex items-center justify-center shadow-clay-lime"><span className="material-symbols-rounded fill !text-[44px] text-text-on-lime">check</span></div>
+                  </div>
+                  <h2 className="font-h1 text-h1 text-text-primary">{userShare.toLocaleString('vi-VN')}đ đã vào ZaloPay 🎉</h2>
+                  <p className="font-body-md text-body-md text-text-secondary text-col">Chuyển khoản 0901-***-456 · phí RE-LOOP chịu · giao dịch hoàn tất lúc 14:38 hôm nay</p>
+                </div>
+      
+                {/* Receipt */}
+                <div className="bg-bg-base/50 rounded-2xl border border-border-subtle p-space-24">
+                  <div className="flex items-center justify-between mb-space-16">
+                    <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold flex items-center gap-space-8"><span className="material-symbols-rounded fill !text-[14px]">receipt_long</span>BIÊN NHẬN GIAO DỊCH</span>
+                    <span className="font-mono-md text-[11px] text-text-tertiary tabular-nums">RL-2026-001234</span>
+                  </div>
+                  <div className="flex flex-col gap-space-8">
+                    {receipt.map((r) => (
+                      <div className="flex items-center justify-between"><span className="font-body-md text-[12px] text-text-secondary">{r.k}</span><span className="font-mono-md text-[12px] text-text-primary font-semibold tabular-nums">{r.v}</span></div>
+                    ))}
+                  </div>
+                  <div className="my-space-16 border-t border-dashed border-border-default"></div>
+                  <div className="flex items-end justify-between">
+                    <div className="text-col"><span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold block">Bạn nhận (75%)</span><span className="font-mono-md text-[10px] text-text-tertiary">đã vào ZaloPay · ≤ 60 giây</span></div>
+                    <span className="font-display font-extrabold text-[32px] text-tier-s tabular-nums leading-none">{userShare.toLocaleString('vi-VN')}đ</span>
+                  </div>
+                </div>
+      
+                {/* Impact mini-cards */}
+                <div className="grid grid-cols-3 gap-space-12">
+                  {impact.map((m) => (
+                    <div className={cx(['rounded-2xl border-2 border-border-subtle p-space-16 shadow-clay-sm flex flex-col gap-space-8', m.clay])}>
+                      <div className="w-9 h-9 rounded-xl bg-bg-elevated flex items-center justify-center shadow-clay-sm"><span className={cx(['material-symbols-rounded fill !text-[18px]', m.accent])}>{m.icon}</span></div>
+                      <span className={cx(['font-mono-md text-[9px] uppercase tracking-wider font-bold', m.accent])}>{m.label}</span>
+                      <span className="font-display font-extrabold text-[18px] text-text-primary tabular-nums">{m.value}</span>
+                      <span className="font-mono-md text-[10px] text-text-tertiary text-col">{m.sub}</span>
+                    </div>
+                  ))}
+                </div>
+      
+                <div className="flex gap-space-12 flex-wrap justify-center">
+                  <a href="/orders/RL-2026-001234" className="px-space-32 py-[14px] rounded-2xl bg-lime text-text-on-lime font-semibold text-[14px] shadow-clay-lime hover:-translate-y-[2px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded fill !text-[18px]">visibility</span>Xem chi tiết đơn</a>
+                  <a href="/orders/RL-2026-001234/chat" className="px-space-24 py-space-12 rounded-2xl text-text-primary border border-border-default bg-bg-elevated shadow-clay-sm hover:shadow-clay font-medium text-[13px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded !text-[16px]">star</span>Đánh giá collector</a>
+                  <a href="/orders" className="px-space-24 py-space-12 rounded-2xl text-text-primary border border-border-default bg-bg-elevated shadow-clay-sm hover:shadow-clay font-medium text-[13px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded !text-[16px]">list_alt</span>Về danh sách</a>
+                </div>
+              </section>
+      
+              <TxnSidebar
+                collectorName="Anh Tuấn" collectorAvatar="T" collectorTierLabel="Tier 1 · Hub Q.7" collectorRating={4.8} collectorVehicle="Xe máy Honda Wave · 51A-12345"
+                itemName="Chai PET 500ml" itemHint="3.2 kg · đã thanh toán" itemIcon="water_bottle"
+                accent="tier-s" avatarGradient="from-clay-mint to-tier-s" itemClay="bg-clay-mint"
+                subSteps={stepsTS}
+              >
+                <div className="bg-clay-mint rounded-[24px] shadow-clay-sm border-2 border-tier-s/30 p-space-24">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold flex items-center gap-space-8 mb-space-12"><span className="material-symbols-rounded fill !text-[14px]">summarize</span>TÓM TẮT GIAO DỊCH</span>
+                  <div className="flex flex-col gap-space-8">
+                    <div className="flex items-center justify-between p-space-12 bg-bg-elevated/70 rounded-xl"><span className="font-body-md text-[12px] text-text-secondary">Tiền nhận</span><span className="font-mono-md text-[13px] text-tier-s font-bold tabular-nums">{userShare.toLocaleString('vi-VN')}đ</span></div>
+                    <div className="flex items-center justify-between p-space-12 bg-bg-elevated/70 rounded-xl"><span className="font-body-md text-[12px] text-text-secondary">Green Points</span><span className="font-mono-md text-[13px] text-tier-s font-bold">+16 GP</span></div>
+                    <div className="flex items-center justify-between p-space-12 bg-bg-elevated/70 rounded-xl"><span className="font-body-md text-[12px] text-text-secondary">CO₂ tránh</span><span className="font-mono-md text-[13px] text-amber-deep font-bold">−5 kg</span></div>
+                  </div>
+                </div>
+              </TxnSidebar>
+            </div>
+          </div>
+        </main>
+    </>
+  );
+}

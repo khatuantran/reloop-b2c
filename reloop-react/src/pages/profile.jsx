@@ -1,0 +1,331 @@
+import { cx } from '@/lib/cx';
+import TrustScoreGauge from '../components/profile/TrustScoreGauge';
+import PersonaLinh from '../components/illustrations/PersonaLinh';
+import { USER, STATS } from '../lib/mock';
+import { formatDate } from '../lib/format';
+
+export default function Profile() {
+  const milestones = [
+    { range: '0-30', label: 'User mới', advance: '30%', bg: 'bg-clay-blush', border: 'border-tier-h/40', text: 'text-tier-h' },
+    { range: '30-70', label: 'Đang tích lũy', advance: '50%', bg: 'bg-clay-butter', border: 'border-amber-deep/40', text: 'text-amber-deep', current: true },
+    { range: '70+', label: 'Đáng tin', advance: '70%', bg: 'bg-clay-mint', border: 'border-tier-s/40', text: 'text-tier-s' },
+  ];
+  return (
+    <>
+      <main className="pt-[100px] pb-space-96 min-h-screen">
+          <div className="max-w-[1280px] mx-auto px-[80px] flex flex-col gap-space-32">
+            {/* Hero */}
+            <section className="grad-hero rounded-[40px] px-space-48 py-space-48 border border-border-subtle relative overflow-hidden">
+              <div className="grid grid-cols-12 gap-space-32 items-center">
+                <div className="col-span-8">
+                  <span className="font-mono-md text-[12px] uppercase tracking-[0.2em] text-tier-s mb-space-12 block">HỒ SƠ</span>
+                  <h1 className="font-display-l text-[56px] font-extrabold leading-none tracking-tight text-text-primary mb-space-16">Trust Score & Profile</h1>
+                  <p className="font-body-lg text-body-lg text-text-secondary max-w-[520px]">
+                    Member từ 03/2026 · {USER.district} · Tier "Đang tích lũy" · 5 đơn hoàn tất.
+                  </p>
+                </div>
+                <div className="col-span-4 flex justify-center">
+                  <div className="relative w-[240px] h-[240px]">
+                    <div className="absolute inset-0 rounded-full overflow-hidden shadow-clay-lg border-[6px] border-bg-elevated">
+                      <PersonaLinh className="w-full h-full" />
+                    </div>
+                    <div className="absolute -bottom-space-8 -right-space-8 bg-lime rounded-full w-14 h-14 flex items-center justify-center shadow-clay-lime border-4 border-bg-elevated">
+                      <span className="material-symbols-rounded fill !text-[24px] text-text-on-lime">verified</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+      
+            <div className="grid grid-cols-12 gap-space-32">
+              {/* Trust Score gauge */}
+              <div className="col-span-5 bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-48 flex flex-col items-center gap-space-24">
+                <TrustScoreGauge score={USER.trustScore} />
+                <p className="font-body-md text-[13px] text-text-secondary text-center max-w-[320px]">
+                  Trust Score tăng theo lịch sử đơn hàng thành công. Score cao hơn → tỷ lệ tạm ứng Tier C cao hơn.
+                </p>
+              </div>
+      
+              <div className="col-span-7 flex flex-col gap-space-24">
+                {/* Progression milestones */}
+                <div className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-32">
+                  <div className="mb-space-16">
+                    <span className="font-mono-md text-[12px] text-tier-s uppercase tracking-wider font-semibold">PROGRESSION</span>
+                    <h3 className="font-h2 text-h2 text-text-primary mt-space-8">Mốc Trust Score</h3>
+                  </div>
+                  <div className="flex flex-col gap-space-12">
+                    {milestones.map((m) => (
+                      <div className={cx([
+                        'flex items-center justify-between p-space-16 rounded-2xl border-2 shadow-clay-sm',
+                        m.current ? `${m.bg} ${m.border}` : 'bg-bg-surface border-border-subtle',
+                      ])}>
+                        <div className="flex items-center gap-space-16">
+                          <span className={cx([
+                            'w-12 h-12 rounded-2xl flex items-center justify-center font-mono-md text-[12px] font-bold shadow-inset-soft',
+                            m.bg,
+                            m.text,
+                          ])}>
+                            {m.range}
+                          </span>
+                          <div className="flex flex-col">
+                            <span className="font-display font-bold text-[15px] text-text-primary">{m.label}</span>
+                            <span className="font-mono-md text-[11px] text-text-tertiary">Tạm ứng tối đa {m.advance}</span>
+                          </div>
+                        </div>
+                        {m.current && (
+                          <span className="px-space-12 py-space-4 rounded-full bg-amber-deep text-white font-mono-md text-[10px] font-bold">★ BẠN ĐANG Ở ĐÂY</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+      
+                {/* Profile card */}
+                <div className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-32">
+                  <div className="flex items-center justify-between mb-space-24">
+                    <h3 className="font-h3 text-h3 text-text-primary">Thông tin cá nhân</h3>
+                    <span className="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider">Read-only · Phase 2</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-y-space-16 gap-x-space-32">
+                    <div className="flex flex-col gap-space-4">
+                      <span className="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider">Họ tên</span>
+                      <span className="font-display font-bold text-[15px] text-text-primary">{USER.name}</span>
+                    </div>
+                    <div className="flex flex-col gap-space-4">
+                      <span className="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider">Số điện thoại</span>
+                      <span className="font-mono-md text-[15px] text-text-primary font-semibold">{USER.phone}</span>
+                    </div>
+                    <div className="flex flex-col gap-space-4">
+                      <span className="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider">Email</span>
+                      <span className="font-body-md text-[15px] text-text-primary">{USER.email}</span>
+                    </div>
+                    <div className="flex flex-col gap-space-4">
+                      <span className="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider">Member từ</span>
+                      <span className="font-body-md text-[15px] text-text-primary">{formatDate(USER.memberSince)}</span>
+                    </div>
+                    <div className="col-span-2 flex flex-col gap-space-4">
+                      <span className="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider">Địa chỉ</span>
+                      <span className="font-body-md text-[15px] text-text-primary">{USER.address}, {USER.district}</span>
+                    </div>
+                  </div>
+                </div>
+      
+                {/* Stats */}
+                <div className="grid grid-cols-4 gap-space-12">
+                  <div className="bg-bg-elevated rounded-2xl shadow-clay-sm border border-border-subtle p-space-16 text-center">
+                    <span className="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider block">Đơn hoàn tất</span>
+                    <span className="font-display font-extrabold text-[28px] text-text-primary tabular-nums block mt-space-4">{STATS.totalOrders}</span>
+                  </div>
+                  <div className="bg-clay-mint rounded-2xl shadow-clay-sm border border-tier-s/30 p-space-16 text-center">
+                    <span className="font-mono-md text-[10px] text-tier-s uppercase tracking-wider block font-semibold">Tier S</span>
+                    <span className="font-display font-extrabold text-[28px] text-tier-s tabular-nums block mt-space-4">{STATS.tierSCount}</span>
+                  </div>
+                  <div className="bg-clay-peach rounded-2xl shadow-clay-sm border border-tier-c/30 p-space-16 text-center">
+                    <span className="font-mono-md text-[10px] text-tier-c uppercase tracking-wider block font-semibold">Tier C</span>
+                    <span className="font-display font-extrabold text-[28px] text-tier-c tabular-nums block mt-space-4">{STATS.tierCCount}</span>
+                  </div>
+                  <div className="bg-lime rounded-2xl shadow-clay-lime p-space-16 text-center">
+                    <span className="font-mono-md text-[10px] text-text-on-lime/80 uppercase tracking-wider block font-semibold">Mass balance TB</span>
+                    <span className="font-display font-extrabold text-[28px] text-text-on-lime tabular-nums block mt-space-4">{(STATS.avgMassBalance * 100).toFixed(0)}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            {/* EASY mode toggle + edit CTA */}
+            <section className="grid grid-cols-2 gap-space-16">
+              <a href="/profile/edit" className="bg-bg-elevated rounded-[24px] shadow-clay-sm border border-border-subtle p-space-24 flex items-center gap-space-16 hover:shadow-clay hover:-translate-y-[2px] transition">
+                <div className="w-12 h-12 rounded-2xl bg-clay-mint flex items-center justify-center shadow-clay-sm">
+                  <span className="material-symbols-rounded fill !text-[22px] text-tier-s">edit</span>
+                </div>
+                <div className="flex-1">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold block">CHỈNH SỬA HỒ SƠ</span>
+                  <span className="font-display font-bold text-[14px] text-text-primary">Tên · Địa chỉ · Notif · Privacy</span>
+                </div>
+                <span className="material-symbols-rounded !text-[20px] text-text-tertiary">arrow_forward</span>
+              </a>
+              <a href="/easy" className="bg-clay-butter rounded-[24px] shadow-clay-sm border-2 border-amber-deep/30 p-space-24 flex items-center gap-space-16 hover:shadow-clay hover:-translate-y-[2px] transition">
+                <div className="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm">
+                  <span className="material-symbols-rounded fill !text-[22px] text-amber-deep">accessibility_new</span>
+                </div>
+                <div className="flex-1">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-amber-deep font-bold block">CHẾ ĐỘ ĐƠN GIẢN</span>
+                  <span className="font-display font-bold text-[14px] text-text-primary">Cho người lớn tuổi · Font xl · 3 bước</span>
+                </div>
+                <span className="material-symbols-rounded !text-[20px] text-amber-deep">arrow_forward</span>
+              </a>
+            </section>
+      
+            {/* Trust Score history log */}
+            <section className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-32">
+              <div className="flex items-end justify-between mb-space-24">
+                <div>
+                  <span className="font-mono-md text-[12px] uppercase tracking-wider text-tier-s font-semibold flex items-center gap-space-8">
+                    <span className="material-symbols-rounded fill !text-[16px]">history</span>
+                    TRUST SCORE HISTORY
+                  </span>
+                  <h2 className="font-h2 text-h2 text-text-primary mt-space-8">Diễn biến điểm tin cậy</h2>
+                </div>
+                <div className="flex items-center gap-space-12">
+                  <span className="font-mono-md text-[11px] text-text-tertiary uppercase tracking-wider">Hiện tại</span>
+                  <span className="font-display font-extrabold text-[36px] text-tier-s tabular-nums">65</span>
+                  <span className="font-mono-md text-[11px] text-tier-s font-bold">↑ +12 (90 ngày)</span>
+                </div>
+              </div>
+              {/* Sparkline */}
+              <svg viewBox="0 0 800 120" className="w-full h-[120px] mb-space-16">
+                <defs>
+                  <linearGradient id="ts-area" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#52E08D" stopOpacity="0.4"/>
+                    <stop offset="100%" stopColor="#52E08D" stopOpacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0 90 L60 95 L120 92 L180 80 L240 78 L300 70 L360 75 L420 65 L480 60 L540 58 L600 50 L660 45 L720 40 L800 35 L800 120 L0 120 Z" fill="url(#ts-area)"/>
+                <path d="M0 90 L60 95 L120 92 L180 80 L240 78 L300 70 L360 75 L420 65 L480 60 L540 58 L600 50 L660 45 L720 40 L800 35" stroke="#2BB36A" strokeWidth="2.5" fill="none" strokeLinecap="round"/>
+                <g fill="#2BB36A">
+                  <circle cx="0" cy="90" r="3"/><circle cx="120" cy="92" r="3"/><circle cx="240" cy="78" r="3"/><circle cx="360" cy="75" r="3"/><circle cx="480" cy="60" r="3"/><circle cx="600" cy="50" r="3"/><circle cx="720" cy="40" r="3"/>
+                  <circle cx="800" cy="35" r="6" fill="white" stroke="#2BB36A" strokeWidth="3"/>
+                </g>
+              </svg>
+              <div className="flex flex-col divide-y divide-border-subtle">
+                {[
+                  { date: '08/05/2026', delta: +3, reason: 'Đơn RL-2026-001239 hoàn tất · BOM thực khớp >95%', score: 65, type: 'gain' },
+                  { date: '02/05/2026', delta: +2, reason: 'Streak 5 đơn không cancel', score: 62, type: 'gain' },
+                  { date: '24/04/2026', delta: -5, reason: 'Cancel đơn RL-2026-001230 sau khi collector đã đến', score: 60, type: 'loss' },
+                  { date: '20/04/2026', delta: +3, reason: 'Đơn Tier C BOM thực = 98% kỳ vọng', score: 65, type: 'gain' },
+                  { date: '15/04/2026', delta: +2, reason: 'Review collector 5★ kèm tag', score: 62, type: 'gain' },
+                ].map((h) => (
+                  <div className="flex items-center gap-space-16 py-space-12">
+                    <div className={cx(['w-10 h-10 rounded-2xl flex items-center justify-center shadow-clay-sm shrink-0', h.type === 'gain' ? 'bg-clay-mint' : 'bg-clay-blush'])}>
+                      <span className={cx(['material-symbols-rounded fill !text-[18px]', h.type === 'gain' ? 'text-tier-s' : 'text-tier-h'])}>{h.type === 'gain' ? 'trending_up' : 'trending_down'}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="font-display font-bold text-[14px] text-text-primary block">{h.reason}</span>
+                      <span className="font-mono-md text-[11px] text-text-tertiary">{h.date} · Sau sự kiện: {h.score}</span>
+                    </div>
+                    <span className={cx(['font-mono-md text-[15px] font-bold tabular-nums', h.type === 'gain' ? 'text-tier-s' : 'text-tier-h'])}>{h.delta > 0 ? '+' : ''}{h.delta}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+      
+            {/* Recovery path + AI soft-flag + Cancel impact preview */}
+            <section className="grid grid-cols-3 gap-space-16">
+              {/* Recovery path */}
+              <div className="bg-clay-mint rounded-[28px] shadow-clay border-2 border-tier-s/30 p-space-24">
+                <div className="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span className="material-symbols-rounded fill !text-[22px] text-tier-s">trending_up</span>
+                </div>
+                <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold">RECOVERY PATH</span>
+                <h3 className="font-h3 text-h3 text-text-primary mt-space-8 mb-space-12">Tăng score lên 70</h3>
+                <p className="font-body-md text-[12px] text-text-secondary mb-space-16">Còn 5 điểm để đạt zone "Đáng tin" — tạm ứng 70%</p>
+                <ul className="flex flex-col gap-space-8">
+                  {[
+                    { icon: 'recycling', label: '+2 mỗi đơn Tier S done', sub: 'Đặt 2-3 đơn nữa' },
+                    { icon: 'reviews', label: '+1 mỗi review 5★ kèm tag', sub: 'Đánh giá đơn cũ' },
+                    { icon: 'fact_check', label: '+3 mỗi BOM thực ≥95%', sub: 'Chụp evidence kỹ' },
+                  ].map((r) => (
+                    <li className="flex items-start gap-space-8">
+                      <div className="w-8 h-8 rounded-xl bg-bg-elevated flex items-center justify-center shadow-clay-sm shrink-0">
+                        <span className="material-symbols-rounded fill !text-[14px] text-tier-s">{r.icon}</span>
+                      </div>
+                      <div className="flex-1">
+                        <span className="font-display font-bold text-[12px] text-text-primary block">{r.label}</span>
+                        <span className="font-mono-md text-[10px] text-text-tertiary">{r.sub}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+      
+              {/* AI soft-flag */}
+              <div className="bg-clay-butter rounded-[28px] shadow-clay border-2 border-amber-deep/30 p-space-24">
+                <div className="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span className="material-symbols-rounded fill !text-[22px] text-amber-deep">smart_toy</span>
+                </div>
+                <span className="font-mono-md text-[11px] uppercase tracking-wider text-amber-deep font-bold">AI SOFT-FLAG</span>
+                <h3 className="font-h3 text-h3 text-text-primary mt-space-8 mb-space-12">2 cảnh báo nhẹ</h3>
+                <p className="font-body-md text-[12px] text-text-secondary mb-space-12">Hệ thống AI phát hiện pattern bất thường — chưa ảnh hưởng score nhưng cần lưu ý:</p>
+                <div className="flex flex-col gap-space-8">
+                  <div className="bg-bg-elevated/80 rounded-xl p-space-12 border border-amber-deep/20">
+                    <div className="flex items-center gap-space-8 mb-space-4">
+                      <span className="material-symbols-rounded fill !text-[14px] text-amber-deep">warning</span>
+                      <span className="font-mono-md text-[11px] text-amber-deep font-bold uppercase tracking-wider">CÂN LỆCH 2%</span>
+                    </div>
+                    <span className="font-body-md text-[11px] text-text-secondary">Đơn 001236: cân nhà 6.0kg vs Hub 5.88kg — trong giới hạn nhưng cao hơn TB</span>
+                  </div>
+                  <div className="bg-bg-elevated/80 rounded-xl p-space-12 border border-amber-deep/20">
+                    <div className="flex items-center gap-space-8 mb-space-4">
+                      <span className="material-symbols-rounded fill !text-[14px] text-amber-deep">warning</span>
+                      <span className="font-mono-md text-[11px] text-amber-deep font-bold uppercase tracking-wider">PATTERN GIỜ BÁN</span>
+                    </div>
+                    <span className="font-body-md text-[11px] text-text-secondary">3 đơn liên tiếp đặt 14:30-15:00 — gợi ý đa dạng giờ để Trust ổn định</span>
+                  </div>
+                </div>
+                <a href="/help" className="mt-space-12 font-mono-md text-[11px] text-amber-deep font-bold hover:underline inline-flex items-center gap-space-4">
+                  Tìm hiểu AI soft-flag
+                  <span className="material-symbols-rounded !text-[14px]">arrow_forward</span>
+                </a>
+              </div>
+      
+              {/* Cancel impact preview */}
+              <div className="bg-clay-blush rounded-[28px] shadow-clay border-2 border-tier-h/30 p-space-24">
+                <div className="w-12 h-12 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm mb-space-12">
+                  <span className="material-symbols-rounded fill !text-[22px] text-tier-h">cancel</span>
+                </div>
+                <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-h font-bold">CANCEL IMPACT</span>
+                <h3 className="font-h3 text-h3 text-text-primary mt-space-8 mb-space-12">Trước khi huỷ đơn</h3>
+                <p className="font-body-md text-[12px] text-text-secondary mb-space-12">Nếu cancel đơn hiện tại sẽ ảnh hưởng:</p>
+                <div className="flex flex-col gap-space-8">
+                  <div className="bg-bg-elevated/80 rounded-xl p-space-12 border border-tier-h/20 flex items-center justify-between">
+                    <span className="font-mono-md text-[11px] text-text-tertiary uppercase tracking-wider">Trust Score</span>
+                    <span className="font-mono-md text-[14px] text-tier-h font-bold tabular-nums">−5 → 60</span>
+                  </div>
+                  <div className="bg-bg-elevated/80 rounded-xl p-space-12 border border-tier-h/20 flex items-center justify-between">
+                    <span className="font-mono-md text-[11px] text-text-tertiary uppercase tracking-wider">% tạm ứng</span>
+                    <span className="font-mono-md text-[14px] text-amber-deep font-bold tabular-nums">50% → 30%</span>
+                  </div>
+                  <div className="bg-bg-elevated/80 rounded-xl p-space-12 border border-tier-h/20 flex items-center justify-between">
+                    <span className="font-mono-md text-[11px] text-text-tertiary uppercase tracking-wider">Streak</span>
+                    <span className="font-mono-md text-[14px] text-tier-h font-bold">Reset</span>
+                  </div>
+                  <div className="bg-clay-mint rounded-xl p-space-12 border border-tier-s/20 flex items-start gap-space-8">
+                    <span className="material-symbols-rounded fill !text-[16px] text-tier-s shrink-0">tips_and_updates</span>
+                    <span className="font-body-md text-[11px] text-text-secondary">Reschedule (đổi giờ) thay vì cancel — không ảnh hưởng Trust</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+      
+            {/* Milestone celebration */}
+            <section className="bg-gradient-to-br from-clay-mint via-clay-butter to-clay-peach rounded-[28px] shadow-clay border-2 border-tier-s/30 p-space-32 relative overflow-hidden">
+              <div className="grid grid-cols-[auto_1fr_auto] gap-space-32 items-center">
+                <div className="w-24 h-24 rounded-3xl bg-bg-elevated flex items-center justify-center shadow-clay relative">
+                  <span className="material-symbols-rounded fill !text-[56px] text-tier-s">workspace_premium</span>
+                  {/* Confetti */}
+                  <span className="absolute -top-2 -left-2 w-3 h-3 bg-amber-deep rounded-full"></span>
+                  <span className="absolute -bottom-2 -right-2 w-2 h-2 bg-tier-h rounded-full"></span>
+                  <span className="absolute -top-3 right-4 w-2 h-2 bg-info rounded-full"></span>
+                </div>
+                <div>
+                  <span className="font-mono-md text-[12px] uppercase tracking-[0.2em] text-tier-s font-bold">🎉 MILESTONE MỚI</span>
+                  <h2 className="font-display-l text-[32px] font-extrabold text-text-primary mt-space-8 leading-tight">Đáng tin · Tạm ứng 70%</h2>
+                  <p className="font-body-md text-[14px] text-text-secondary mt-space-4">Còn 5 điểm để unlock zone này — kèm voucher 200 GP miễn phí + skip queue Tier B</p>
+                </div>
+                <div className="flex flex-col gap-space-8">
+                  <button className="bg-text-primary text-white px-space-24 py-space-12 rounded-2xl font-semibold shadow-clay text-[14px] inline-flex items-center gap-space-8 hover:-translate-y-[2px] transition">
+                    <span className="material-symbols-rounded fill !text-[18px]">share</span>
+                    Chia sẻ
+                  </button>
+                  <button className="bg-bg-elevated text-text-primary border border-border-subtle px-space-24 py-space-12 rounded-2xl font-semibold shadow-clay-sm text-[14px] inline-flex items-center gap-space-8 hover:shadow-clay">
+                    <span className="material-symbols-rounded fill !text-[18px]">redeem</span>
+                    Xem perks
+                  </button>
+                </div>
+              </div>
+            </section>
+          </div>
+        </main>
+    </>
+  );
+}

@@ -1,0 +1,143 @@
+import { cx } from '@/lib/cx';
+import StepHero from '../../../../components/order/StepHero';
+import TxnSidebar from '../../../../components/order/TxnSidebar';
+
+export default function Done() {
+  const stepsTC = ['Cân tại nhà', 'Hiện khối lượng', 'Peek-check', 'HOLD ví ảo', 'OTP bàn giao', 'Hoàn tất'].map((label) => ({ label, state: 'done' }));
+  const advance = 60_000;
+  const bomLow = 25_000;
+  const bomHigh = 60_000;
+  const receipt = [
+    { k: 'Vật phẩm', v: 'Mainboard PC ATX · 1.0 kg' },
+    { k: 'Peek-check chống fraud', v: 'OK ✓ · 3 ảnh + video' },
+    { k: 'Niêm phong túi mã QR', v: 'RL-2026-001240' },
+    { k: 'Tạm ứng theo Trust 65 (90%)', v: `~${advance.toLocaleString('vi-VN')}đ` },
+    { k: 'Trạng thái HOLD ví ảo', v: 'Đã ghi nhận · chưa rút được' },
+  ];
+  const resolve = [
+    { icon: 'pending_actions', t: 'HOLD ví ảo (bây giờ)', d: `~${advance.toLocaleString('vi-VN')}đ giữ trong ví, chưa rút`, state: 'done' },
+    { icon: 'precision_manufacturing', t: 'Hub Q.7 rã xác · 16–24h', d: 'Cân BOM thực: đồng / sắt / nhôm / nhựa+FR4', state: 'active' },
+    { icon: 'scale', t: 'Verify mass-balance ≥ 90%', d: 'Đảm bảo không thất thoát vật liệu', state: 'pending' },
+    { icon: 'price_check', t: 'Phần chênh về ZaloPay', d: 'BOM thực ≥ tạm ứng → trả thêm tự động', state: 'pending' },
+  ];
+  const impact = [
+    { icon: 'redeem', label: 'Green Points', value: '+8 GP', sub: 'Tier C · cộng khi bàn giao', clay: 'bg-clay-mint', accent: 'text-tier-s' },
+    { icon: 'precision_manufacturing', label: 'Hub xử lý', value: 'Tier 3 · ISO 14001', sub: 'Rã xác có chứng chỉ', clay: 'bg-clay-peach', accent: 'text-tier-c' },
+    { icon: 'route', label: 'Chuỗi hành trình', value: 'Công khai', sub: 'Nhà → xe → Hub → rã xác', clay: 'bg-clay-sky', accent: 'text-info' },
+  ];
+  return (
+    <>
+      <main className="pt-[100px] pb-space-96 min-h-screen">
+          <div className="max-w-[1280px] mx-auto px-[80px]">
+            <a href="/orders/transaction-flow/tier-c/otp" className="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-c font-semibold mb-space-16">
+              <span className="material-symbols-rounded !text-[16px]">arrow_back</span>
+              Quay lại · OTP bàn giao
+            </a>
+      
+            <StepHero
+              eyebrow="Tier C · Giao dịch 6/6 · Đã chuyển Hub"
+              title="Đã bàn giao 🎉 — chờ Hub rã xác"
+              subtitle="HOLD ví ảo đã ghi nhận · BOM thực + phần chênh ZaloPay hiển thị trong ≤ 24h"
+              accent="tier-c"
+              illustration="milestone"
+              chips={[
+                { icon: 'pending_actions', label: 'HOLD ví ảo', value: `~${advance.toLocaleString('vi-VN')}đ`, tone: 'butter' },
+                { icon: 'precision_manufacturing', label: 'Hub Q.7', value: 'Đang rã xác', tone: 'peach' },
+                { icon: 'redeem', label: 'GP cộng', value: '+8 GP', tone: 'mint' },
+              ]}
+            />
+      
+            <div className="grid grid-cols-[2fr_1fr] gap-space-32">
+              <section className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-40 flex flex-col gap-space-24 relative overflow-hidden">
+                <svg className="absolute top-space-24 left-space-32 w-8 h-8" viewBox="0 0 32 32" fill="none"><path d="M16 4l2 6h6l-5 4 2 6-5-4-5 4 2-6-5-4h6z" fill="#E68A3F" opacity="0.55" /></svg>
+                <svg className="absolute top-space-40 right-[22%] w-6 h-6" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" fill="#52E08D" opacity="0.55" /></svg>
+                <svg className="absolute bottom-space-24 right-space-40 w-10 h-10" viewBox="0 0 40 40" fill="none"><rect x="8" y="8" width="6" height="20" fill="#E68A3F" opacity="0.5" transform="rotate(15 11 18)" /><rect x="22" y="6" width="6" height="22" fill="#E8B340" opacity="0.5" transform="rotate(-20 25 17)" /></svg>
+      
+                {/* Celebration header */}
+                <div className="flex flex-col items-center text-center gap-space-16">
+                  <div className="relative w-20 h-20">
+                    <div className="absolute inset-0 rounded-3xl bg-tier-c/15 animate-ping"></div>
+                    <div className="relative w-full h-full rounded-3xl bg-lime flex items-center justify-center shadow-clay-lime"><span className="material-symbols-rounded fill !text-[44px] text-text-on-lime">check</span></div>
+                  </div>
+                  <h2 className="font-h1 text-h1 text-text-primary">Vật phẩm đã chuyển Hub 🎉</h2>
+                  <p className="font-body-md text-body-md text-text-secondary text-col">Tạm ứng <strong className="text-amber-deep tabular-nums">~{advance.toLocaleString('vi-VN')}đ</strong> đã HOLD trong ví ảo · Hub Q.7 rã xác trong 16–24h → BOM thực + phần chênh tự động về ZaloPay</p>
+                </div>
+      
+                {/* Biên nhận tạm ứng */}
+                <div className="bg-clay-butter/60 rounded-2xl border border-amber-deep/20 p-space-24">
+                  <div className="flex items-center justify-between mb-space-16">
+                    <span className="font-mono-md text-[11px] uppercase tracking-wider text-amber-deep font-bold flex items-center gap-space-8"><span className="material-symbols-rounded fill !text-[14px]">receipt_long</span>BIÊN NHẬN BÀN GIAO + TẠM ỨNG</span>
+                    <span className="font-mono-md text-[11px] text-text-tertiary tabular-nums">RL-2026-001240</span>
+                  </div>
+                  <div className="flex flex-col gap-space-8">
+                    {receipt.map((r) => (
+                      <div className="flex items-center justify-between gap-space-12"><span className="font-body-md text-[12px] text-text-secondary text-col">{r.k}</span><span className="font-mono-md text-[12px] text-text-primary font-semibold tabular-nums whitespace-nowrap">{r.v}</span></div>
+                    ))}
+                  </div>
+                  <div className="my-space-16 border-t border-dashed border-amber-deep/30"></div>
+                  <div className="flex items-end justify-between">
+                    <div className="text-col"><span className="font-mono-md text-[11px] uppercase tracking-wider text-amber-deep font-bold block">HOLD ví ảo (tạm ứng 90%)</span><span className="font-mono-md text-[10px] text-text-tertiary">Dải BOM kỳ vọng {bomLow.toLocaleString('vi-VN')}–{bomHigh.toLocaleString('vi-VN')}đ</span></div>
+                    <span className="font-display font-extrabold text-[32px] text-amber-deep tabular-nums leading-none">~{advance.toLocaleString('vi-VN')}đ</span>
+                  </div>
+                </div>
+      
+                {/* Resolution timeline */}
+                <div>
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-text-tertiary font-bold flex items-center gap-space-8 mb-space-12"><span className="material-symbols-rounded fill !text-[14px] text-tier-c">timeline</span>HÀNH TRÌNH TỚI BOM THỰC</span>
+                  <ol className="relative">
+                    <div className="absolute left-[13px] top-space-12 bottom-space-12 w-[2px] bg-border-subtle"></div>
+                    <div className="flex flex-col gap-space-12">
+                      {resolve.map((x) => (
+                        <li className="relative flex items-start gap-space-12">
+                          <div className={cx(['relative z-10 w-7 h-7 rounded-lg flex items-center justify-center shadow-clay-sm shrink-0 border-2',
+                            x.state === 'done' ? 'bg-tier-c text-white border-tier-c' :
+                            x.state === 'active' ? 'bg-clay-butter text-amber-deep border-amber-deep animate-pulse' :
+                            'bg-bg-base text-text-tertiary border-border-subtle'])}><span className="material-symbols-rounded fill !text-[14px]">{x.state === 'done' ? 'check' : x.icon}</span></div>
+                          <div className="flex-1 text-col"><span className="font-display font-bold text-[12px] text-text-primary block">{x.t}</span><span className="font-mono-md text-[10px] text-text-tertiary block mt-[2px]">{x.d}</span></div>
+                        </li>
+                      ))}
+                    </div>
+                  </ol>
+                </div>
+      
+                {/* Impact mini-cards */}
+                <div className="grid grid-cols-3 gap-space-12">
+                  {impact.map((m) => (
+                    <div className={cx(['rounded-2xl border-2 border-border-subtle p-space-16 shadow-clay-sm flex flex-col gap-space-8', m.clay])}>
+                      <div className="w-9 h-9 rounded-xl bg-bg-elevated flex items-center justify-center shadow-clay-sm"><span className={cx(['material-symbols-rounded fill !text-[18px]', m.accent])}>{m.icon}</span></div>
+                      <span className={cx(['font-mono-md text-[9px] uppercase tracking-wider font-bold', m.accent])}>{m.label}</span>
+                      <span className="font-display font-extrabold text-[15px] text-text-primary">{m.value}</span>
+                      <span className="font-mono-md text-[10px] text-text-tertiary text-col">{m.sub}</span>
+                    </div>
+                  ))}
+                </div>
+      
+                <div className="flex gap-space-12 flex-wrap justify-center">
+                  <a href="/orders/RL-2026-001240" className="px-space-32 py-[14px] rounded-2xl bg-tier-c text-white font-semibold text-[14px] shadow-clay hover:-translate-y-[2px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded fill !text-[18px]">visibility</span>Xem chi tiết đơn</a>
+                  <a href="/orders/RL-2026-001240" className="px-space-24 py-space-12 rounded-2xl text-text-primary border border-border-default bg-bg-elevated shadow-clay-sm hover:shadow-clay font-medium text-[13px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded !text-[16px]">route</span>Theo dõi chuỗi hành trình</a>
+                  <a href="/orders" className="px-space-24 py-space-12 rounded-2xl text-text-primary border border-border-default bg-bg-elevated shadow-clay-sm hover:shadow-clay font-medium text-[13px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded !text-[16px]">list_alt</span>Về danh sách</a>
+                </div>
+              </section>
+      
+              <TxnSidebar
+                collectorName="Chị Hoa" collectorAvatar="H" collectorTierLabel="Tier 2 · Hub Q.7 · Verified Tier C" collectorRating={4.9} collectorVehicle="Xe ba gác · 51B-67890"
+                itemName="Mainboard PC ATX" itemHint="1.0 kg · đang ở Hub rã xác" itemIcon="developer_board"
+                accent="tier-c" avatarGradient="from-clay-peach to-tier-c" itemClay="bg-clay-peach"
+                subSteps={stepsTC}
+              >
+                <div className="bg-clay-peach rounded-[24px] shadow-clay-sm border-2 border-tier-c/30 p-space-24">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-c font-bold flex items-center gap-space-8 mb-space-12"><span className="material-symbols-rounded fill !text-[14px]">summarize</span>TÓM TẮT GIAO DỊCH</span>
+                  <div className="flex flex-col gap-space-8">
+                    <div className="flex items-center justify-between p-space-12 bg-bg-elevated/70 rounded-xl"><span className="font-body-md text-[12px] text-text-secondary">HOLD ví ảo</span><span className="font-mono-md text-[13px] text-amber-deep font-bold tabular-nums">~{advance.toLocaleString('vi-VN')}đ</span></div>
+                    <div className="flex items-center justify-between p-space-12 bg-bg-elevated/70 rounded-xl"><span className="font-body-md text-[12px] text-text-secondary">Dải BOM kỳ vọng</span><span className="font-mono-md text-[13px] text-tier-c font-bold tabular-nums">{bomLow.toLocaleString('vi-VN')}–{bomHigh.toLocaleString('vi-VN')}đ</span></div>
+                    <div className="flex items-center justify-between p-space-12 bg-bg-elevated/70 rounded-xl"><span className="font-body-md text-[12px] text-text-secondary">Hub verify trong</span><span className="font-mono-md text-[13px] text-text-primary font-bold">16–24h</span></div>
+                    <div className="flex items-center justify-between p-space-12 bg-bg-elevated/70 rounded-xl"><span className="font-body-md text-[12px] text-text-secondary">Green Points</span><span className="font-mono-md text-[13px] text-tier-s font-bold">+8 GP</span></div>
+                  </div>
+                </div>
+              </TxnSidebar>
+            </div>
+          </div>
+        </main>
+    </>
+  );
+}

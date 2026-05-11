@@ -1,0 +1,136 @@
+import { cx } from '@/lib/cx';
+import OrderStepperBar from '../../../components/order/OrderStepperBar';
+import StepHero from '../../../components/order/StepHero';
+
+export default function Step5() {
+  const steps = [
+    { n: 1, label: 'Chụp ảnh', icon: 'photo_camera', href: '/orders/new/tier-s.html' },
+    { n: 2, label: 'AI nhận diện', icon: 'smart_toy', href: '/orders/new/step-2.html' },
+    { n: 3, label: 'Báo giá', icon: 'paid', href: '/orders/new/step-3.html' },
+    { n: 4, label: 'Địa chỉ', icon: 'location_on', href: '/orders/new/step-4.html' },
+    { n: 5, label: 'Lịch hẹn', icon: 'schedule', href: '/orders/new/step-5.html' },
+    { n: 6, label: 'Xác nhận', icon: 'check_circle', href: '/orders/new/step-6.html' },
+  ];
+  
+  const days = [
+    {
+      day: 'Hôm nay', dow: 'T7', date: '10', slots: [
+        { time: '14:00 — 16:00', collectors: 6, eta: '~12 phút', state: 'recommended', label: 'Đề xuất' },
+        { time: '16:00 — 18:00', collectors: 4, eta: '~15 phút', state: 'available' },
+        { time: '18:00 — 20:00', collectors: 2, eta: '~20 phút', state: 'available' },
+      ],
+    },
+    {
+      day: 'Mai', dow: 'CN', date: '11', slots: [
+        { time: '08:00 — 10:00', collectors: 7, eta: '~10 phút', state: 'available' },
+        { time: '10:00 — 12:00', collectors: 5, eta: '~14 phút', state: 'available' },
+        { time: '14:00 — 16:00', collectors: 3, eta: '~18 phút', state: 'busy' },
+      ],
+    },
+  ];
+  // collector heatmap 5 days × 4 slots — busy level 0..2
+  const heat = [
+    [1, 2, 2, 1],
+    [2, 2, 1, 1],
+    [1, 1, 2, 0],
+    [2, 1, 1, 1],
+    [1, 2, 2, 1],
+  ];
+  const heatColor = (v) => v >= 2 ? 'bg-tier-s' : v === 1 ? 'bg-tier-s/45' : 'bg-bg-base';
+  return (
+    <>
+      <main className="pt-[100px] pb-space-96 min-h-screen">
+          <div className="max-w-[1280px] mx-auto px-[80px]">
+            <a href="/orders/new/step-4" className="inline-flex items-center gap-space-8 font-mono-md text-[12px] text-text-secondary hover:text-tier-s font-semibold mb-space-16">
+              <span className="material-symbols-rounded !text-[16px]">arrow_back</span>
+              Bước 4 · Địa chỉ
+            </a>
+      
+            <OrderStepperBar steps={steps} activeStep={5} tierAccent="tier-s" />
+      
+            <StepHero
+              eyebrow="Tier S · Bước 5/6 · Khung giờ"
+              title="Khi nào Collector tới?"
+              subtitle="Tối thiểu 4 giờ trước · đổi được trước khi collector xuất phát"
+              accent="tier-s"
+              illustration="recycle"
+              chips={[
+                { icon: 'schedule', label: 'Khung/ngày', value: '4', tone: 'mint' },
+                { icon: 'today', label: 'Đặt trước', value: 'Tới 7 ngày', tone: 'sky' },
+                { icon: 'route', label: 'ETA TB', value: '< 30 phút', tone: 'mint' },
+              ]}
+            />
+      
+            <div className="grid grid-cols-[2fr_1fr] gap-space-32">
+              <div className="flex flex-col gap-space-24">
+                <section className="bg-bg-elevated rounded-[28px] shadow-clay border border-border-subtle p-space-32">
+                  <span className="font-mono-md text-[12px] uppercase tracking-wider text-tier-s font-semibold flex items-center gap-space-8 mb-space-16">
+                    <span className="material-symbols-rounded fill !text-[16px]">event</span>
+                    CHỌN KHUNG GIỜ
+                  </span>
+                  <div className="flex flex-col gap-space-16">
+                    {days.map((d) => (
+                      <div className="bg-bg-base/50 rounded-2xl border border-border-subtle p-space-20">
+                        <div className="flex items-center gap-space-12 mb-space-12">
+                          <div className="w-14 h-14 rounded-2xl bg-clay-mint flex items-center justify-center shadow-clay-sm shrink-0 text-center">
+                            <div><span className="font-mono-md text-[9px] text-tier-s font-bold uppercase block leading-none">{d.dow}</span><span className="font-display font-extrabold text-[16px] text-text-primary tabular-nums leading-none mt-[2px] block">{d.date}</span></div>
+                          </div>
+                          <div className="text-col"><span className="font-display font-bold text-[15px] text-text-primary block">{d.day}</span><span className="font-mono-md text-[11px] text-text-tertiary">{d.date}/05/2026</span></div>
+                        </div>
+                        <div className="grid grid-cols-3 gap-space-8">
+                          {d.slots.map((s) => (
+                            <label className={cx(['relative p-space-16 rounded-xl border-2 cursor-pointer transition shadow-clay-sm text-col',
+                              s.state === 'recommended' ? 'bg-clay-mint border-tier-s' :
+                              s.state === 'busy' ? 'bg-bg-base/30 border-border-subtle opacity-50 cursor-not-allowed' :
+                              'bg-bg-elevated border-border-subtle hover:border-tier-s/40'])}>
+                              <input type="radio" name="slot" disabled={s.state === 'busy'} checked={s.state === 'recommended'} className="absolute top-space-8 right-space-8 w-4 h-4 accent-tier-s" />
+                              <span className="font-display font-bold text-[13px] text-text-primary block tabular-nums">{s.time}</span>
+                              <span className="font-mono-md text-[10px] text-text-tertiary mt-space-4 flex items-center gap-space-4"><span className="material-symbols-rounded !text-[12px]">group</span>{s.collectors} rảnh · {s.eta}</span>
+                              {s.label && <span className="absolute -top-2 left-space-8 px-space-8 py-[1px] rounded-full bg-tier-s text-white font-mono-md text-[9px] font-bold whitespace-nowrap shadow-clay-sm">{s.label}</span>}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="font-mono-md text-[11px] text-text-tertiary mt-space-16 flex items-center gap-space-4"><span className="material-symbols-rounded !text-[14px]">info</span>Chiều thường có nhiều collector rảnh nhất — ETA ngắn hơn</p>
+                  <div className="mt-space-20 flex justify-between gap-space-12">
+                    <a href="/orders/new/step-4" className="px-space-24 py-space-12 rounded-2xl text-text-primary border border-border-default bg-bg-elevated shadow-clay-sm hover:shadow-clay font-medium text-[13px] transition inline-flex items-center gap-space-8"><span className="material-symbols-rounded !text-[16px]">arrow_back</span>Quay lại</a>
+                    <a href="/orders/new/step-6" className="px-space-32 py-[14px] rounded-2xl bg-lime text-text-on-lime font-semibold text-[14px] shadow-clay-lime hover:-translate-y-[2px] transition inline-flex items-center gap-space-8">Tiếp tục → Bước 6 · Xác nhận<span className="material-symbols-rounded !text-[18px]">arrow_forward</span></a>
+                  </div>
+                </section>
+              </div>
+      
+              {/* Sidebar */}
+              <div className="flex flex-col gap-space-16">
+                <div className="bg-clay-mint rounded-[24px] shadow-clay border-2 border-tier-s/30 p-space-24">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-tier-s font-bold flex items-center gap-space-8 mb-space-12">
+                    <span className="material-symbols-rounded fill !text-[14px]">calendar_month</span>
+                    MẬT ĐỘ COLLECTOR
+                  </span>
+                  <div className="flex gap-space-4 mb-space-8">
+                    <span className="w-8 shrink-0"></span>
+                    {['S', 'C', 'CT', 'T'].map((h) => <span className="flex-1 text-center font-mono-md text-[9px] text-text-tertiary">{h}</span>)}
+                  </div>
+                  {heat.map((row, ri) => (
+                    <div className="flex items-center gap-space-4 mb-space-4">
+                      <span className="w-8 shrink-0 font-mono-md text-[9px] text-text-tertiary text-right">{['T7','CN','T2','T3','T4'][ri]}</span>
+                      {row.map((v) => <span className={cx(['flex-1 h-5 rounded-md', heatColor(v)])}></span>)}
+                    </div>
+                  ))}
+                  <div className="flex items-center gap-space-8 mt-space-12 font-mono-md text-[9px] text-text-tertiary">
+                    <span className="w-3 h-3 rounded bg-bg-base"></span>Ít<span className="w-3 h-3 rounded bg-tier-s/45"></span>Vừa<span className="w-3 h-3 rounded bg-tier-s"></span>Nhiều
+                  </div>
+                </div>
+      
+                <div className="bg-bg-elevated rounded-[24px] shadow-clay-sm border border-border-subtle p-space-24">
+                  <span className="font-mono-md text-[11px] uppercase tracking-wider text-text-tertiary font-bold flex items-center gap-space-8 mb-space-8"><span className="material-symbols-rounded !text-[14px]">edit_calendar</span>ĐỔI LỊCH DỄ DÀNG</span>
+                  <p className="font-body-md text-[12px] text-text-secondary text-col">Đổi slot/địa chỉ bất kỳ lúc nào <strong className="text-text-primary">trước khi collector xuất phát</strong>. Huỷ miễn phí trước slot 1 giờ.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+    </>
+  );
+}

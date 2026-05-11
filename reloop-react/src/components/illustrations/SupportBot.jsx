@@ -1,0 +1,177 @@
+export default function SupportBot({ className = '' }) {
+  return (
+    <>
+      <svg viewBox="0 0 400 400" className={className} xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="sb-glow" cx="50%" cy="42%">
+            <stop offset="0%" stopColor="#52E08D" stopOpacity="0.28"/>
+            <stop offset="55%" stopColor="#52E08D" stopOpacity="0.10"/>
+            <stop offset="100%" stopColor="#52E08D" stopOpacity="0"/>
+          </radialGradient>
+          <radialGradient id="sb-head" cx="36%" cy="22%">
+            <stop offset="0%" stopColor="#FFFFFF"/>
+            <stop offset="45%" stopColor="#C9F2D8"/>
+            <stop offset="100%" stopColor="#6FD79C"/>
+          </radialGradient>
+          <radialGradient id="sb-body" cx="38%" cy="20%">
+            <stop offset="0%" stopColor="#A0F2BD"/>
+            <stop offset="55%" stopColor="#52E08D"/>
+            <stop offset="100%" stopColor="#1F9956"/>
+          </radialGradient>
+          <radialGradient id="sb-screen" cx="40%" cy="25%">
+            <stop offset="0%" stopColor="#1B4D38"/>
+            <stop offset="100%" stopColor="#0E2C1F"/>
+          </radialGradient>
+          <radialGradient id="sb-eye" cx="40%" cy="35%">
+            <stop offset="0%" stopColor="#D7FBE5"/>
+            <stop offset="55%" stopColor="#52E08D"/>
+            <stop offset="100%" stopColor="#2BB36A"/>
+          </radialGradient>
+          <radialGradient id="sb-bubble" cx="35%" cy="25%">
+            <stop offset="0%" stopColor="#FFFFFF"/>
+            <stop offset="100%" stopColor="#E3F4EA"/>
+          </radialGradient>
+          <radialGradient id="sb-leaf" cx="30%" cy="25%">
+            <stop offset="0%" stopColor="#B8F5CC"/>
+            <stop offset="100%" stopColor="#2BB36A"/>
+          </radialGradient>
+          <radialGradient id="sb-coin" cx="35%" cy="25%">
+            <stop offset="0%" stopColor="#FFEFC8"/>
+            <stop offset="55%" stopColor="#E8B340"/>
+            <stop offset="100%" stopColor="#8B6D14"/>
+          </radialGradient>
+        </defs>
+      
+        {/* Ambient glow */}
+        <circle cx="200" cy="180" r="185" fill="url(#sb-glow)"/>
+      
+        {/* Ground shadow */}
+        <ellipse cx="200" cy="356" rx="120" ry="18" fill="#0F1F18" opacity="0.20"/>
+      
+        {/* Floating speech dots (chat trail) */}
+        <g opacity="0.85">
+          <circle cx="78" cy="120" r="9" fill="#A0F2BD"/>
+          <circle cx="100" cy="100" r="6" fill="#52E08D" opacity="0.8"/>
+          <circle cx="116" cy="86" r="4" fill="#2BB36A" opacity="0.7"/>
+        </g>
+      
+        {/* ===== BODY ===== */}
+        {/* Legs/feet */}
+        <ellipse cx="166" cy="344" rx="22" ry="14" fill="#1F9956"/>
+        <ellipse cx="234" cy="344" rx="22" ry="14" fill="#1F9956"/>
+        <ellipse cx="166" cy="340" rx="20" ry="11" fill="#52E08D"/>
+        <ellipse cx="234" cy="340" rx="20" ry="11" fill="#52E08D"/>
+      
+        {/* Body blob */}
+        <path d="M118 250 Q118 196 200 196 Q282 196 282 250 L276 312 Q272 344 240 344 L160 344 Q128 344 124 312 Z" fill="url(#sb-body)"/>
+        {/* Body highlight stripe */}
+        <path d="M140 248 Q140 214 168 210 L182 210 L172 336 Q170 342 162 342 L150 342 Q140 342 139 332 Z" fill="white" opacity="0.30"/>
+        {/* Belly panel */}
+        <rect x="166" y="240" width="68" height="62" rx="20" fill="#0E2C1F" opacity="0.14"/>
+        {/* Belly recycle mark */}
+        <g transform="translate(200,271) scale(0.62)">
+          <g fill="#1F9956" opacity="0.55">
+            <path d="M -4 -34 L 24 -18 L 13 -18 Q 13 -6 3 0 L -8 -8 Q 0 -13 0 -18 L -11 -18 Z"/>
+            <path d="M -4 -34 L 24 -18 L 13 -18 Q 13 -6 3 0 L -8 -8 Q 0 -13 0 -18 L -11 -18 Z" transform="rotate(120)"/>
+            <path d="M -4 -34 L 24 -18 L 13 -18 Q 13 -6 3 0 L -8 -8 Q 0 -13 0 -18 L -11 -18 Z" transform="rotate(240)"/>
+          </g>
+        </g>
+      
+        {/* Left arm (down, relaxed) */}
+        <path d="M122 252 Q96 262 92 296 Q92 312 108 312 Q120 310 122 294 Z" fill="url(#sb-body)"/>
+        <circle cx="100" cy="306" r="15" fill="#6FD79C"/>
+        <ellipse cx="95" cy="300" rx="5" ry="7" fill="white" opacity="0.5"/>
+      
+        {/* Right arm (up, presenting the chat bubble) */}
+        <path d="M278 252 Q310 250 322 220 Q326 206 312 200 Q300 200 296 216 Z" fill="url(#sb-body)"/>
+        <circle cx="316" cy="206" r="16" fill="#6FD79C"/>
+        <ellipse cx="311" cy="200" rx="5" ry="7" fill="white" opacity="0.5"/>
+      
+        {/* ===== HEAD ===== */}
+        {/* Neck */}
+        <rect x="186" y="178" width="28" height="26" rx="10" fill="#1F9956"/>
+        {/* Antenna stalk */}
+        <path d="M200 92 L200 64" stroke="#2BB36A" strokeWidth="5" strokeLinecap="round"/>
+        {/* Antenna leaf bulb */}
+        <g transform="translate(200,52) rotate(-18)">
+          <path d="M0 0 Q14 -22 34 -4 Q26 16 0 8 Q-4 4 0 0 Z" fill="url(#sb-leaf)"/>
+          <path d="M2 1 Q14 -10 28 -4" stroke="#0F3D26" strokeWidth="1.4" fill="none" opacity="0.55" strokeLinecap="round"/>
+        </g>
+        {/* Antenna node */}
+        <circle cx="200" cy="92" r="9" fill="#E8B340"/>
+        <circle cx="197" cy="89" r="3" fill="#FFEFC8" opacity="0.85"/>
+      
+        {/* Side "ear" modules */}
+        <rect x="98" y="116" width="22" height="46" rx="11" fill="#1F9956"/>
+        <rect x="280" y="116" width="22" height="46" rx="11" fill="#1F9956"/>
+        <circle cx="109" cy="139" r="7" fill="#52E08D"/>
+        <circle cx="291" cy="139" r="7" fill="#52E08D"/>
+      
+        {/* Head shell */}
+        <rect x="116" y="92" width="168" height="118" rx="44" fill="url(#sb-head)"/>
+        {/* Head highlight */}
+        <path d="M136 110 Q136 98 152 96 L176 96 Q160 130 158 196 Q156 204 148 204 L142 204 Q134 204 133 194 Z" fill="white" opacity="0.40"/>
+      
+        {/* Face screen */}
+        <rect x="140" y="116" width="120" height="74" rx="30" fill="url(#sb-screen)"/>
+        {/* Screen subtle scanlines */}
+        <g stroke="#52E08D" strokeWidth="1" opacity="0.10">
+          <line x1="148" y1="130" x2="252" y2="130"/>
+          <line x1="148" y1="146" x2="252" y2="146"/>
+          <line x1="148" y1="162" x2="252" y2="162"/>
+          <line x1="148" y1="178" x2="252" y2="178"/>
+        </g>
+        {/* Eyes */}
+        <circle cx="178" cy="146" r="13" fill="url(#sb-eye)"/>
+        <circle cx="222" cy="146" r="13" fill="url(#sb-eye)"/>
+        <circle cx="174" cy="142" r="4" fill="white" opacity="0.9"/>
+        <circle cx="218" cy="142" r="4" fill="white" opacity="0.9"/>
+        {/* Smile */}
+        <path d="M180 168 Q200 184 220 168" stroke="#52E08D" strokeWidth="5" fill="none" strokeLinecap="round"/>
+        {/* Cheek blush */}
+        <ellipse cx="156" cy="170" rx="7" ry="4.5" fill="#FF9D7A" opacity="0.45"/>
+        <ellipse cx="244" cy="170" rx="7" ry="4.5" fill="#FF9D7A" opacity="0.45"/>
+      
+        {/* ===== CHAT BUBBLE (held up) ===== */}
+        <g transform="translate(308,150)">
+          <ellipse cx="0" cy="58" rx="34" ry="7" fill="#0F1F18" opacity="0.15"/>
+          <path d="M-44 -2 Q-44 -28 -16 -28 L44 -28 Q72 -28 72 -2 L72 26 Q72 52 44 52 L6 52 L-8 70 L-6 52 L-16 52 Q-44 52 -44 26 Z" fill="url(#sb-bubble)"/>
+          <path d="M-44 -2 Q-44 -28 -16 -28 L44 -28 Q72 -28 72 -2 L72 26 Q72 52 44 52 L6 52 L-8 70 L-6 52 L-16 52 Q-44 52 -44 26 Z" fill="none" stroke="#2BB36A" strokeWidth="2.5" opacity="0.8"/>
+          <text x="14" y="22" textAnchor="middle" fontSize="34" fontWeight="800" fill="#1F9956" fontFamily="Plus Jakarta Sans, Inter">AI</text>
+          {/* typing dots inside corner */}
+          <circle cx="-26" cy="34" r="3" fill="#52E08D" opacity="0.55"/>
+          <circle cx="-15" cy="34" r="3" fill="#52E08D" opacity="0.75"/>
+          <circle cx="-4" cy="34" r="3" fill="#52E08D"/>
+        </g>
+      
+        {/* Floating leaf-coin (reward hint) */}
+        <g transform="translate(96,300) rotate(-10)">
+          <ellipse cx="0" cy="3" rx="18" ry="4.5" fill="#0F1F18" opacity="0.14"/>
+          <circle r="18" fill="#8B6D14"/>
+          <circle r="18" fill="url(#sb-coin)" cx="-2" cy="-2"/>
+          <path d="M-7 -1 Q0 -12 9 -3 Q5 6 -7 -1 Z" fill="#2BB36A" opacity="0.75"/>
+        </g>
+      
+        {/* Badge pill: AI · 24/7 */}
+        <g transform="translate(200,330)">
+          <rect x="-62" y="-15" width="124" height="30" rx="15" fill="#0E2C1F"/>
+          <rect x="-62" y="-15" width="124" height="30" rx="15" fill="none" stroke="#52E08D" strokeWidth="1.5" opacity="0.5"/>
+          <circle cx="-44" cy="0" r="4.5" fill="#52E08D"/>
+          <text x="6" y="5" textAnchor="middle" fontSize="13" fontWeight="700" fill="#A0F2BD" fontFamily="JetBrains Mono, monospace" letterSpacing="0.5">AI · 24/7</text>
+        </g>
+      
+        {/* Sparkles */}
+        <g>
+          <g transform="translate(62,210)"><path d="M0 -13 L3 -3 L13 0 L3 3 L0 13 L-3 3 L-13 0 L-3 -3 Z" fill="#E8B340"/></g>
+          <g transform="translate(344,272)"><path d="M0 -10 L2 -2 L10 0 L2 2 L0 10 L-2 2 L-10 0 L-2 -2 Z" fill="#52E08D"/></g>
+          <g transform="translate(330,98)"><path d="M0 -8 L1.5 -1.5 L8 0 L1.5 1.5 L0 8 L-1.5 1.5 L-8 0 L-1.5 -1.5 Z" fill="#FFE9B3"/></g>
+          <g transform="translate(72,72)"><path d="M0 -7 L1 -1 L7 0 L1 1 L0 7 L-1 1 L-7 0 L-1 -1 Z" fill="#A0F2BD"/></g>
+          <circle cx="50" cy="148" r="3" fill="#FFD9C2"/>
+          <circle cx="356" cy="180" r="3" fill="#FFD9C2"/>
+          <circle cx="300" cy="60" r="2.5" fill="#52E08D" opacity="0.7"/>
+          <circle cx="120" cy="56" r="2" fill="#E8B340" opacity="0.7"/>
+        </g>
+      </svg>
+    </>
+  );
+}

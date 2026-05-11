@@ -1,0 +1,179 @@
+export default function GreenPointsBadge({ className = '' }) {
+  return (
+    <>
+      <svg viewBox="0 0 400 400" className={className} xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="gp2-coin" cx="35%" cy="25%">
+            <stop offset="0%" stopColor="#FFEFC8"/>
+            <stop offset="55%" stopColor="#E8B340"/>
+            <stop offset="100%" stopColor="#8B6D14"/>
+          </radialGradient>
+          <radialGradient id="gp2-coin-edge" cx="50%" cy="50%">
+            <stop offset="60%" stopColor="#8B6D14"/>
+            <stop offset="100%" stopColor="#5A3F0E"/>
+          </radialGradient>
+          <radialGradient id="gp2-leaf" cx="30%" cy="25%">
+            <stop offset="0%" stopColor="#C8FAD9"/>
+            <stop offset="60%" stopColor="#7AEFA8"/>
+            <stop offset="100%" stopColor="#1F9956"/>
+          </radialGradient>
+          <radialGradient id="gp2-leaf-soft" cx="30%" cy="25%">
+            <stop offset="0%" stopColor="#9CF5BF"/>
+            <stop offset="100%" stopColor="#2BB36A"/>
+          </radialGradient>
+          <radialGradient id="gp2-bg" cx="50%" cy="50%">
+            <stop offset="0%" stopColor="#52E08D" stopOpacity="0.35"/>
+            <stop offset="100%" stopColor="#52E08D" stopOpacity="0"/>
+          </radialGradient>
+          <radialGradient id="gp2-badge" cx="35%" cy="30%">
+            <stop offset="0%" stopColor="#7AEFA8"/>
+            <stop offset="60%" stopColor="#2BB36A"/>
+            <stop offset="100%" stopColor="#0F6635"/>
+          </radialGradient>
+          <radialGradient id="gp2-badge-inner" cx="50%" cy="40%">
+            <stop offset="0%" stopColor="#2BB36A"/>
+            <stop offset="100%" stopColor="#0F3D26"/>
+          </radialGradient>
+        </defs>
+      
+        {/* Ambient glow */}
+        <circle cx="220" cy="200" r="200" fill="url(#gp2-bg)"/>
+      
+        {/* Background sparkle dots scattered */}
+        <g>
+          <circle cx="40" cy="80" r="2.5" fill="#FFE9B3" opacity="0.7"/>
+          <circle cx="365" cy="65" r="3" fill="#FFD9C2" opacity="0.7"/>
+          <circle cx="60" cy="350" r="2.5" fill="#7AEFA8" opacity="0.7"/>
+          <circle cx="375" cy="345" r="3" fill="#FFE9B3" opacity="0.7"/>
+          <circle cx="30" cy="220" r="2" fill="#52E08D" opacity="0.6"/>
+          <circle cx="385" cy="200" r="2" fill="#E8B340" opacity="0.6"/>
+        </g>
+      
+        {/* Coin stack (foreground left, with proper depth) */}
+        <g transform="translate(115,265)">
+          <ellipse cx="0" cy="48" rx="58" ry="9" fill="#0F1F18" opacity="0.20"/>
+      
+          {/* Coin 1 (bottom) */}
+          <ellipse cx="0" cy="40" rx="55" ry="14" fill="url(#gp2-coin-edge)"/>
+          <ellipse cx="0" cy="32" rx="55" ry="14" fill="url(#gp2-coin)"/>
+          <ellipse cx="-2" cy="28" rx="48" ry="9" fill="#FFEFC8" opacity="0.55"/>
+      
+          {/* Coin 2 (mid) */}
+          <ellipse cx="-3" cy="8" rx="55" ry="14" fill="url(#gp2-coin-edge)"/>
+          <ellipse cx="-3" cy="0" rx="55" ry="14" fill="url(#gp2-coin)"/>
+          <ellipse cx="-5" cy="-4" rx="48" ry="9" fill="#FFEFC8" opacity="0.55"/>
+      
+          {/* Coin 3 (top) */}
+          <ellipse cx="-1" cy="-24" rx="55" ry="14" fill="url(#gp2-coin-edge)"/>
+          <ellipse cx="-1" cy="-32" rx="55" ry="14" fill="url(#gp2-coin)"/>
+          <ellipse cx="-3" cy="-36" rx="48" ry="9" fill="#FFEFC8" opacity="0.55"/>
+          <text x="-1" y="-25" textAnchor="middle" fontSize="22" fontWeight="800" fill="#8B6D14" fontFamily="JetBrains Mono">đ</text>
+          {/* Coin face notches */}
+          <g stroke="#5A3F0E" strokeWidth="0.6" opacity="0.45">
+            <line x1="-50" y1="-32" x2="-46" y2="-32"/>
+            <line x1="46" y1="-32" x2="50" y2="-32"/>
+            <line x1="0" y1="-46" x2="0" y2="-42"/>
+            <line x1="-30" y1="-42" x2="-28" y2="-40"/>
+            <line x1="28" y1="-42" x2="30" y2="-40"/>
+          </g>
+        </g>
+      
+        {/* Floating leaves (clean, no brick confetti) */}
+        <g transform="translate(75,135) rotate(-30)">
+          <path d="M0 0 Q22 -32 44 -8 Q35 28 0 0 Z" fill="url(#gp2-leaf)"/>
+          <path d="M5 -3 Q22 -18 38 -10" stroke="#0F3D26" strokeWidth="1.2" fill="none" opacity="0.55"/>
+          <path d="M12 -8 L18 -16 M22 -10 L28 -18" stroke="#0F3D26" strokeWidth="0.8" fill="none" opacity="0.4"/>
+        </g>
+        <g transform="translate(335,140) rotate(30)">
+          <path d="M0 0 Q24 -34 48 -8 Q40 30 0 0 Z" fill="url(#gp2-leaf-soft)"/>
+          <path d="M5 -3 Q24 -20 42 -12" stroke="#0F3D26" strokeWidth="1.2" fill="none" opacity="0.55"/>
+        </g>
+        <g transform="translate(80,310) rotate(40)">
+          <path d="M0 0 Q15 -22 30 -5 Q25 22 0 0 Z" fill="#52E08D" opacity="0.85"/>
+          <path d="M3 -3 Q15 -13 26 -8" stroke="#0F3D26" strokeWidth="0.8" fill="none" opacity="0.5"/>
+        </g>
+        <g transform="translate(310,330) rotate(-15)">
+          <path d="M0 0 Q18 -25 36 -6 Q30 24 0 0 Z" fill="#7AEFA8" opacity="0.85"/>
+        </g>
+      
+        {/* BIG GP BADGE — center-right */}
+        <g transform="translate(255,180)">
+          {/* Drop shadow */}
+          <circle r="92" fill="#0F1F18" opacity="0.22" cy="8"/>
+      
+          {/* Outer disc with gradient */}
+          <circle r="92" fill="url(#gp2-badge)"/>
+          {/* Edge highlight */}
+          <circle r="92" fill="none" stroke="#9CF5BF" strokeWidth="2" opacity="0.45"/>
+      
+          {/* Inner ring (notches like coin) */}
+          <g stroke="#9CF5BF" strokeWidth="2" opacity="0.5">
+            <line x1="0" y1="-86" x2="0" y2="-78"/>
+            <line x1="61" y1="-61" x2="55" y2="-55"/>
+            <line x1="86" y1="0" x2="78" y2="0"/>
+            <line x1="61" y1="61" x2="55" y2="55"/>
+            <line x1="0" y1="86" x2="0" y2="78"/>
+            <line x1="-61" y1="61" x2="-55" y2="55"/>
+            <line x1="-86" y1="0" x2="-78" y2="0"/>
+            <line x1="-61" y1="-61" x2="-55" y2="-55"/>
+          </g>
+      
+          {/* Inner dark circle */}
+          <circle r="72" fill="url(#gp2-badge-inner)"/>
+      
+          {/* Star burst rays inside dark */}
+          <g stroke="white" strokeWidth="1.2" opacity="0.20">
+            <line x1="0" y1="-72" x2="0" y2="-58"/>
+            <line x1="51" y1="-51" x2="41" y2="-41"/>
+            <line x1="72" y1="0" x2="58" y2="0"/>
+            <line x1="51" y1="51" x2="41" y2="41"/>
+            <line x1="0" y1="72" x2="0" y2="58"/>
+            <line x1="-51" y1="51" x2="-41" y2="41"/>
+            <line x1="-72" y1="0" x2="-58" y2="0"/>
+            <line x1="-51" y1="-51" x2="-41" y2="-41"/>
+          </g>
+      
+          {/* "GP" letters */}
+          <text y="-2" textAnchor="middle" fontSize="62" fontWeight="800" fill="white" fontFamily="Plus Jakarta Sans" letterSpacing="-3">GP</text>
+          <text y="26" textAnchor="middle" fontSize="9" fontWeight="700" fill="#9CF5BF" fontFamily="JetBrains Mono" letterSpacing="2">GREEN POINTS</text>
+      
+          {/* Highlight gloss top */}
+          <ellipse cx="-22" cy="-44" rx="42" ry="22" fill="white" opacity="0.20" transform="rotate(-25 -22 -44)"/>
+          <ellipse cx="-30" cy="-55" rx="20" ry="6" fill="white" opacity="0.35" transform="rotate(-25 -30 -55)"/>
+        </g>
+      
+        {/* Sparkle stars around badge */}
+        <g>
+          <g transform="translate(345,100)">
+            <path d="M0 -14 L3 -3 L14 0 L3 3 L0 14 L-3 3 L-14 0 L-3 -3 Z" fill="#FFE9B3"/>
+          </g>
+          <g transform="translate(155,100)">
+            <path d="M0 -10 L2 -2 L10 0 L2 2 L0 10 L-2 2 L-10 0 L-2 -2 Z" fill="#7AEFA8"/>
+          </g>
+          <g transform="translate(195,310)">
+            <path d="M0 -10 L2 -2 L10 0 L2 2 L0 10 L-2 2 L-10 0 L-2 -2 Z" fill="#FFE9B3"/>
+          </g>
+          <g transform="translate(370,260)">
+            <path d="M0 -8 L1.5 -1.5 L8 0 L1.5 1.5 L0 8 L-1.5 1.5 L-8 0 L-1.5 -1.5 Z" fill="#52E08D"/>
+          </g>
+        </g>
+      
+        {/* Floating coin top-right */}
+        <g transform="translate(335,80)">
+          <ellipse cx="0" cy="3" rx="20" ry="5" fill="#0F1F18" opacity="0.18"/>
+          <circle r="20" fill="url(#gp2-coin-edge)"/>
+          <circle r="20" fill="url(#gp2-coin)" cx="-2" cy="-2"/>
+          <circle r="14" fill="#FFEFC8" opacity="0.6"/>
+          <text y="6" textAnchor="middle" fontSize="20" fontWeight="800" fill="#8B6D14" fontFamily="JetBrains Mono">đ</text>
+        </g>
+      
+        {/* "+50" floating badge top-left */}
+        <g transform="translate(85,80)">
+          <rect x="-32" y="-14" width="64" height="28" rx="14" fill="#0F1F18" opacity="0.15" transform="translate(2,3)"/>
+          <rect x="-32" y="-14" width="64" height="28" rx="14" fill="white" stroke="#2BB36A" strokeWidth="2"/>
+          <text y="5" textAnchor="middle" fontSize="13" fontWeight="800" fill="#2BB36A" fontFamily="Inter">+50 GP</text>
+        </g>
+      </svg>
+    </>
+  );
+}

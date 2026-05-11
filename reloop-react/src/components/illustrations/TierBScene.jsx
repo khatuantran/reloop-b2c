@@ -1,0 +1,114 @@
+export default function TierBScene({ className = '' }) {
+  return (
+    <>
+      <svg viewBox="0 0 400 300" className={className} xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="tb-bg" cx="50%" cy="40%">
+            <stop offset="0%" stopColor="#FFEFC8"/>
+            <stop offset="100%" stopColor="#F2D58F"/>
+          </radialGradient>
+          <linearGradient id="tb-fridge" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#F0F4F1"/>
+            <stop offset="50%" stopColor="#FFFFFF"/>
+            <stop offset="100%" stopColor="#C8D6BE"/>
+          </linearGradient>
+          <linearGradient id="tb-sofa" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#E68A3F"/>
+            <stop offset="100%" stopColor="#A65820"/>
+          </linearGradient>
+          <linearGradient id="tb-sofa-cushion" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFB870"/>
+            <stop offset="100%" stopColor="#E68A3F"/>
+          </linearGradient>
+        </defs>
+        {/* Background */}
+        <rect width="400" height="300" fill="url(#tb-bg)"/>
+        {/* Floor */}
+        <ellipse cx="200" cy="285" rx="180" ry="15" fill="#0F1F18" opacity="0.15"/>
+      
+        {/* FRIDGE (left) */}
+        <g transform="translate(110,80)">
+          <ellipse cx="0" cy="195" rx="55" ry="8" fill="#0F1F18" opacity="0.18"/>
+          {/* Body */}
+          <rect x="-50" y="-10" width="100" height="200" rx="10" fill="url(#tb-fridge)"/>
+          {/* Inner bevel */}
+          <rect x="-46" y="-6" width="92" height="192" rx="8" fill="none" stroke="#A0B496" strokeWidth="0.8"/>
+          {/* Top freezer division */}
+          <line x1="-46" y1="58" x2="46" y2="58" stroke="#A0B496" strokeWidth="2"/>
+          {/* Top freezer handle */}
+          <rect x="20" y="20" width="22" height="6" rx="3" fill="#6F8567"/>
+          {/* Bottom door handle */}
+          <rect x="20" y="100" width="22" height="6" rx="3" fill="#6F8567"/>
+          {/* LCD screen */}
+          <rect x="-30" y="15" width="40" height="22" rx="4" fill="#0F3D26"/>
+          <text x="-10" y="29" textAnchor="middle" fontSize="9" fontWeight="700" fill="#52E08D" fontFamily="JetBrains Mono">−18°C</text>
+          {/* Highlight */}
+          <rect x="-46" y="-6" width="14" height="192" rx="4" fill="white" opacity="0.55"/>
+          {/* Sticker on door */}
+          <g transform="translate(0,130)">
+            <rect x="-18" y="-12" width="36" height="24" rx="4" fill="#52E08D"/>
+            <text y="3" textAnchor="middle" fontSize="9" fontWeight="800" fill="white" fontFamily="Inter">A++</text>
+          </g>
+          {/* Old age stains */}
+          <ellipse cx="-25" cy="120" rx="3" ry="2" fill="#A0B496" opacity="0.5"/>
+          <ellipse cx="35" cy="170" rx="2" ry="2" fill="#A0B496" opacity="0.5"/>
+        </g>
+      
+        {/* SOFA (right) */}
+        <g transform="translate(260,170)">
+          <ellipse cx="0" cy="105" rx="80" ry="9" fill="#0F1F18" opacity="0.18"/>
+          {/* Back */}
+          <rect x="-70" y="-50" width="140" height="80" rx="14" fill="url(#tb-sofa)"/>
+          <rect x="-70" y="-50" width="140" height="20" rx="14" fill="#FFB870" opacity="0.4"/>
+          {/* Cushions back */}
+          <rect x="-65" y="-44" width="40" height="50" rx="10" fill="url(#tb-sofa-cushion)"/>
+          <rect x="-22" y="-44" width="44" height="50" rx="10" fill="url(#tb-sofa-cushion)"/>
+          <rect x="25" y="-44" width="40" height="50" rx="10" fill="url(#tb-sofa-cushion)"/>
+          {/* Seat base */}
+          <rect x="-78" y="20" width="156" height="50" rx="10" fill="#A65820"/>
+          {/* Seat cushions */}
+          <rect x="-72" y="14" width="46" height="36" rx="8" fill="url(#tb-sofa-cushion)"/>
+          <rect x="-22" y="14" width="44" height="36" rx="8" fill="url(#tb-sofa-cushion)"/>
+          <rect x="26" y="14" width="46" height="36" rx="8" fill="url(#tb-sofa-cushion)"/>
+          {/* Cushion stitching */}
+          <g stroke="#7A4015" strokeWidth="0.8" fill="none" opacity="0.6">
+            <line x1="-26" y1="-44" x2="-26" y2="6"/>
+            <line x1="22" y1="-44" x2="22" y2="6"/>
+          </g>
+          {/* Arms */}
+          <rect x="-92" y="-30" width="22" height="100" rx="11" fill="#A65820"/>
+          <rect x="70" y="-30" width="22" height="100" rx="11" fill="#A65820"/>
+          <rect x="-90" y="-26" width="6" height="92" rx="3" fill="white" opacity="0.4"/>
+          {/* Worn patch */}
+          <ellipse cx="-50" cy="32" rx="6" ry="3" fill="#7A4015" opacity="0.55"/>
+          <ellipse cx="20" cy="38" rx="5" ry="2" fill="#7A4015" opacity="0.5"/>
+          {/* Legs */}
+          <rect x="-86" y="70" width="6" height="14" rx="2" fill="#3F2A0F"/>
+          <rect x="80" y="70" width="6" height="14" rx="2" fill="#3F2A0F"/>
+        </g>
+      
+        {/* Auction badge floating */}
+        <g transform="translate(310,50)">
+          <rect x="-50" y="-18" width="100" height="36" rx="18" fill="#0F1F18"/>
+          <text x="-30" y="5" textAnchor="middle" fontSize="10" fontWeight="700" fill="#E8B340" fontFamily="JetBrains Mono">⏱</text>
+          <text x="10" y="5" textAnchor="middle" fontSize="11" fontWeight="800" fill="white" fontFamily="Inter">AUCTION</text>
+        </g>
+      
+        {/* Price tag */}
+        <g transform="translate(70,210) rotate(-12)">
+          <path d="M-2 -22 L-32 0 L-2 22 L42 22 L42 -22 Z" fill="white" stroke="#E68A3F" strokeWidth="2"/>
+          <circle cx="-12" cy="0" r="4" fill="white" stroke="#E68A3F" strokeWidth="2"/>
+          <text x="20" y="-3" textAnchor="middle" fontSize="8" fontWeight="700" fill="#A65820" fontFamily="JetBrains Mono">TIER B</text>
+          <text x="20" y="13" textAnchor="middle" fontSize="11" fontWeight="800" fill="#0F1F18" fontFamily="Inter">280k</text>
+        </g>
+      
+        {/* Sparkles */}
+        <circle cx="50" cy="60" r="3" fill="#E8B340"/>
+        <circle cx="370" cy="180" r="3" fill="#E68A3F"/>
+        <g transform="translate(220,40)">
+          <path d="M0 -8 L1.5 -1.5 L8 0 L1.5 1.5 L0 8 L-1.5 1.5 L-8 0 L-1.5 -1.5 Z" fill="#FFE9B3"/>
+        </g>
+      </svg>
+    </>
+  );
+}

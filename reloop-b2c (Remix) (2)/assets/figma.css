@@ -1,0 +1,11 @@
+
+/* === html.to.design import optimization (auto-injected by build-figma.mjs) === */
+/* 1. backdrop-filter → off (plugin render thành nền đục) */
+* { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+/* 2. radial-gradient backgrounds → màu phẳng tương đương */
+.grad-hero { background: #DCEDDF !important; }
+.clay-bubble { background: rgba(255,255,255,0.45) !important; }
+/* 3. position: sticky không support trong Figma frame */
+[class*="sticky"] { position: relative !important; top: auto !important; }
+/* 4. blur utility decorative (vd bg-X/15 blur-3xl) → tắt để không thành khối đặc */
+[class*="blur-"] { filter: none !important; }

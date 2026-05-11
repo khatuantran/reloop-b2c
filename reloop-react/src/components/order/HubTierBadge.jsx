@@ -1,0 +1,72 @@
+import { cx } from '@/lib/cx';
+
+export default function HubTierBadge({ hubName,
+  hubTier,
+  iso14001,
+  capacityKgPerDay,
+  staffCount,
+  spotCheckPassed,
+  spotCheckTotal,
+  variant = 'card' }) {
+  const tierMeta = {
+    1: { label: 'Tier 1', color: 'text-text-tertiary', clay: 'bg-bg-surface', accent: 'border-border-default', desc: 'Hub cơ sở' },
+    2: { label: 'Tier 2', color: 'text-info', clay: 'bg-clay-sky', accent: 'border-info/30', desc: 'Hub trung cấp' },
+    3: { label: 'Tier 3', color: 'text-tier-s', clay: 'bg-clay-mint', accent: 'border-tier-s/30', desc: 'Hub chuẩn ISO' },
+  };
+  
+  const meta = tierMeta[hubTier];
+  const passRate = Math.round((spotCheckPassed / spotCheckTotal) * 100);
+  return (
+    <>
+      {variant === 'inline' ? (
+        <div className={cx(['inline-flex items-center gap-space-8 rounded-full px-space-12 py-[4px] border-2 shadow-clay-sm', meta.clay, meta.accent])}>
+          <span className={cx(['material-symbols-rounded fill !text-[14px]', meta.color])}>workspace_premium</span>
+          <span className={cx(['font-mono-md text-[11px] font-bold tracking-wider', meta.color])}>{hubName} · {meta.label}</span>
+        </div>
+      ) : (
+        <div className={cx(['rounded-[24px] shadow-clay border-2 p-space-24', meta.clay, meta.accent])}>
+          <div className="flex items-start justify-between gap-space-8 mb-space-16 min-w-0">
+            <div className="flex items-center gap-space-12 min-w-0 flex-1">
+              <div className="w-14 h-14 rounded-2xl bg-bg-elevated flex items-center justify-center shadow-clay-sm shrink-0">
+                <span className={cx(['material-symbols-rounded fill !text-[26px]', meta.color])}>workspace_premium</span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <span className={cx(['font-mono-md text-[10px] uppercase tracking-wider font-bold block', meta.color])}>{meta.label} · {meta.desc}</span>
+                <h4 className="font-display font-extrabold text-[16px] text-text-primary leading-tight mt-space-4 truncate">{hubName}</h4>
+              </div>
+            </div>
+            {iso14001 && (
+              <div className="rounded-xl px-space-8 py-[4px] bg-bg-elevated shadow-clay-sm border border-border-subtle flex items-center gap-space-4 shrink-0">
+                <span className="material-symbols-rounded fill !text-[14px] text-tier-s">verified</span>
+                <span className="font-mono-md text-[10px] text-tier-s font-bold">ISO</span>
+              </div>
+            )}
+          </div>
+      
+          <div className="grid grid-cols-3 gap-space-8 mb-space-12">
+            <div className="bg-bg-elevated/60 rounded-xl p-space-12 text-center">
+              <span className="material-symbols-rounded fill !text-[18px] text-text-tertiary">scale</span>
+              <span className="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider font-semibold block mt-space-4">Công suất</span>
+              <span className="font-display font-bold text-[14px] text-text-primary tabular-nums mt-[2px] block">{capacityKgPerDay}kg/ng</span>
+            </div>
+            <div className="bg-bg-elevated/60 rounded-xl p-space-12 text-center">
+              <span className="material-symbols-rounded fill !text-[18px] text-text-tertiary">groups</span>
+              <span className="font-mono-md text-[10px] text-text-tertiary uppercase tracking-wider font-semibold block mt-space-4">Nhân sự</span>
+              <span className="font-display font-bold text-[14px] text-text-primary tabular-nums mt-[2px] block">{staffCount} người</span>
+            </div>
+            <div className="bg-bg-elevated/60 rounded-xl p-space-12 text-center">
+              <span className="material-symbols-rounded fill !text-[18px] text-tier-s">check_circle</span>
+              <span className="font-mono-md text-[10px] text-tier-s uppercase tracking-wider font-semibold block mt-space-4">Spot Check</span>
+              <span className="font-display font-bold text-[14px] text-tier-s tabular-nums mt-[2px] block">{passRate}%</span>
+            </div>
+          </div>
+      
+          <a href="#" className="font-mono-md text-[11px] text-tier-s font-bold hover:underline inline-flex items-center gap-space-4">
+            Xem hồ sơ Hub đầy đủ
+            <span className="material-symbols-rounded !text-[14px]">arrow_forward</span>
+          </a>
+        </div>
+      )}
+    </>
+  );
+}
